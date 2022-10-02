@@ -1,4 +1,4 @@
-def fizzbuzz(self, n: int) -> str:
+def fizzbuzz(n: int) -> str:
     result: str = ""
     if n % 3 == 0:
         result = "Fizz"
