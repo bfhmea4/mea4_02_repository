@@ -1,0 +1,13 @@
+version: '3'
+services:
+  sqlite3:
+    container_name: sqlite3_db
+    image: nouchka/sqlite3:latest
+    stdin_open: true
+    tty: true
+    volumes:
+      #Modify following line
+      - /C:/Users/bernh/fizzbuzz/database.db/
+    ports:
+      - '9000:9000' # expose ports - HOST:CONTAINER
+    restart: unless-stopped
