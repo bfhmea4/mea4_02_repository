@@ -11,4 +11,7 @@ COPY fizzbuzz /code/fizzbuzz
 
 EXPOSE 8000
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+ENTRYPOINT ["python"]
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "database\sqlite_create.py"]
+
