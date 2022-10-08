@@ -8,6 +8,5 @@ c.execute('''
     CREATE TABLE fizzbuzz
     (id INTEGER PRIMARY KEY ASC, request int, response varchar(50))
 ''')
-
 conn.commit()
 conn.close()
