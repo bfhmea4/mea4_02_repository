@@ -6,6 +6,9 @@ services:
       - ./data/db:/root/db
     environment:
       - SQLITE3_DB=db.sqlite3
+    command:
+      - ./database/sqlite_create.py
+      #- uvicorn main:app --reload
 
 
 
