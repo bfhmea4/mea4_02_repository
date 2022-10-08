@@ -1,7 +1,9 @@
 from yoyo import step
+import sqlite3
 
 
-def apply_step(conn):
+def apply_step():
+    conn = sqlite3.connect('data/db.db')
     cursor = conn.cursor()
     cursor.execute('''
     INSERT INTO fizzbuzz VALUES(1, 'fizz', 3)

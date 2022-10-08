@@ -1,4 +1,3 @@
-
 import fastapi
 import fizzbuzz.fizzbuzz as fizzbuzz
 import database
@@ -14,6 +13,8 @@ if __name__ == "__main__":
 
 @app.get("/{number}")
 def read_item(number: int):
-    conn = sqlite3.connect('data/db.db')
-    database.post.step("apply_step", conn)
+    # database.post.apply_step()
     return {"output": fizzbuzz.fizzbuzz(number)}
+
+
+
