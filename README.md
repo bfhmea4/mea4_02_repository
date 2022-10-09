@@ -33,10 +33,10 @@ All backend logic is placed in the ./app folder. To add endpoints or change beha
 written in ./app
 
 ## Develop Algorithms 
-Adding algorithms unrelated to the backend/frontend calculations, may be achieved by adding changing  
-code in (currelntly) ./fizzbuzz.  
+Adding algorithms unrelated to the backend/frontend calculations, may be achieved by adding/changing  
+code in (currently) ./fizzbuzz.  
 This will change soon and will be updated here as soon as the change happened.
 
 ## Contributors
-Contributions to this project are gladly welcomed, please make sure to send these according to the common contribution guidelines 
+Contributions to this project are gladly received, please make sure to send these according to the common contribution guidelines 
 
