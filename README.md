@@ -16,8 +16,9 @@ In order to run the code directly on the machine, one has to install the python 
 After installing the requirements, run the main script inside the app directory:  
 ```
 pip install -r requirements.txt  
-python app/main.py
+PYTHONPATH=./ python app/main.py
 ```
+Note: Currently the PYTHONPATH variable has to point to the root directory.
 
 ## Invoke REST API
 
