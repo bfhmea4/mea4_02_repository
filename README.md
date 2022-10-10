@@ -6,26 +6,31 @@ based on multiple criteria.
 ## Run using Docker
 ```
 docker build -t fileRepo .
-docker run fileRepo:latest -p 8000:8000
+docker run --name fileRepo:latest -p 8000:8000 fizzbuzz
 ```
 
-To use the application open a web browser or use another client and brows to http://localhost:8000
+To use the application open a web browser or use another client and brows to http://0.0.0.0:8000
 
 ## Running locally
 In order to run the code directly on the machine, one has to install the python modules first.  
-After installing the requirements, run the main script inside the app directory:  
+After installing the requirements, run the main script:  
 ```
 pip install -r requirements.txt  
-PYTHONPATH=./ python app/main.py
+python main.py
 ```
-Note: Currently the PYTHONPATH variable has to point to the root directory.
+Webserver will be available using: http://localhost:8000
 
 ## Invoke REST API
 
 Getting fizzbuzz responses:
-
+Run from locally:
 ```
 curl -X GET http://localhost:8000/1
+```
+
+Run from docker:
+```
+curl -X GET http://0.0.0.0:8000/1
 ```
 
 ## Develop Backend
@@ -34,8 +39,7 @@ written in ./app
 
 ## Develop Algorithms 
 Adding algorithms unrelated to the backend/frontend calculations, may be achieved by adding/changing  
-code in (currently) ./fizzbuzz.  
-This will change soon and will be updated here as soon as the change happened.
+code in ./algorithms.
 
 ## Contributors
 Contributions to this project are gladly received, please make sure to send these according to the common contribution guidelines 
