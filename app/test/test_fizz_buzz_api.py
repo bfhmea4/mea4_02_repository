@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from app.main import app
+from app.webserver import app
 client = TestClient(app)
 
 def test_one_returns_one_as_string():
