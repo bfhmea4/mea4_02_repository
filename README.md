@@ -6,7 +6,7 @@ based on multiple criteria.
 ## Run using Docker
 ```
 docker build -t fileRepo .
-docker run --name fileRepo:latest -p 8000:8000 fizzbuzz
+docker run --name fileRepo:latest -p 8000:8000 fileRepo
 ```
 
 To use the application open a web browser or use another client and brows to http://0.0.0.0:8000
