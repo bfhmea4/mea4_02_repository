@@ -1,6 +1,6 @@
 from typing import Union
 import fastapi
-import algorithms.fizzbuzz as fizzbuzz
+import filerepo.algorithms.fizzbuzz as fizzbuzz
 import uvicorn
 
 app = fastapi.FastAPI()
@@ -10,7 +10,7 @@ if __name__ == "__main__":
     run()
 
 def run():
-    uvicorn.run("app.webserver:app", port=8000, log_level="debug")
+    uvicorn.run("webapp.webserver:app", port=8000, log_level="debug")
 
 @app.get("/{number}")
 def read_item(number: int):
