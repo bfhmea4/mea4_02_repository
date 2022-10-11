@@ -1,15 +1,16 @@
+#
+# file: migration/0001_create_foo.py
+#
 from yoyo import step
-import sqlite3
 
 
-def apply_step():
-    conn = sqlite3.connect('data/db.db')
+def apply_step(conn):
     cursor = conn.cursor()
-    cursor.execute('''
-    INSERT INTO fizzbuzz VALUES(1, 'fizz', 3)
+    cursor.execute(
+        '''
+    CREATE TABLE fizzbuzz
+    (id INTEGER PRIMARY KEY ASC, request int, response varchar(50))
 ''')
-    conn.commit()
-    conn.close()
 
 
 def rollback_step(conn):
@@ -22,4 +23,3 @@ def rollback_step(conn):
 steps = [
     step(apply_step, rollback_step)
 ]
-

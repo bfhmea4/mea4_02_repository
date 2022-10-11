@@ -3,10 +3,14 @@ services:
   db:
     image: nouchka/sqlite3:latest
     volumes:
-      - ./data/db:/root/db
+      - ./venv/data/db:/root/db
+    restart: always
+    container_name: myapp_db
     environment:
       - SQLITE3_DB=db.sqlite3
-    command: ["./C:/Users/bernh/git/mea4_02_repository/database/sqlite_create.py"]
+
+
+
 
 
 

@@ -1,8 +1,9 @@
+import venv
+
+import data as data
 import fastapi
-import fizzbuzz.fizzbuzz as fizzbuzz
-import database
-import sqlite3
 import uvicorn
+import fizzbuzz.fizzbuzz as fizzbuzz
 
 app = fastapi.FastAPI()
 
@@ -10,11 +11,9 @@ app = fastapi.FastAPI()
 if __name__ == "__main__":
     uvicorn.run("main:app", port=8000, log_level="debug")
 
+venv.data.post.apply_step()
+
 
 @app.get("/{number}")
 def read_item(number: int):
-    # database.post.apply_step()
     return {"output": fizzbuzz.fizzbuzz(number)}
-
-
-
