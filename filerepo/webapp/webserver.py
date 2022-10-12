@@ -1,9 +1,11 @@
 from typing import Union
-import fastapi
+from fastapi import FastAPI, File, UploadFile, status
+from fastapi.responses import JSONResponse
+import aiofiles
 import filerepo.algorithms.fizzbuzz as fizzbuzz
 import uvicorn
 
-app = fastapi.FastAPI()
+app = FastAPI()
 
 def run():
     uvicorn.run("filerepo.webapp.webserver:app", port=8000, log_level="debug")
@@ -11,6 +13,29 @@ def run():
 @app.get("/{number}")
 def read_item(number: int):
     return {"output": fizzbuzz.fizzbuzz(number)}
+
+@app.post("/upload")
+async def upload(file: UploadFile = File(...)):
+    try:
+        async with aiofiles.open(file.filename, 'wb') as out_file:
+            content = await file.read()  # async read
+            await out_file.write(content)  # async write
+
+    except FileNotFoundError as e:
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND,
+            content={'message': str(e)}
+            )
+    except Exception as e:
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={'message': str(e)}
+            )
+    else:
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content={"result": 'success'}
+        )
 
 #Kann man auch auf Command Line machen
 if __name__ == "__main__":
