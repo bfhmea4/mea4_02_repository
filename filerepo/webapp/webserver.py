@@ -4,8 +4,11 @@ from fastapi.responses import JSONResponse
 import aiofiles
 import filerepo.algorithms.fizzbuzz as fizzbuzz
 import uvicorn
+from pathlib import Path
 
 app = FastAPI()
+
+Path("/opt/repository").mkdir(parents=True, exist_ok=True)
 
 def run():
     uvicorn.run("filerepo.webapp.webserver:app", port=8000, log_level="debug")
@@ -17,7 +20,7 @@ def read_item(number: int):
 @app.post("/upload")
 async def upload(file: UploadFile = File(...)):
     try:
-        async with aiofiles.open(file.filename, 'wb') as out_file:
+        async with aiofiles.open("/opt/repository/"+file.filename, 'wb') as out_file:
             content = await file.read()  # async read
             await out_file.write(content)  # async write
 
