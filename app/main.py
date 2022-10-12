@@ -19,6 +19,7 @@ def apply_step():
     conn.close()
 
 
+
 # Kann man auch auf Command Line machen
 if __name__ == "__main__":
     uvicorn.run("main:app", port=8000, log_level="debug")
