@@ -1,13 +1,27 @@
-version: '3.9'
+#version: '3.9'
+#services:
+#  sqlite_db:
+#    image: nouchka/sqlite3:latest
+#    #working_dir: /app
+#    volumes:
+#      #- ./data/db:/root/db
+#      #- ./data/db:/app
+#      - ./data/db:/root
+#    container_name: myapp_db
+#    environment:
+#      - SQLITE3_DB=db.sqlite3
+#    #command: ["myapp_db"]
+version: '3'
+
 services:
-  db:
+  sqlite3:
     image: nouchka/sqlite3:latest
+    stdin_open: true
+    tty: true
     volumes:
-      - ./venv/data/db:/root/db
-    restart: always
-    container_name: myapp_db
-    environment:
-      - SQLITE3_DB=db.sqlite3
+      - ./data/db/:/root/db/
+
+
 
 
 
