@@ -3,7 +3,7 @@ import sqlite3
 
 
 class Repo:
-    conn = sqlite3.connect('/C:/Users/bernh/git/pycharm/mea4_02_repository/data/db/db.db')
+    conn = sqlite3.connect('../data/db/db.db')
 
     @staticmethod
     def create_table_fizzbuzz():
