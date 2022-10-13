@@ -1,16 +1,4 @@
-#version: '3.9'
-#services:
-#  sqlite_db:
-#    image: nouchka/sqlite3:latest
-#    #working_dir: /app
-#    volumes:
-#      #- ./data/db:/root/db
-#      #- ./data/db:/app
-#      - ./data/db:/root
-#    container_name: myapp_db
-#    environment:
-#      - SQLITE3_DB=db.sqlite3
-#    #command: ["myapp_db"]
+
 version: '3'
 
 services:

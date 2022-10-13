@@ -1,9 +1,9 @@
-import venv
-
 import sqlite3
 import fastapi
 import uvicorn
+
 import fizzbuzz.fizzbuzz as fizzbuzz
+from migration.post import Repo
 
 app = fastapi.FastAPI()
 
@@ -19,12 +19,12 @@ def apply_step():
     conn.close()
 
 
-
 # Kann man auch auf Command Line machen
 if __name__ == "__main__":
     uvicorn.run("main:app", port=8000, log_level="debug")
 
-apply_step()
+# Repo.create_table_fizzbuzz();
+Repo.fizzpuzz_post(2, 3, "fizz")
 
 
 @app.get("/{number}")
