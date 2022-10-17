@@ -50,7 +50,7 @@ async def upload(file: UploadFile = File(...)):
 @app.get("/files")
 def files():
     try:
-        files_json = json.dumps(os.listdir("C:/Users/naeby/Documents/BFH/Project1"))
+        files_json = json.dumps(os.listdir("/opt/repository/"))
         return JSONResponse(
             status_code=status.HTTP_200_OK,
             content={"files": files_json}
@@ -114,8 +114,8 @@ async def download_file(filename: str):
 @app.get("/files/{filename}", status_code=200)
 async def download_file(filename: str):
     try:
-        if Path("C:/Users/naeby/Documents/BFH/Project1/" + filename).is_file():
-            return FileResponse("C:/Users/naeby/Documents/BFH/Project1/" + filename,
+        if Path("/opt/repository/" + filename).is_file():
+            return FileResponse("/opt/repository/" + filename,
                                 media_type='application/octet-stream', filename=filename)
         else:
             raise FileNotFoundError
@@ -139,8 +139,8 @@ async def download_file(filename: str):
 @app.get("/files/{filename}/info", status_code=200)
 async def get_file_info(filename: str):
     try:
-        if Path("C:/Users/naeby/Documents/BFH/Project1/" + filename).is_file():
-            file_json = getFileData.get_file_informations("C:/Users/naeby/Documents/BFH/Project1/" + filename)
+        if Path("/opt/repository/" + filename).is_file():
+            file_json = getFileData.get_file_informations("/opt/repository/" + filename)
             return JSONResponse(
                 status_code=status.HTTP_200_OK,
                 content={"file Infos": file_json}
