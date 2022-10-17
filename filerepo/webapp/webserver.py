@@ -111,30 +111,6 @@ async def download_file(filename: str):
             content={"result": 'success'}
         )
 
-@app.get("/files/{filename}", status_code=200)
-async def download_file(filename: str):
-    try:
-        if Path("/opt/repository/" + filename).is_file():
-            return FileResponse("/opt/repository/" + filename,
-                                media_type='application/octet-stream', filename=filename)
-        else:
-            raise FileNotFoundError
-    except FileNotFoundError as e:
-        return JSONResponse(
-            status_code=status.HTTP_404_NOT_FOUND,
-            content={'message': "FileNotFound"}
-        )
-    except Exception as e:
-        return JSONResponse(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content={'message': str(e)}
-        )
-    else:
-        return JSONResponse(
-            status_code=status.HTTP_200_OK,
-            content={"result": 'success'}
-        )
-
 
 @app.get("/files/{filename}/info", status_code=200)
 async def get_file_info(filename: str):
