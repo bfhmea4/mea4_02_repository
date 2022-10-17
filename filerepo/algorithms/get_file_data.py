@@ -5,9 +5,9 @@ from datetime import datetime
 
 def get_file_information(file: str) -> str:
     size = os.path.getsize(file)
-    last_modify= datetime.fromtimestamp(os.path.getmtime(file)).strftime('%Y-%m-%d %H:%M:%S')
+    last_modify= datetime.fromtimestamp(os.path.getmtime(file)).strftime('%Y-%m-%d')
     print(last_modify)
-    creation_date = datetime.fromtimestamp(os.path.getctime(file)).strftime('%Y-%m-%d %H:%M:%S')
+    creation_date = datetime.fromtimestamp(os.path.getctime(file)).strftime('%Y-%m-%d')
     file_type = os.path.splitext(file)
 
     data = {'size in bytes': size,
