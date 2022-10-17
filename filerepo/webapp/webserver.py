@@ -1,6 +1,6 @@
 from typing import Union
 from fastapi import FastAPI, File, UploadFile, status
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 import aiofiles
 import filerepo.algorithms.fizzbuzz as fizzbuzz
 import uvicorn
@@ -45,7 +45,7 @@ async def upload(file: UploadFile = File(...)):
 @app.get("/files")
 def files():
     try:
-        files_json=json.dumps(os.listdir("/opt/repository"))
+        files_json=json.dumps(os.listdir("C:/Users/naeby/Documents/BFH/Project1"))
         return JSONResponse(
             status_code=status.HTTP_200_OK,
             content={"files": files_json}
@@ -82,6 +82,53 @@ def delete_file(filename: str):
             content={"result": 'success'}
         )
 
+@app.get("/files/{filename}", status_code=200)
+async def download_file(filename: str):
+    try:
+        if Path("C:/Users/naeby/Documents/BFH/Project1/"+filename).is_file():
+            return FileResponse("C:/Users/naeby/Documents/BFH/Project1/"+filename, media_type='application/octet-stream',filename=filename)
+        else:
+            raise FileNotFoundError
+    except FileNotFoundError as e:
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND,
+            content={'message': "FileNotFound"}
+            )
+    except Exception as e:
+        return JSONResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={'message': str(e)}
+            )
+    else:
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content={"result": 'success'}
+        )
+
+    @app.get("/files/{filename}/info", status_code=200)
+    async def get_file_info(filename: str):
+        try:
+            if Path("C:/Users/naeby/Documents/BFH/Project1/" + filename).is_file():
+
+                return FileResponse("C:/Users/naeby/Documents/BFH/Project1/" + filename,
+                                    media_type='application/octet-stream', filename=filename)
+            else:
+                raise FileNotFoundError
+        except FileNotFoundError as e:
+            return JSONResponse(
+                status_code=status.HTTP_404_NOT_FOUND,
+                content={'message': "FileNotFound"}
+            )
+        except Exception as e:
+            return JSONResponse(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                content={'message': str(e)}
+            )
+        else:
+            return JSONResponse(
+                status_code=status.HTTP_200_OK,
+                content={"result": 'success'}
+            )
 
 #Kann man auch auf Command Line machen
 if __name__ == "__main__":
