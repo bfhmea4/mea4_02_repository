@@ -116,7 +116,7 @@ async def download_file(filename: str):
 async def get_file_info(filename: str):
     try:
         if Path("/opt/repository/" + filename).is_file():
-            file_json = getFileData.get_file_informations("/opt/repository/" + filename)
+            file_json = getFileData.get_file_information("/opt/repository/" + filename)
             return JSONResponse(
                 status_code=status.HTTP_200_OK,
                 content={"file Infos": file_json}

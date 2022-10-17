@@ -8,7 +8,7 @@ import json
 import pytest
 
 client = TestClient(app)
-@pytest.mark.order(6)
+@pytest.mark.order(7)
 def test_get_empty(): 
     response = client.get("/files")
     files = json.loads(response.content)
