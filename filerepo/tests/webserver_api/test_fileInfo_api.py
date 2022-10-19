@@ -16,4 +16,6 @@ def test_get_file_info():
     file_info_correct = getFileData.get_file_information("/opt/repository/" + filename)
     file_info = json.loads(response.content)
     assert response.status_code == 200
-    assert file_info['file Infos'] == file_info_correct
+    assert file_info['file_name'] == filename
+    assert file_info['file_type'] == "text/plain"
+    assert file_info['file_creation_time'] == file_info_correct.file_creation_time
