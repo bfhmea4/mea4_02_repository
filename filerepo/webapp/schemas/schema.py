@@ -1,14 +1,12 @@
 from typing import List, Optional
 from pydantic import BaseModel
 
-class FileBase(BaseModel):
+class FileUploadModel(BaseModel):
     file_name: str
-    file_path: str
-    file_size: float
-    file_type: str
-    file_hash: Optional[str] = None
-    file_creation_time: str
-    file_last_modified: str
+    file_content: bytes
+
+class FileListModel(BaseModel):
+    file_list: [File]
        
 
 class Upload():
