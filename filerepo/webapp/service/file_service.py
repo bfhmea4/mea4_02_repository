@@ -54,7 +54,7 @@ class FileServiceImpl(FileService):
         #file_content = io.BytesIO(file_uploaded.file_content)
         file_type: str = file_uploaded.file_type
         hash = hashlib.sha256(file_uploaded.file_content).hexdigest()
-        file = File(id,file_uploaded.file_name,'./',len(file_uploaded.file_content),file_type,hash)
+        file = File(id,file_uploaded.file_name,'./',len(file_uploaded.file_content),file_type,hash,file_uploaded.file_content)
         self.repository.create(file)
         return FileGetModel.from_entity(cast(File,file))
 

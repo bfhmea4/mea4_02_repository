@@ -6,7 +6,7 @@ from filerepo.webapp.database.file.file_dto import FileDTO
 class FileSystem():
 
     def __init__(self):
-        self.directory = {str: FileDTO}  # TypedDict[str, FileDTO] #funktioniert?
+        self.directory = {}  # TypedDict[str, FileDTO] #funktioniert?
 
     def write(self, file: FileDTO):
         self.directory[file.id] = file.to_entity()
@@ -18,4 +18,8 @@ class FileSystem():
         del self.directory[id]
 
     def list_files(self) -> List[FileDTO]:
-        return self.directory.items()
+        file_list: List[FileDTO] = []
+        for file in self.directory.values():
+            file_list.append(FileDTO.from_entity(file))
+        return file_list
+

@@ -11,6 +11,7 @@ class FileDTO():
         self.file_size = file.file_size
         self.file_type = file.file_type
         self.file_hash = file.file_hash
+        self.file_content = file.file_content
         self.file_creation_time = file.file_creation_time
         self.file_update_time = file.file_update_time
 
@@ -22,6 +23,7 @@ class FileDTO():
             file_size=self.file_size,
             file_type=self.file_type,
             file_hash=self.file_hash,
+            file_content=self.file_content,
             file_creation_time=self.file_creation_time,
             file_update_time=self.file_update_time,
         )

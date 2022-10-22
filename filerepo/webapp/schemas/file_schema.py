@@ -19,9 +19,6 @@ class FileGetModel(BaseModel):
             file_name=file.file_name,
         )
 
-class FileListModel(BaseModel):
-    file_list: List[FileGetModel]
-
 class FileDownloadModel(BaseModel):
     file_name: str
     file_content: bytes

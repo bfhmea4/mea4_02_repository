@@ -1,8 +1,9 @@
+from typing import List
 from fastapi import File, UploadFile, status, APIRouter
 from fastapi.responses import JSONResponse, FileResponse
 
 
-from filerepo.webapp.schemas.file_schema import FileGetModel, FileUploadModel, FileDownloadModel, FileListModel
+from filerepo.webapp.schemas.file_schema import FileGetModel, FileUploadModel, FileDownloadModel
 from filerepo.webapp.service.file_service import FileServiceImpl
 from filerepo.webapp.database.file.file_repository import FileRepositoryImpl
 from filerepo.webapp.database.file_system import FileSystem
@@ -23,8 +24,8 @@ async def upload(file: UploadFile = File(...)):
                         "file_type":file.content_type,
                         "file_content": file.file.read()
                          }
-        file_service.create(FileUploadModel(**uploaded_file))
-        return FileGetModel
+        return file_service.create(FileUploadModel(**uploaded_file))
+
     except FileNotFoundError as e:
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -42,8 +43,9 @@ async def upload(file: UploadFile = File(...)):
         )
 
 
-#@router.get("/files", tags=["files"])
-#def files():
+@router.get("/files", response_model=List[FileGetModel], tags=["files"])
+def files():
+    return file_service.find_all()
 
 
 
