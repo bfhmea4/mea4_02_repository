@@ -6,7 +6,7 @@ import magic
 import hashlib
 
 from ..domain.file.file import File
-from ..schemas.file_schema import FileUploadModel, FileGetModel
+from ..schemas.file_schema import FileUploadModel, FileGetModel, FileDownloadModel
 from ..database.file.file_repository import FileRepositoryImpl
 
 
@@ -34,7 +34,7 @@ class FileService(ABC):
         raise NotImplementedError
 
 class FileServiceImpl(FileService):
-    """BookQueryService defines a query service inteface related Book entity."""
+    """FileQueryService defines a query service inteface related File entity."""
 
     def __init__(self, repository: FileRepositoryImpl):
         self.repository = repository
