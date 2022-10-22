@@ -3,9 +3,10 @@ from abc import ABC, abstractmethod
 from typing import List, Optional, cast
 import shortuuid
 import hashlib
+import time
 
 from filerepo.webapp.domain.file.file import File
-from filerepo.webapp.schemas.file_schema import FileUploadModel, FileGetModel, FileDownloadModel
+from filerepo.webapp.schemas.file_schema import FileUploadModel, FileGetModel, FileDownloadModel, FileInfoGetModel
 from filerepo.webapp.database.file.file_repository import FileRepositoryImpl
 
 
@@ -14,6 +15,10 @@ class FileService(ABC):
 
     @abstractmethod
     def find_by_id(self, id: str) -> Optional[FileGetModel]:
+        raise NotImplementedError
+
+    @abstractmethod
+    def file_info_by_id(self, id: str) -> Optional[FileInfoGetModel]:
         raise NotImplementedError
 
     @abstractmethod
@@ -49,12 +54,17 @@ class FileServiceImpl(FileService):
             list_files.append(FileGetModel.from_entity(cast(File,file)))
         return list_files
 
+    def file_info_by_id(self, id: str) -> Optional[FileInfoGetModel]:
+        file = self.repository.find_by_id(id)
+        return FileInfoGetModel.from_entity(cast(File, file))
+
     def create(self, file_uploaded: FileUploadModel) -> FileGetModel:
         id: str = shortuuid.uuid()
         #file_content = io.BytesIO(file_uploaded.file_content)
         file_type: str = file_uploaded.file_type
         hash = hashlib.sha256(file_uploaded.file_content).hexdigest()
-        file = File(id,file_uploaded.file_name,'./',len(file_uploaded.file_content),file_type,hash,file_uploaded.file_content)
+        current_time = time.time()
+        file = File(id,file_uploaded.file_name,'./',len(file_uploaded.file_content),file_type,hash,file_uploaded.file_content,current_time,current_time)
         self.repository.create(file)
         return FileGetModel.from_entity(cast(File,file))
 

@@ -13,8 +13,8 @@ class File:
         file_type: str,
         file_hash: str,
         file_content: Optional[bytes] = None,
-        file_creation_time: Optional[int] = None,
-        file_update_time: Optional[int] = None,
+        file_creation_time: Optional[float] = None,
+        file_update_time: Optional[float] = None,
     ):
         self.id: str = id
         self.file_name: str = file_name
@@ -23,8 +23,8 @@ class File:
         self.file_type: str = file_type
         self.file_hash: str = file_hash
         self.file_content: Optional[bytes] = file_content
-        self.file_creation_time: Optional[int] = file_creation_time
-        self.file_update_time: Optional[int] = file_update_time
+        self.file_creation_time: Optional[float] = file_creation_time
+        self.file_update_time: Optional[float] = file_update_time
 
     def __eq__(self, o: object) -> bool:
         if isinstance(o, File):
