@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from .file_dto import FileDTO
 from ..file_system import FileSystem
@@ -19,7 +19,7 @@ class FileRepositoryImpl(FileRepository):
 
         return file_dto  # muss File zurückgegeben werden: .to_entity()
 
-    def find_all(self) -> FileDTO:
+    def find_all(self) -> list[FileDTO]:
         try:
             files_list = self.file_system.list_files()
         except:
