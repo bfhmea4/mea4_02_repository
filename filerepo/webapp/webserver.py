@@ -7,9 +7,6 @@ import os
 
 app = FastAPI()
 
-Path("/opt/repository").mkdir(parents=True, exist_ok=True)
-
-
 def run():
     uvicorn.run("filerepo.webapp.webserver:app", port=8000, log_level="debug")
 

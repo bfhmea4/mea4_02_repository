@@ -11,7 +11,7 @@ from ..database.file.file_repository import FileRepositoryImpl
 
 
 class FileService(ABC):
-    """BookQueryService defines a query service inteface related Book entity."""
+    """FileQueryService defines a query service inteface related Book entity."""
 
     @abstractmethod
     def find_by_id(self, id: str) -> Optional[FileGetModel]:
@@ -53,7 +53,7 @@ class FileServiceImpl(FileService):
     def create(self, file_uploaded: FileUploadModel) -> FileGetModel:
         id: str = shortuuid.uuid
         #file_content = io.BytesIO(file_uploaded.file_content)
-        file_type: str = magic.from_buffer(file_uploaded.file_content)
+        file_type: str = file_uploaded.file_type
         hash = hashlib.sha256(file_uploaded.file_content).hexdigest()
         file = File(id,file_uploaded.file_name,'./',len(file_uploaded.file_content),file_type,hash)
         self.repository.create(file)

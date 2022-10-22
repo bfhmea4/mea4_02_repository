@@ -5,6 +5,7 @@ from ..domain.file.file import File
 
 class FileUploadModel(BaseModel):
     file_name: str
+    file_type: str
     file_content: bytes
 
 class FileGetModel(BaseModel):

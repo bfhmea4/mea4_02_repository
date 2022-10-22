@@ -3,19 +3,25 @@ from fastapi import File, UploadFile, status, APIRouter
 from fastapi.responses import JSONResponse, FileResponse
 import aiofiles
 import filerepo.algorithms.get_file_data as getFileData
-from ..schemas.schema import FileBase
-from pathlib import Path
+
+from ..schemas.file_schema import FileGetModel, FileUploadModel, FileDownloadModel, FileListModel
+from ..service.file_service import FileServiceImpl
+from ..database.file.file_repository import FileRepositoryImpl
+from ..database.file_system import FileSystem
+
 import json
-import os
 
 router = APIRouter()
+file_system = FileSystem()
+file_repository = FileRepositoryImpl(file_system)
+file_service = FileServiceImpl(file_repository)
 
-@router.post("/files/upload", tags=["files"])
+
+@router.post("/files/upload", response_model=FileGetModel ,tags=["files"])
 async def upload(file: UploadFile = File(...)):
     try:
-        async with aiofiles.open("/opt/repository/" + file.filename, 'wb') as out_file:
-            content = await file.read()  # async read
-            await out_file.write(content)  # async write
+
+        file_service.create(FileUploadModel())
 
     except FileNotFoundError as e:
         return JSONResponse(
