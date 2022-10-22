@@ -1,4 +1,4 @@
-from typing import Any, TypedDict
+from typing import TypedDict, List
 
 from .file.file_dto import FileDTO
 from ..domain.file import File
@@ -7,7 +7,7 @@ from ..domain.file import File
 class FileSystem():
 
     def __init__(self):
-        self.directory = {}  # TypedDict[str, FileDTO] #funktioniert?
+        self.directory = {str: FileDTO}  # TypedDict[str, FileDTO] #funktioniert?
 
     def write(self, file: FileDTO):
         self.directory[file.id] = file.to_entity()
@@ -18,5 +18,5 @@ class FileSystem():
     def delete(self, id: str):
         del self.directory[id]
 
-    def list_files(self):
+    def list_files(self) -> List[FileDTO]:
         return self.directory.items()

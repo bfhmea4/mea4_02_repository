@@ -2,7 +2,7 @@ from typing import Optional
 
 from .file_dto import FileDTO
 from ..file_system import FileSystem
-from ...domain.file import FileRepository
+from ...domain.file import FileRepository, File
 
 
 class FileRepositoryImpl(FileRepository):
@@ -27,9 +27,10 @@ class FileRepositoryImpl(FileRepository):
 
         return files_list
 
-    def create(self, file: FileDTO):
+    def create(self, file: File):
+        file_dto = FileDTO.from_entity(file)
         try:
-            self.file_system.write(file)
+            self.file_system.write(file_dto)
         except:
             raise
 
