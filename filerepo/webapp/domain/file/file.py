@@ -26,7 +26,7 @@ class File:
         self.file_update_time: Optional[int] = file_update_time
 
     def __eq__(self, o: object) -> bool:
-        if isinstance(o, Book):
+        if isinstance(o, File):
             return self.id == o.id
 
         return False

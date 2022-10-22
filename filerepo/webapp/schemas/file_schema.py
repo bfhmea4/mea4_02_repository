@@ -5,14 +5,12 @@ class FileUploadModel(BaseModel):
     file_name: str
     file_content: bytes
 
-class FileListModel(BaseModel):
-    file_list: [File]
-       
-
-class Upload():
+class FileGetModel(BaseModel):
     id: int
-    file: str
-    filename: str
-    timestamp: str
+    file_name: str
+
+class FileListModel(BaseModel):
+    file_list: List[FileGetModel]
+       
 
     

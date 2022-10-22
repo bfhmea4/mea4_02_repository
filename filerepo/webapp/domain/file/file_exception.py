@@ -1,5 +1,5 @@
 class FileNotFoundError(Exception):
-    message = "The file you spcecified does not exist."
+    message = "The file you specified does not exist."
 
     def __str__(self):
         return FileNotFoundError.message

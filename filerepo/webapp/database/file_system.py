@@ -10,14 +10,15 @@ class FileSystem():
         self.basedir = basedir
         self.directory = {}
 
-    def write(file: File) -> FileDTO:
-         self.directory[file.id] = file_content
+    def write(self, file: File) -> FileDTO:
+         self.directory[file.id] = file.file_content
          return FileDTO.from_entity(file)
     
-    def read(id: int) -> bytes:
+    def read(self, id: int) -> bytes:
         return self.directory[id]
 
-    def list_files() -> FileDTO
+    def list_files(self) -> FileDTO:
+
 
 
 
