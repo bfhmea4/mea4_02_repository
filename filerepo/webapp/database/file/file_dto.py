@@ -1,8 +1,8 @@
 from datetime import datetime
 from typing import Union
 
-from webapp.domain.file import File
-from webapp.database import FileSystem
+from filerepo.webapp.domain.file import File
+from filerepo.webapp.database import FileSystem
 
 class FileDTO():
     """FileDTO is a data transfer object associated with File entity."""
@@ -32,7 +32,6 @@ class FileDTO():
 
     @staticmethod
     def from_entity(file: File) -> "FileDTO":
-        now = unixtimestamp()
         return FileDTO(
             id=file.id,
             file_name=file.file_name,

@@ -1,7 +1,7 @@
-from typing import Union
+from typing import Union, Dict, Any
 
-from webapp.domain.file import File
-from webapp.database.file import FileDTO
+from .file.file_dto import FileDTO
+from ..domain.file import File
 
 
 class FileSystem():
@@ -10,14 +10,15 @@ class FileSystem():
         self.basedir = basedir
         self.directory = {}
 
-    def write(self, file: File) -> FileDTO:
-         self.directory[file.id] = file.file_content
-         return FileDTO.from_entity(file)
+    def write(self, file: FileDTO) -> File: #Upload
+         self.directory[file.id] = file
+         return FileDTO.to_entity(file)
     
     def read(self, id: int) -> bytes:
         return self.directory[id]
 
-    def list_files(self) -> FileDTO:
+    def list_files(self) -> dict[Any, Any]:
+        return self.directory
 
 
 
