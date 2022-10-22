@@ -1,9 +1,7 @@
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse, FileResponse
-from .routers import files, fizzbuzz
+from filerepo.webapp.routers import files, fizzbuzz
 import uvicorn
-from pathlib import Path
-import os
+
 
 app = FastAPI()
 

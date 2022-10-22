@@ -1,7 +1,7 @@
 from typing import List, Optional
 from pydantic import BaseModel
 
-from ..domain.file.file import File
+from filerepo.webapp.domain.file.file import File
 
 class FileUploadModel(BaseModel):
     file_name: str

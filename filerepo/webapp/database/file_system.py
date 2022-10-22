@@ -1,7 +1,6 @@
 from typing import TypedDict, List
 
-from .file.file_dto import FileDTO
-from ..domain.file import File
+from filerepo.webapp.database.file.file_dto import FileDTO
 
 
 class FileSystem():

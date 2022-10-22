@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
 
-from webapp.domain.file import File
+from .file import File
 
 
 class FileRepository(ABC):

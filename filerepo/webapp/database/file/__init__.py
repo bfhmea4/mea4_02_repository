@@ -1,3 +1,2 @@
-from .file_dto import fileDTO
-from .file_query_service import fileQueryServiceImpl
-from .file_repository import fileCommandUseCaseUnitOfWorkImpl, fileRepositoryImpl
+from filerepo.webapp.database.file.file_dto import FileDTO
+from filerepo.webapp.database.file.file_repository import FileRepositoryImpl

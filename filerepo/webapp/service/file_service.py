@@ -5,9 +5,9 @@ import shortuuid
 import magic
 import hashlib
 
-from ..domain.file.file import File
-from ..schemas.file_schema import FileUploadModel, FileGetModel, FileDownloadModel
-from ..database.file.file_repository import FileRepositoryImpl
+from filerepo.webapp.domain.file.file import File
+from filerepo.webapp.schemas.file_schema import FileUploadModel, FileGetModel, FileDownloadModel
+from filerepo.webapp.database.file.file_repository import FileRepositoryImpl
 
 
 class FileService(ABC):

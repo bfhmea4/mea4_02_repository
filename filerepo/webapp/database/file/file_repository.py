@@ -1,8 +1,8 @@
 from typing import Optional, List
 
-from .file_dto import FileDTO
-from ..file_system import FileSystem
-from ...domain.file import FileRepository, File
+from filerepo.webapp.database.file.file_dto import FileDTO
+from filerepo.webapp.database.file_system import FileSystem
+from filerepo.webapp.domain.file import FileRepository, File
 
 
 class FileRepositoryImpl(FileRepository):

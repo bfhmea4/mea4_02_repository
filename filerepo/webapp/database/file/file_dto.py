@@ -1,8 +1,5 @@
-from datetime import datetime
-from typing import Union
-
-from filerepo.webapp.domain.file import File
-from filerepo.webapp.database import FileSystem
+from filerepo.webapp.domain.file.file import File
+from filerepo.webapp.database.file_system import FileSystem
 
 class FileDTO():
     """FileDTO is a data transfer object associated with File entity."""
