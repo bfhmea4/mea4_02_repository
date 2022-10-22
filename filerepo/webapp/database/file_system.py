@@ -6,8 +6,7 @@ from ..domain.file import File
 
 class FileSystem():
 
-    def __init__(self, basedir: str):
-        self.basedir = basedir
+    def __init__(self):
         self.directory = {}  # TypedDict[str, FileDTO] #funktioniert?
 
     def write(self, file: FileDTO):
