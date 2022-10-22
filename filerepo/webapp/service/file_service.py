@@ -2,7 +2,6 @@ import io
 from abc import ABC, abstractmethod
 from typing import List, Optional, cast
 import shortuuid
-import magic
 import hashlib
 
 from filerepo.webapp.domain.file.file import File
@@ -51,7 +50,7 @@ class FileServiceImpl(FileService):
         return list_files
 
     def create(self, file_uploaded: FileUploadModel) -> FileGetModel:
-        id: str = shortuuid.uuid
+        id: str = shortuuid.uuid()
         #file_content = io.BytesIO(file_uploaded.file_content)
         file_type: str = file_uploaded.file_type
         hash = hashlib.sha256(file_uploaded.file_content).hexdigest()

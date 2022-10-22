@@ -2,7 +2,8 @@ from typing import Optional, List
 
 from filerepo.webapp.database.file.file_dto import FileDTO
 from filerepo.webapp.database.file_system import FileSystem
-from filerepo.webapp.domain.file import FileRepository, File
+from filerepo.webapp.domain.file.file_repository import FileRepository
+from filerepo.webapp.domain.file.file import File
 
 
 class FileRepositoryImpl(FileRepository):
@@ -19,7 +20,7 @@ class FileRepositoryImpl(FileRepository):
 
         return file_dto  # muss File zurückgegeben werden: .to_entity()
 
-    def find_all(self) -> list[FileDTO]:
+    def find_all(self) -> List[FileDTO]:
         try:
             files_list = self.file_system.list_files()
         except:
@@ -39,39 +40,3 @@ class FileRepositoryImpl(FileRepository):
             self.file_system.delete(id)
         except:
             raise
-
-#    def update(self, book: Book):
-#         book_dto = BookDTO.from_entity(book)
-#         try:
-#             _book = self.session.query(BookDTO).filter_by(id=book_dto.id).one()
-#             _book.title = book_dto.title
-#             _book.page = book_dto.page
-#             _book.read_page = book_dto.read_page
-#             _book.updated_at = book_dto.updated_at
-#         except:
-#             raise
-#
-#     def delete_by_id(self, id: str):
-#         try:
-#             self.session.query(BookDTO).filter_by(id=id).delete()
-#         except:
-#             raise
-#
-#
-# class BookCommandUseCaseUnitOfWorkImpl(BookCommandUseCaseUnitOfWork):
-#     def __init__(
-#         self,
-#         session: Session,
-#         book_repository: BookRepository,
-#     ):
-#         self.session: Session = session
-#         self.book_repository: BookRepository = book_repository
-#
-#     def begin(self):
-#         self.session.begin()
-#
-#     def commit(self):
-#         self.session.commit()
-#
-#     def rollback(self):
-#         self.session.rollback()

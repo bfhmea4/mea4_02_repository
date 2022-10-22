@@ -24,7 +24,7 @@ async def upload(file: UploadFile = File(...)):
                         "file_content": file.file.read()
                          }
         file_service.create(FileUploadModel(**uploaded_file))
-
+        return FileGetModel
     except FileNotFoundError as e:
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,

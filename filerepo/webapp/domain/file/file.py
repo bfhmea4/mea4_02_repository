@@ -1,6 +1,7 @@
 from typing import Optional
 
 class File:
+
     """File represents your collection of files as an entity."""
 
     def __init__(
