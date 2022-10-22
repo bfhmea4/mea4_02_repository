@@ -14,7 +14,7 @@ class FileSystem():
          self.directory[file.id] = file
          return FileDTO.to_entity(file)
     
-    def read(self, id: int) -> bytes:
+    def read(self, id: str) -> bytes:
         return self.directory[id]
 
     def list_files(self) -> dict[Any, Any]:
