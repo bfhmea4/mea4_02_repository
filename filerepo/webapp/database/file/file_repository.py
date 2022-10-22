@@ -1,75 +1,76 @@
 from typing import Optional
 
-from webapp.domain.file import File, FileRepository
-
 from .file_dto import FileDTO
+from ..file_system import FileSystem
+from ...domain.file import FileRepository
 
 
 class FileRepositoryImpl(FileRepository):
     """FileRepositoryImpl implements CRUD operations related File entity using SQLAlchemy."""
 
-    def __init__(self, session: Session):
-        self.session: Session = session
+    def __init__(self, file_system: FileSystem):
+        self.file_system: FileSystem = file_system
 
-    def find_by_id(self, id: str) -> Optional[Book]:
+    def find_by_id(self, id: str) -> FileDTO:
         try:
-            book_dto = self.session.query(BookDTO).filter_by(id=id).one()
-        except NoResultFound:
-            return None
+            file_dto = self.file_system.read(id)
         except:
             raise
 
-        return book_dto.to_entity()
+        return file_dto  # muss File zurückgegeben werden: .to_entity()
 
-    def find_by_isbn(self, isbn: str) -> Optional[Book]:
+    def find_all(self) -> FileDTO:
         try:
-            book_dto = self.session.query(BookDTO).filter_by(isbn=isbn).one()
-        except NoResultFound:
-            return None
+            files_list = self.file_system.list_files()
         except:
             raise
 
-        return book_dto.to_entity()
+        return files_list
 
-    def create(self, book: Book):
-        book_dto = BookDTO.from_entity(book)
+    def create(self, file: FileDTO):
         try:
-            self.session.add(book_dto)
-        except:
-            raise
-
-    def update(self, book: Book):
-        book_dto = BookDTO.from_entity(book)
-        try:
-            _book = self.session.query(BookDTO).filter_by(id=book_dto.id).one()
-            _book.title = book_dto.title
-            _book.page = book_dto.page
-            _book.read_page = book_dto.read_page
-            _book.updated_at = book_dto.updated_at
+            self.file_system.write(file)
         except:
             raise
 
     def delete_by_id(self, id: str):
         try:
-            self.session.query(BookDTO).filter_by(id=id).delete()
+            self.file_system.delete(id)
         except:
             raise
 
-
-class BookCommandUseCaseUnitOfWorkImpl(BookCommandUseCaseUnitOfWork):
-    def __init__(
-        self,
-        session: Session,
-        book_repository: BookRepository,
-    ):
-        self.session: Session = session
-        self.book_repository: BookRepository = book_repository
-
-    def begin(self):
-        self.session.begin()
-
-    def commit(self):
-        self.session.commit()
-
-    def rollback(self):
-        self.session.rollback()
+#    def update(self, book: Book):
+#         book_dto = BookDTO.from_entity(book)
+#         try:
+#             _book = self.session.query(BookDTO).filter_by(id=book_dto.id).one()
+#             _book.title = book_dto.title
+#             _book.page = book_dto.page
+#             _book.read_page = book_dto.read_page
+#             _book.updated_at = book_dto.updated_at
+#         except:
+#             raise
+#
+#     def delete_by_id(self, id: str):
+#         try:
+#             self.session.query(BookDTO).filter_by(id=id).delete()
+#         except:
+#             raise
+#
+#
+# class BookCommandUseCaseUnitOfWorkImpl(BookCommandUseCaseUnitOfWork):
+#     def __init__(
+#         self,
+#         session: Session,
+#         book_repository: BookRepository,
+#     ):
+#         self.session: Session = session
+#         self.book_repository: BookRepository = book_repository
+#
+#     def begin(self):
+#         self.session.begin()
+#
+#     def commit(self):
+#         self.session.commit()
+#
+#     def rollback(self):
+#         self.session.rollback()
