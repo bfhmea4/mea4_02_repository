@@ -1,4 +1,4 @@
-from typing import TypedDict, List
+from typing import List
 
 from filerepo.webapp.database.file.file_dto import FileDTO
 
