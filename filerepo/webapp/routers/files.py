@@ -45,20 +45,64 @@ async def upload(file: UploadFile = File(...)):
 
 @router.get("/files", response_model=List[FileGetModel], status_code=status.HTTP_200_OK, tags=["files"])
 def files():
-    return file_service.find_all()
+    try:
+        return file_service.find_all()
+    except FileNotFoundError as e:
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND,
+            content={'message': str(e)}
+        )
+    except Exception as e:
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={'message': str(e)}
+        )
 
 @router.delete("/files/{id}", status_code=status.HTTP_204_NO_CONTENT, tags=["files"])
 def delete_file(id: str):
-    file_service.delete(id)
+    try:
+        file_service.delete(id)
+    except FileNotFoundError as e:
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND,
+            content={'message': str(e)}
+        )
+    except Exception as e:
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={'message': str(e)}
+        )
 
 
 @router.get("/files/{id}",status_code=status.HTTP_200_OK, tags=["files"])
 def download_file(id: str):
-    file = file_service.download_by_id(id)
-    return Response(file.file_content, media_type=file.file_type)
+    try:
+        file = file_service.download_by_id(id)
+        return Response(file.file_content, media_type=file.file_type)
+    except FileNotFoundError as e:
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND,
+            content={'message': str(e)}
+        )
+    except Exception as e:
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={'message': str(e)}
+        )
 
 
 
 @router.get("/files/{id}/info", response_model=FileInfoGetModel, tags=["files"])
 def get_file_info(id: str):
-    return file_service.file_info_by_id(id)
+    try:
+        return file_service.file_info_by_id(id)
+    except FileNotFoundError as e:
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND,
+            content={'message': str(e)}
+        )
+    except Exception as e:
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={'message': str(e)}
+        )
