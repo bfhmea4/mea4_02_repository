@@ -8,12 +8,11 @@ import pytest
 client = TestClient(app)
 @pytest.mark.order(1)
 def test_emtpy_file_upload():
-    response = client.post("/upload", files={"file":None})
+    response = client.post("/files/upload", files={"file":None})
     assert response.status_code == 400
 @pytest.mark.order(2)
 def test_file_upload():
     file = io.BytesIO(bytes(str("Test file"),'utf-8'))
-    response = client.post("/upload", files={"file":("test.file-" + str(date.today()),file,"multipart/form-data")})
+    response = client.post("/files/upload", files={"file":("test.file-" + str(date.today()),file,"text/plain")})
     file.close()
     assert response.status_code == 200
-    assert Path("/opt/repository/test.file-"+str(date.today())).is_file() == True

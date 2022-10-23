@@ -8,8 +8,9 @@ import pytest
 client = TestClient(app)
 @pytest.mark.order(4)
 def test_download_file():
-    filename = "test.file-" + str(date.today())
-    response = client.get("/files/"+filename)
+    response = json.loads(client.get("/files").content)
+    file_id = response[0]['id']
+    response = client.get("/files/"+file_id)
 
     assert response.status_code == 200
     assert response.headers['content-type']
