@@ -9,6 +9,13 @@ docker build -t fileRepo .
 docker run --name fileRepo:latest -p 8000:8000 fileRepo
 ```
 
+Or download it directly from docker hub:
+
+```
+docker pull hu6li/mea4_02_repository:latest
+docker run -it --name filerepo -p 8000:8000 hu6li/mea4_02_repository
+```
+
 To use the application open a web browser or use another client and brows to http://0.0.0.0:8000
 
 ## Running locally
@@ -22,24 +29,86 @@ Webserver will be available using: http://localhost:8000
 
 ## Invoke REST API
 
-Getting fizzbuzz responses:
-Run from locally:
+Getting responses:
+Run get files command from locally:
 ```
-curl -X GET http://localhost:8000/1
+curl -X GET http://localhost:8000/files
 ```
 
-Run from docker:
+Run get files command from docker:
 ```
-curl -X GET http://0.0.0.0:8000/1
+curl -X GET http://0.0.0.0:8000/files
+```
+
+Upload a file:
+```
+curl -X 'POST' -F file=@/path/to/file http://localhost:8000/files/upload
 ```
 
 ## Develop Backend
-All backend logic is placed in the ./app folder. To add endpoints or change behaviour one can add/change the code  
-written in ./app
+```
+├── Dockerfile
+├── docu
+│   └── canvas.png
+├── filerepo
+│   ├── algorithms
+│   │   ├── fizzbuzz.py
+│   │   └── __init__.py
+│   ├── tests
+│   │   ├── algorithm_fizzbuzz
+│   │   │   └── test_fizz_buzz.py
+│   │   ├── __init__.py
+│   │   └── webserver_api
+│   │       ├── test_delete_api.py
+│   │       ├── test_download_file.py
+│   │       ├── test_fileInfo_api.py
+│   │       ├── test_fizz_buzz_api.py
+│   │       ├── test_get_files_api.py
+│   │       └── test_upload_api.py
+│   └── webapp
+│       ├── database
+│       │   ├── file
+│       │   │   ├── file_dto.py
+│       │   │   ├── file_repository.py
+│       │   │   └── __init__.py
+│       │   ├── file_system.py
+│       │   └── __init__.py
+│       ├── domain
+│       │   ├── file
+│       │   │   ├── file_exception.py
+│       │   │   ├── file.py
+│       │   │   ├── file_repository.py
+│       │   │   └── __init__.py
+│       │   └── __init__.py
+│       ├── __init__.py
+│       ├── routers
+│       │   ├── files.py
+│       │   ├── fizzbuzz.py
+│       │   └── __init__.py
+│       ├── schemas
+│       │   └── file_schema.py
+│       ├── service
+│       │   ├── file_service.py
+│       │   └── __init__.py
+│       └── webserver.py
+├── main.py
+├── pyproject.toml
+├── README.md
+└── requirements.txt
+```
+All backend logic is placed in the ./filerepo/webapp folder. 
+To add endpoints use the directory routers and create new routers if the endpoint concerns a new entity else  
+add an endpoint to an existing entity.
 
-## Develop Algorithms 
-Adding algorithms unrelated to the backend/frontend calculations, may be achieved by adding/changing  
-code in ./algorithms.
+Database logic is implemented under ./filerepo/webapp/database, it is the place where DTOs are defined and where 
+file/DB access happens
+
+To create a new entity use ./filerepo/webapp/domain, keep in mind that the repo classes are only abstract classes and  
+the implementation of those classes will be in the database directory
+
+Use the ./filerepo/webapp/schemas directory to create and define models which will be communicated towards the external user.
+
+Finally, use the ./filerepo/webapp/service as interface to communicate between repositories and endpoints. 
 
 ## Contributors
 Contributions to this project are gladly received, please make sure to send these according to the common contribution guidelines 
