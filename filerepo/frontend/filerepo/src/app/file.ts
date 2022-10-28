@@ -1,9 +1,9 @@
 export interface File {
     id: string;
-    fileName: string;
-    fileSize: number;
-    fileType: string;
-    fileHash: string;
-    fileCreationTime: number;
-    fileUpdateTime: number;
+    file_name: string;
+    file_size: number;
+    file_type: string;
+    file_hash: string;
+    file_creation_time: number;
+    file_update_time: number;
 }

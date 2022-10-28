@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { FileinfoComponent } from './fileinfo/fileinfo.component';
 
 const routes: Routes = [
-  { path: '/files/:id/info', component: FileinfoComponent  },
+  { path: 'files/:id/info', component: FileinfoComponent  },
 ]
 
 @NgModule({

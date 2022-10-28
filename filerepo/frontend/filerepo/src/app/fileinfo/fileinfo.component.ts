@@ -11,18 +11,17 @@ import {empty} from "rxjs";
 })
 export class FileinfoComponent implements OnInit {
   file: File;
-  id: string;
+  id: any;
 
-  constructor(private api: FilerepoService, private route: ActivatedRoute) {
+  constructor(private fileService: FilerepoService, private route: ActivatedRoute) {
     this.file = <File>{};
   }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      console.log(params);
       this.id = params.get('id');
     })
-    this.file=this.api.getFileInfo(this.id)
+    this.fileService.getFileInfo(this.id).subscribe((data: File) => this.file = data)
   }
 
 }
