@@ -4,8 +4,10 @@
 <title>FileInfo</title>
 </head>
 <body>
+<h1>File info: {{file.file_name}}</h1>
+<button id="download_button" (click)="downloadContent('http://localhost:8000/files/'+file.id)">Download File</button>
+<button id="delete_button" (click)="deleteFile(file.id)">Delete File</button>
 
-<h1>File info of: {{file.file_name}}</h1>
 <table>
   <tr>
       <th>Filename</th>

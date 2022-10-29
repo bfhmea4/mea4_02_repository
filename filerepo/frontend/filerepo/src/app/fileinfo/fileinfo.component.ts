@@ -23,5 +23,16 @@ export class FileinfoComponent implements OnInit {
     })
     this.fileService.getFileInfo(this.id).subscribe((data: File) => this.file = data)
   }
+  downloadContent(url: string){
+    console.log(url);
+    window.open(url);
+  }
+  deleteFile(id: string){
+    console.log(id);
+    this.fileService.deleteFile(id).subscribe(data =>{
+      console.log(data)
+      window.location.assign("/")
+    });
+  }
 
 }

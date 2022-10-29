@@ -6,3 +6,7 @@ th, td {
 td {
   padding-left: 100px;
 }
+
+#delete_button {
+  margin: 10px;
+}
