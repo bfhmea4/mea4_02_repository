@@ -14,4 +14,7 @@ export class FilerepoService {
   public getFileInfo(id: string){
     return this.http.get<File>(localUrl + "/"+id+"/info")
   }
+  public getFileList(){
+    return this.http.get<File>(localUrl + "/files")
+  }
 }
