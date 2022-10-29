@@ -1,0 +1,37 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<title>FileInfo</title>
+</head>
+<body>
+
+<h1>File info of: {{file.file_name}}</h1>
+<table>
+  <tr>
+      <th>Filename</th>
+      <td>{{ file.file_name}}</td>
+  </tr>
+  <tr>
+      <th>Filesize</th>
+    <td>{{ file.file_size}}</td>
+  </tr>
+  <tr>
+      <th>Filehash</th>
+    <td>{{ file.file_hash}}</td>
+  </tr>
+  <tr>
+      <th>Filetype</th>
+    <td>{{ file.file_type}}</td>
+  </tr>
+  <tr>
+      <th>Filecreation</th>
+    <td>{{ file.file_creation_time}}</td>
+  </tr>
+  <tr>
+      <th>Fileupdate</th>
+    <td>{{ file.file_update_time}}</td>
+  </tr>
+</table>
+
+</body>
+</html>
