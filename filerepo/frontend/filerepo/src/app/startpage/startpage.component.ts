@@ -11,9 +11,6 @@ import {File_list} from "../file_list";
 })
 export class StartpageComponent implements OnInit{
   listFiles: File_list;
-  private function_upload(): void{
-    this.fileService.
-  }
 
   constructor(private fileService: FilerepoService, private route: ActivatedRoute) {
     this.listFiles = <File_list>{};
@@ -24,10 +21,16 @@ export class StartpageComponent implements OnInit{
           id: entry.id,
           file_name: entry.file_name,
         })
-    }
+  }
+
+  uploadFile(file: File){
+    this.fileService.uploadFile(file)
+  }
 
 
-    e = document.getElementById("button").addEventListener("click", this.function_upload)
+
+
+
 
 }
 

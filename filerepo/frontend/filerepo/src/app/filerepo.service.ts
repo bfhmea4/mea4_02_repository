@@ -26,7 +26,7 @@ export class FilerepoService {
     return this.http.get<File>(localUrl + "/files")
   }
 
-  public uploadFile(){
+  public uploadFile(uploaded_file: File){
     return this.http.post<File>(localUrl + "/files/upload", uploaded_file, httpOptions)
   }
 }
