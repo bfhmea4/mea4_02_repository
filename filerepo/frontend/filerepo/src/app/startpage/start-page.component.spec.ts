@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StartpageComponent } from './startpage.component';
+import { StartPageComponent } from './start-page.component';
 
-describe('FileinfoComponent', () => {
-  let component: StartpageComponent;
-  let fixture: ComponentFixture<StartpageComponent>;
+describe('StartPageComponent', () => {
+  let component: StartPageComponent;
+  let fixture: ComponentFixture<StartPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StartpageComponent ]
+      declarations: [ StartPageComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(StartpageComponent);
+    fixture = TestBed.createComponent(StartPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

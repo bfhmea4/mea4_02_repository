@@ -6,10 +6,10 @@ import {File_list} from "../file_list";
 
 @Component({
   selector: 'app-fileinfo',
-  templateUrl: './startpage.component.html',
-  styleUrls: ['./startpage.component.css']
+  templateUrl: './start-page.component.html',
+  styleUrls: ['./start-page.component.css']
 })
-export class StartpageComponent implements OnInit{
+export class StartPageComponent implements OnInit{
   listFiles: File_list;
 
   constructor(private fileService: FilerepoService, private route: ActivatedRoute) {

@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { FileinfoComponent } from './fileinfo/fileinfo.component';
-import { StartpageComponent} from "./startpage/startpage.component";
+import { StartPageComponent} from "./startpage/start-page.component";
 
 const routes: Routes = [
   { path: 'files/:id/info', component: FileinfoComponent  },
@@ -16,7 +16,7 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     FileinfoComponent,
-    StartpageComponent
+    StartPageComponent
   ],
   imports: [
     BrowserModule,
