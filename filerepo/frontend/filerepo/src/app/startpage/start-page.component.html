@@ -1,8 +1,9 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-<head>
-<title>Files</title>
-</head>
+  <head>
+    <title>Files</title>
+    <link rel="stylesheet" href="start-page.component.css">
+  </head>
 <body>
 
 <h1>All Files</h1>
@@ -20,7 +21,18 @@
         </tr>
     </tbody>
 </table>
-<button id="upload_button" (click)="uploadFile(fileService.uploadFile())"> Upload File </button>
+<form>
+    <div>
+      <label for="image_uploads">Choose images to upload </label>
+      <input type="file" id="image_uploads" name="image_uploads" >
+    </div>
+    <div class="preview">
+      <p>No files currently selected for upload</p>
+    </div>
+    <div>
+      <button id="submit" (click)="uploadFile()">Submit</button>
+    </div>
+  </form>
 </body>
 </html>
 

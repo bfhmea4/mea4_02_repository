@@ -3,6 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import {FilerepoService} from "../filerepo.service";
 import {File} from "../file";
 import {File_list} from "../file_list";
+import * as events from "events";
+
+
 
 @Component({
   selector: 'app-fileinfo',
@@ -11,6 +14,8 @@ import {File_list} from "../file_list";
 })
 export class StartPageComponent implements OnInit{
   listFiles: File_list[];
+  file: File;
+
 
   constructor(private fileService: FilerepoService, private route: ActivatedRoute) {
     this.listFiles = [<File_list>{}];
@@ -23,15 +28,16 @@ export class StartPageComponent implements OnInit{
         }))
   }
 
-  uploadFile(file: File){
-    this.fileService.uploadFile(file)
+
+  uploadFile(){
+        this.fileService.uploadFile(this.file).subscribe(
+            (event: any) => {
+                if (typeof (event) === 'object') {
+                    this.file = event.file
+                }
+            }
+        );
   }
-
-
-
-
-
-
 }
 
 
