@@ -7,11 +7,18 @@
 
 <h1>All Files</h1>
 <table>
-  <tr>
-      <th>Filename</th>
-      <td>{{ listFiles.file_name}}</td>
-      <td>{{ listFiles.id}}</td>
-  </tr>
+    <thead>
+        <tr>
+            <th>File Name</th>
+            <th>File ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let file of listFiles">
+            <td>{{file.file_name}}</td>
+            <td>{{file.id}}</td>
+        </tr>
+    </tbody>
 </table>
 <button id="upload_button" (click)="uploadFile(fileService.uploadFile())"> Upload File </button>
 </body>

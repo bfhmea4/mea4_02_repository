@@ -10,17 +10,17 @@ import {File_list} from "../file_list";
   styleUrls: ['./start-page.component.css']
 })
 export class StartPageComponent implements OnInit{
-  listFiles: File_list;
+  listFiles: File_list[];
 
   constructor(private fileService: FilerepoService, private route: ActivatedRoute) {
-    this.listFiles = <File_list>{};
+    this.listFiles = [<File_list>{}];
   }
 
   ngOnInit(): void {
-        this.fileService.getFileList().forEach((entry: File_list) => this.listFiles = {
+        this.fileService.getFileList().forEach((entry: File) => this.listFiles.push({
           id: entry.id,
           file_name: entry.file_name,
-        })
+        }))
   }
 
   uploadFile(file: File){
