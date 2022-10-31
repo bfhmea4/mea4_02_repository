@@ -14,7 +14,7 @@ import * as events from "events";
 })
 export class StartPageComponent implements OnInit{
   listFiles: File_list[];
-  file: File;
+  file: any;
 
 
   constructor(private fileService: FilerepoService, private route: ActivatedRoute) {

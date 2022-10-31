@@ -10,6 +10,7 @@ import { StartPageComponent} from "./startpage/start-page.component";
 
 const routes: Routes = [
   { path: 'files/:id/info', component: FileinfoComponent  },
+  { path: '/', component: StartPageComponent  },
 ]
 
 @NgModule({
@@ -24,6 +25,6 @@ const routes: Routes = [
     HttpClientModule,
   ],
 //  providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [StartPageComponent]
 })
 export class AppModule { }
