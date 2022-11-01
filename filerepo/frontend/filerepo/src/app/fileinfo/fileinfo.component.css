@@ -1,3 +1,17 @@
+body {
+	background-color: white;
+	color: black;
+	font: 14px sans-serif;
+	margin: auto;
+	max-width: 900px;
+	padding: 10px;
+}
+
+@media only screen and (max-width: 400px) {
+  body {
+    font-size: 8px;
+  }
+}
 th, td {
   padding: 0px;
   text-align: left;
@@ -10,3 +24,15 @@ td {
 #delete_button {
   margin: 10px;
 }
+
+button {
+	background-color: royalblue;
+	border: none;
+	color: white;
+	cursor: pointer;
+	font: inherit;
+	margin: 5px 0;
+	padding: 7px;
+}
+
+

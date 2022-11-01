@@ -12,6 +12,9 @@ export class FilerepoService {
   }
 
   public getFileInfo(id: string){
-    return this.http.get<File>(localUrl + "/"+id+"/info")
+    return this.http.get<File>(localUrl + "/"+id+"/info");
+  }
+  public deleteFile(id: string){
+    return this.http.delete(localUrl + "/"+id);
   }
 }
