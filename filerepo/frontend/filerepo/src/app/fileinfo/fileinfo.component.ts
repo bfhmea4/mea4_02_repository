@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {FilerepoService} from "../filerepo.service";
 import {File} from "../file";
-import {empty} from "rxjs";
+
 
 @Component({
   selector: 'app-fileinfo',

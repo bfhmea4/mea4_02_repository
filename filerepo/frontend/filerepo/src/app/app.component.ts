@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FilerepoService } from './filerepo.service';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +6,7 @@ import { FilerepoService } from './filerepo.service';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent {
+export class AppComponent{
   title = 'filerepo';
+
 }
