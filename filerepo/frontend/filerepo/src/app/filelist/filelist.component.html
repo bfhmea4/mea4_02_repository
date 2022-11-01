@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Files</title>
+  </head>
+<body>
+
+<h1>All Files</h1>
+<table>
+    <tr>
+          <th>File Name</th>
+          <th>File ID</th>
+    </tr>
+      <tr *ngFor="let file of listFiles">
+          <td><a href="http://localhost:4200/files/{{file.id}}/info">{{file.file_name}}</a></td>
+          <td>{{file.id}}</td>
+      </tr>
+</table>
+    <div>
+      <label for="file_uploads">Choose images to upload </label>
+      <input type="file" id="file_uploads" name="file_uploads" (change)="onchange($event)">
+    </div>
+    <div>
+      <button id="uploadButton" (click)="uploadFile()">Upload</button>
+    </div>
+</body>
+</html>

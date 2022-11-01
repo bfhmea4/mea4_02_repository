@@ -6,15 +6,18 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { FileinfoComponent } from './fileinfo/fileinfo.component';
+import { FilelistComponent } from './filelist/filelist.component';
 
 const routes: Routes = [
   { path: 'files/:id/info', component: FileinfoComponent  },
+  { path: '', component: FilelistComponent  },
 ]
 
 @NgModule({
   declarations: [
     AppComponent,
-    FileinfoComponent
+    FileinfoComponent,
+    FilelistComponent
   ],
   imports: [
     BrowserModule,
