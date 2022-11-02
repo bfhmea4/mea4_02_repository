@@ -1,9 +1,19 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from filerepo.webapp.routers import files, fizzbuzz
 import uvicorn
 
+origins = ["*"]
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 def run():
     uvicorn.run("filerepo.webapp.webserver:app", port=8000, log_level="debug")
