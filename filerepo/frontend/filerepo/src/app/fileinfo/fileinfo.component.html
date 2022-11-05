@@ -8,7 +8,7 @@
 <button id="download_button" (click)="downloadContent('http://localhost:8000/files/'+file.id)">Download File</button>
 <button id="delete_button" (click)="deleteFile(file.id)">Delete File</button>
 
-<table>
+<table class="styled-table">
   <tr>
       <th>Filename</th>
       <td>{{ file.file_name}}</td>
@@ -34,6 +34,7 @@
     <td>{{ file.file_update_time}}</td>
   </tr>
 </table>
+<a href="http://localhost:4200/files">Home</a>
 
 </body>
 </html>

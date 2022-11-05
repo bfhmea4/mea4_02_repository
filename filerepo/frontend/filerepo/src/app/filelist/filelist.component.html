@@ -6,7 +6,14 @@
 <body>
 
 <h1>All Files</h1>
-<table>
+<div>
+      <label for="file_uploads">Choose images to upload: </label>
+      <input type="file" id="file_uploads" name="file_uploads" (change)="onchange($event)">
+    </div>
+    <div>
+      <button id="uploadButton" (click)="uploadFile()">Upload</button>
+    </div>
+<table class="styled-table">
     <tr>
           <th>File Name</th>
           <th>File ID</th>
@@ -16,12 +23,6 @@
           <td>{{file.id}}</td>
       </tr>
 </table>
-    <div>
-      <label for="file_uploads">Choose images to upload </label>
-      <input type="file" id="file_uploads" name="file_uploads" (change)="onchange($event)">
-    </div>
-    <div>
-      <button id="uploadButton" (click)="uploadFile()">Upload</button>
-    </div>
+
 </body>
 </html>
