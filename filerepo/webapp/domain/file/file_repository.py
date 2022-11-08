@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import List, Optional
 
 from .file import File
-from filerepo.webapp.database.file.file_dto import FileDTO
+from filerepo.webapp.repository.file.file_dto import FileDTO
 
 
 class FileRepository(ABC):

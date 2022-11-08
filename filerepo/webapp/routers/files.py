@@ -5,8 +5,8 @@ from fastapi.responses import JSONResponse, Response
 
 from filerepo.webapp.schemas.file_schema import FileGetModel, FileUploadModel, FileInfoGetModel
 from filerepo.webapp.service.file_service import FileServiceImpl
-from filerepo.webapp.database.file.file_repository import FileRepositoryImpl
-from filerepo.webapp.database.file_system import FileSystem
+from filerepo.webapp.repository.file.file_repository import FileRepositoryImpl
+from filerepo.webapp.repository.file_system import FileSystem
 
 
 

@@ -1,7 +1,7 @@
 from typing import Optional, List
 
-from filerepo.webapp.database.file.file_dto import FileDTO
-from filerepo.webapp.database.file_system import FileSystem
+from filerepo.webapp.repository.file.file_dto import FileDTO
+from filerepo.webapp.repository.file_system import FileSystem
 from filerepo.webapp.domain.file.file_repository import FileRepository
 from filerepo.webapp.domain.file.file import File
 
@@ -14,7 +14,7 @@ class FileRepositoryImpl(FileRepository):
 
     def find_by_id(self, id: str) -> FileDTO:
         try:
-            file_dto = self.file_system.read(id)
+            file_dto = FileDTO.from_entity(self.file_system.read(id))
         except:
             raise
 
@@ -23,15 +23,17 @@ class FileRepositoryImpl(FileRepository):
     def find_all(self) -> List[FileDTO]:
         try:
             files_list = self.file_system.list_files()
+            filesDTO_list:List [FileDTO] = []
+            for file in files_list:
+                filesDTO_list.append(FileDTO.from_entity(file))
         except:
             raise
 
-        return files_list
+        return filesDTO_list
 
     def create(self, file: File):
-        file_dto = FileDTO.from_entity(file)
         try:
-            self.file_system.write(file_dto)
+            self.file_system.write(file)
         except:
             raise
 

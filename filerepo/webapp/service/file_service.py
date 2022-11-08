@@ -7,7 +7,7 @@ import time
 
 from filerepo.webapp.domain.file.file import File
 from filerepo.webapp.schemas.file_schema import FileUploadModel, FileGetModel, FileDownloadModel, FileInfoGetModel
-from filerepo.webapp.database.file.file_repository import FileRepositoryImpl
+from filerepo.webapp.repository.file.file_repository import FileRepositoryImpl
 
 
 class FileService(ABC):
