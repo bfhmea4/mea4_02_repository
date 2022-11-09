@@ -3,7 +3,9 @@ from fastapi import File, UploadFile, status, APIRouter
 from fastapi.responses import JSONResponse, Response
 
 
-from filerepo.webapp.schemas.file_schema import FileGetModel, FileUploadModel, FileInfoGetModel
+from filerepo.webapp.schemas.DTO.file_get_model import FileGetModel
+from filerepo.webapp.schemas.DTO.file_upload_model import FileUploadModel
+from filerepo.webapp.schemas.DTO.file_info_model import FileInfoGetModel
 from filerepo.webapp.service.file_service import FileServiceImpl
 from filerepo.webapp.repository.file.file_repository import FileRepositoryImpl
 from filerepo.webapp.repository.file_system import FileSystem
