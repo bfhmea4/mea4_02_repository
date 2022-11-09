@@ -1,9 +1,6 @@
 import io
 from abc import ABC, abstractmethod
 from typing import List, Optional, cast
-import shortuuid
-import hashlib
-import time
 
 from filerepo.webapp.domain.file.file import File
 from filerepo.webapp.schemas.DTO.file_download_model import FileDownloadModel
@@ -29,7 +26,7 @@ class FileService(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def create(self, file: FileUploadModel) -> FileGetModel:
+    def create(self, file_uploaded: FileUploadModel) -> FileGetModel:
         raise NotImplementedError
 
     @abstractmethod
@@ -62,13 +59,7 @@ class FileServiceImpl(FileService):
         return FileInfoGetModel.from_entity(cast(File, file))
 
     def create(self, file_uploaded: FileUploadModel) -> FileGetModel:
-        id: str = shortuuid.uuid()
-        #file_content = io.BytesIO(file_uploaded.file_content)
-        file_type: str = file_uploaded.file_type
-        hash = hashlib.sha256(file_uploaded.file_content).hexdigest()
-        current_time = time.time()
-        file = File(id,file_uploaded.file_name,'./',len(file_uploaded.file_content),file_type,hash,file_uploaded.file_content,current_time,current_time)
-        self.repository.create(file)
+        file = self.repository.create(file_uploaded)
         return FileGetModel.from_entity(cast(File,file))
 
     def delete(self, id: str):

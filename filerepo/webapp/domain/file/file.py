@@ -8,7 +8,6 @@ class File:
         self,
         id: str,
         file_name: str,
-        file_path: str,
         file_size: float,
         file_type: str,
         file_hash: str,
@@ -18,7 +17,6 @@ class File:
     ):
         self.id: str = id
         self.file_name: str = file_name
-        self.file_path: str = file_path
         self.file_size: float = file_size
         self.file_type: str = file_type
         self.file_hash: str = file_hash

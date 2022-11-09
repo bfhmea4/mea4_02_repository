@@ -7,7 +7,6 @@ class FileDTO():
     def __init__(self, file):
         self.id = file.id
         self.file_name = file.file_name
-        self.file_path = file.file_path
         self.file_size = file.file_size
         self.file_type = file.file_type
         self.file_hash = file.file_hash
@@ -19,7 +18,6 @@ class FileDTO():
         return File(
             id=self.id,
             file_name=self.file_name,
-            file_path=self.file_path,
             file_size=self.file_size,
             file_type=self.file_type,
             file_hash=self.file_hash,

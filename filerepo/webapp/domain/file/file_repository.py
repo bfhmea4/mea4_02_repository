@@ -3,13 +3,14 @@ from typing import List, Optional
 
 from .file import File
 from filerepo.webapp.repository.file.file_dto import FileDTO
+from filerepo.webapp.schemas.DTO.file_upload_model import FileUploadModel
 
 
 class FileRepository(ABC):
     """FileRepository defines a repository interface for File entity."""
 
     @abstractmethod
-    def create(self, file: File):
+    def create(self, file_uploaded: FileUploadModel):
         raise NotImplementedError
 
     @abstractmethod

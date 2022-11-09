@@ -1,6 +1,7 @@
 from typing import List
 from fastapi import File, UploadFile, status, APIRouter
 from fastapi.responses import JSONResponse, Response
+import traceback
 
 
 from filerepo.webapp.schemas.DTO.file_get_model import FileGetModel
@@ -36,7 +37,8 @@ async def upload(file: UploadFile = File(...)):
     except Exception as e:
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
-            content={'message': str(e)}
+            content={'message': str(traceback.print_exec())}
+            
         )
     else:
         return JSONResponse(

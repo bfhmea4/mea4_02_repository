@@ -1,9 +1,13 @@
 from typing import Optional, List
+import shortuuid
+import hashlib
+import time
 
 from filerepo.webapp.repository.file.file_dto import FileDTO
 from filerepo.webapp.repository.file_system import FileSystem
 from filerepo.webapp.domain.file.file_repository import FileRepository
 from filerepo.webapp.domain.file.file import File
+from filerepo.webapp.schemas.DTO.file_upload_model import FileUploadModel
 
 
 class FileRepositoryImpl(FileRepository):
@@ -31,9 +35,15 @@ class FileRepositoryImpl(FileRepository):
 
         return filesDTO_list
 
-    def create(self, file: File):
+    def create(self, file_uploaded: FileUploadModel) -> File:
         try:
+            id: str = shortuuid.uuid()
+            file_type: str = file_uploaded.file_type
+            hash = hashlib.sha256(file_uploaded.file_content).hexdigest()
+            current_time = time.time()
+            file = File(id,file_uploaded.file_name,len(file_uploaded.file_content),file_type,hash,file_uploaded.file_content,current_time,current_time)
             self.file_system.write(file)
+            return file
         except:
             raise
 
