@@ -1,30 +1,29 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule, Routes } from '@angular/router'
-import { HttpClientModule } from '@angular/common/http';
 
-
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FileinfoComponent } from './fileinfo/fileinfo.component';
-import { FilelistComponent } from './filelist/filelist.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HomeComponent } from './home/home.component';
+import { DeleteComponent } from './delete/delete.component';
+import { UploadComponent } from './upload/upload.component';
+import { ListComponent } from './list/list.component';
 
-const routes: Routes = [
-  { path: 'files/:id/info', component: FileinfoComponent  },
-  { path: '', component: FilelistComponent  },
-]
 
 @NgModule({
   declarations: [
     AppComponent,
-    FileinfoComponent,
-    FilelistComponent
+    HomeComponent,
+    DeleteComponent,
+    UploadComponent,
+    ListComponent,
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes),
-    HttpClientModule,
+    AppRoutingModule,
+    NgbModule
   ],
-//  providers: [],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

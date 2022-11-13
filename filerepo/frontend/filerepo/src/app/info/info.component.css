@@ -1,49 +1,39 @@
 body {
-
-  color: #A7A1AE;
+	background-color: white;
+	color: black;
 	font: 14px sans-serif;
 	margin: auto;
 	max-width: 900px;
 	padding: 10px;
 }
-html {background-color: #1F2739;}
 
 @media only screen and (max-width: 400px) {
   body {
     font-size: 8px;
   }
-
 }
-
-
-div {
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-.styled-table tr:hover {
-  background-color: lightslategrey;
-  font-weight: bold}
-
 .styled-table {
     border-collapse: collapse;
     margin: 25px 0;
     font-size: 0.9em;
     font-family: sans-serif;
     min-width: 400px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    background-color: white;
-  color: black;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 1);
 }
 .styled-table thead tr {
-    background-color: white;
-    color: black;
+    background-color: #009879;
+    color: #ffffff;
     text-align: left;
 }
 .styled-table th,
 .styled-table td {
     padding: 12px 15px;
+  text-align: left;
 }
+
+tr:hover {
+  background-color: lightslategrey;
+  font-weight: bold}
 
 .styled-table tbody tr {
     border-bottom: 1px solid #dddddd;
@@ -58,13 +48,9 @@ div {
 }
 
 
-
-a:link { text-decoration: none;  color: black;}
-a:visited { text-decoration: none;color: black;}
-a:hover { text-decoration: none;color: black;}
-a:active { text-decoration: none; color: black;}
-
-
+#delete_button {
+  margin: 10px;
+}
 
 button {
   font-weight: bold;
@@ -86,5 +72,7 @@ button span {
   font-weight: 100;
 }
 
-
-
+a:link { text-decoration: none;  color: black;}
+a:visited { text-decoration: none;color: black;}
+a:hover { text-decoration: none;color: black;}
+a:active { text-decoration: none; color: black;}

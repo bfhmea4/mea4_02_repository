@@ -1,20 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-
-import {FilerepoService} from "../filerepo.service";
+import {AppRoutingModule} from "../app-routing.module";
+import {ServiceService} from "../service.service";
 
 @Component({
-  selector: 'app-filelist',
-  templateUrl: './filelist.component.html',
-  styleUrls: ['./filelist.component.css']
+  selector: 'app-list',
+  templateUrl: './list.component.html',
+  styleUrls: ['./list.component.css']
 })
-export class FilelistComponent implements OnInit {
+
+
+
+
+export class ListComponent implements OnInit {
   listFiles: any;
   loading: boolean = false;
   file: any;
 
 
-  constructor(private fileService: FilerepoService, private route: ActivatedRoute) {
+  constructor(private fileService: ServiceService, private route: AppRoutingModule) {
   }
 
   ngOnInit(): void {

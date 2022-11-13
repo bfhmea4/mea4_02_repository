@@ -1,0 +1,33 @@
+version: "3.7"
+services:
+    angular-service:
+       container_name: angular_filerepo
+       build:
+         context: /filerepo/frontend/filerepo
+         dockerfile: angular.dockerfile
+       #build: src
+       ports:
+           - "4200:80"
+    backend:
+      container_name: webserver_fastapi
+      #image: webserver-api
+      #image: filerepo
+      build:
+        context: .
+        dockerfile: webserver.dockerfile
+      ports:
+        - "8000:80"
+
+
+    database:
+      container_name: database
+      image: nouchka/sqlite3:latest
+      stdin_open: true
+      tty: true
+      volumes:
+        - sqlite_data:/root/db/
+  #      - ./data/db/:/root/db/
+
+
+volumes:
+  sqlite_data: { }

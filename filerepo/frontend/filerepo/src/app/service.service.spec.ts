@@ -1,16 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FilerepoService } from './filerepo.service';
+import { ServiceService } from './service.service';
 
-describe('FilerepoService', () => {
-  let service: FilerepoService;
+describe('ServiceService', () => {
+  let service: ServiceService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(FilerepoService);
+    service = TestBed.inject(ServiceService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 });
+
+

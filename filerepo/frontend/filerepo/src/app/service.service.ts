@@ -6,7 +6,7 @@ const localUrl = 'http://127.0.0.1:8000/files';
 @Injectable({
   providedIn: 'root'
 })
-export class FilerepoService {
+export class ServiceService {
 
   constructor(private http: HttpClient) {
   }

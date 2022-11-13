@@ -9,6 +9,12 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 COPY filerepo/webapp /code/filerepo/webapp
 COPY filerepo/algorithms /code/filerepo/algorithms
 
-EXPOSE 8000
+#EXPOSE 8000
 
-CMD ["uvicorn", "filerepo.webapp.webserver:app", "--host", "0.0.0.0", "--port", "8000"]
+#CMD ["uvicorn", "filerepo.webapp.webserver:app", "--host", "0.0.0.0", "--port", "8000"]
+
+
+
+
+
+CMD ["uvicorn", "filerepo.webapp.webserver:app", "--host", "0.0.0.0", "--port", "80"]
