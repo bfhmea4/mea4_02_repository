@@ -8,6 +8,8 @@ import { HomeComponent } from './home/home.component';
 import { DeleteComponent } from './delete/delete.component';
 import { UploadComponent } from './upload/upload.component';
 import { ListComponent } from './list/list.component';
+import { InfoComponent } from './info/info.component';
+import { HttpStatusComponent } from './http-status/http-status.component';
 
 
 @NgModule({
@@ -17,6 +19,8 @@ import { ListComponent } from './list/list.component';
     DeleteComponent,
     UploadComponent,
     ListComponent,
+    InfoComponent,
+    HttpStatusComponent,
   ],
   imports: [
     BrowserModule,
