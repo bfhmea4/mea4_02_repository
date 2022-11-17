@@ -1,7 +1,7 @@
 from typing import List, Optional
 from pydantic import BaseModel
 
-class FileUploadModel(BaseModel):
+class UploadActivityModel(BaseModel):
+    upload_time: float
     file_name: str
-    file_type: str
-    file_content: bytes
+    file_id: str
