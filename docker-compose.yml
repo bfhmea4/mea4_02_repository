@@ -7,7 +7,7 @@ services:
          dockerfile: angular.dockerfile
        #build: src
        ports:
-           - "4200:80"
+           - "4200:4200"
     backend:
       container_name: webserver_fastapi
       #image: webserver-api
@@ -16,7 +16,7 @@ services:
         context: .
         dockerfile: webserver.dockerfile
       ports:
-        - "8000:80"
+        - "8000:8000"
 
 
     database:
