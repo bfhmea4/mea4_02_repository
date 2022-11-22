@@ -3,7 +3,7 @@ services:
     angular-service:
        container_name: angular_filerepo
        build:
-         context: /filerepo/frontend/filerepo
+         context: ./filerepo/frontend/filerepo
          dockerfile: angular.dockerfile
        #build: src
        ports:
