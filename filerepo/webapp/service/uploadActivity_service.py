@@ -3,6 +3,8 @@ from abc import ABC, abstractmethod
 from typing import List, Optional, cast
 
 from filerepo.webapp.domain.uploadActivity.uploadActivity import UploadActivity
+from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_get_model import UploadActivityGetModel
+from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_create_model import UploadActivityCreateModel
 from filerepo.webapp.repository.uploadActivity.uploadActivity_repository import UploadActivityRepository
 
 
@@ -10,7 +12,7 @@ class UploadActivityService(ABC):
     """UploadActivityService defines a query service inteface related UploadActivity entity."""
 
     @abstractmethod
-    def find_by_id(self, id: str) -> Optional[UploadActivityGetModel]: #Todo: Create GetModel
+    def find_by_id(self, id: str) -> Optional[UploadActivityGetModel]:
         raise NotImplementedError
 
     @abstractmethod
@@ -38,6 +40,6 @@ class UploadActivityServiceImpl(UploadActivityService):
             list_uploadActivities.append(UploadActivityGetModel.from_entity(cast(UploadActivity,uploadActivity)))
         return list_uploadActivities
 
-    def create(self, new_uploadActivity: UploadActivityModel) -> UploadActivityModel: #Todo: create new Model
+    def create(self, new_uploadActivity: UploadActivityCreateModel) -> UploadActivityGetModel:
         uploadActivity: UploadActivity = self.repository.create(new_uploadActivity)
         return UploadActivityGetModel.from_entity(cast(UploadActivity,uploadActivity))

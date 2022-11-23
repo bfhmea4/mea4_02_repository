@@ -9,7 +9,8 @@ from sqlalchemy.orm.session import Session
 from filerepo.webapp.repository.uploadActivity.uploadActivity_dto import UploadActivityDTO
 from filerepo.webapp.domain.uploadActivity.uploadActivity_repository import UploadActivityRepository
 from filerepo.webapp.domain.uploadActivity.uploadActivity import UploadActivity
-from filerepo.webapp.schemas.DTO.upload_activity_model import UploadActivityModel
+from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_create_model import UploadActivityCreateModel
+from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_get_model import UploadActivityGetModel
 
 
 class UploadActivityRepositoryImpl(UploadActivityRepository):
@@ -24,7 +25,7 @@ class UploadActivityRepositoryImpl(UploadActivityRepository):
         except:
             raise
 
-        return uploadActivity_dto  # muss File zurückgegeben werden: .to_entity()
+        return uploadActivity_dto
 
     def find_all(self) -> List[UploadActivityDTO]:
         try:
@@ -37,11 +38,11 @@ class UploadActivityRepositoryImpl(UploadActivityRepository):
 
         return uploadActivity_list
 
-    def create(self, uploadActivityModel: UploadActivityModel) -> UploadActivity:
+    def create(self, uploadActivityCreateModel: UploadActivityCreateModel) -> UploadActivity:
         try:
-            upload_time: float = uploadActivityModel.upload_time
-            upload_file_name: str = uploadActivityModel.file_name
-            upload_file_id: str = uploadActivityModel.file_id
+            upload_time: float = uploadActivityCreateModel.upload_time
+            upload_file_name: str = uploadActivityCreateModel.file_name
+            upload_file_id: str = uploadActivityCreateModel.file_id
             uploadActivity = UploadActivity(upload_time=upload_time,file_name=upload_file_name,file_id=upload_file_id)
             self.session.add(uploadActivity)
             return uploadActivity

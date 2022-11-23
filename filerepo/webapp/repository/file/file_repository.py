@@ -22,7 +22,7 @@ class FileRepositoryImpl(FileRepository):
         except:
             raise
 
-        return file_dto  # muss File zurückgegeben werden: .to_entity()
+        return file_dto
 
     def find_all(self) -> List[FileDTO]:
         try:
