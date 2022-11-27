@@ -62,6 +62,11 @@ def upload(file: UploadFile = File(...), upload_activity_repository: UploadActiv
             return upload_activity_service.find_by_id(upload_activity_result.id)
         else:
             file_get_model = file_service.create(FileUploadModel(**uploaded_file))
+            upload_activity = {
+                "file_name": file_get_model.file_name,
+                "file_id": file_get_model.id
+            }
+            upload_activity_service.create(UploadActivityCreateModel(**upload_activity))
         return file_get_model
 
     except FileNotFoundError as e:
