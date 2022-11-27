@@ -52,3 +52,12 @@ class FileRepositoryImpl(FileRepository):
             self.file_system.delete(id)
         except:
             raise
+
+    def find_by_hash(self, hash):
+        try:
+            files = self.find_all()
+            for file in files:
+                if file.file_hash == hash:
+                    return file.id
+        except:
+            raise

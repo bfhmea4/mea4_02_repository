@@ -68,3 +68,7 @@ class FileServiceImpl(FileService):
     def download_by_id(self, id: str) -> FileDownloadModel:
         file = self.repository.find_by_id(id)
         return FileDownloadModel.from_entity(cast(File, file))
+
+    def get_file_id_by_hash(self, hash) -> str:
+        file_id: str = self.repository.find_by_hash(hash)
+        return file_id
