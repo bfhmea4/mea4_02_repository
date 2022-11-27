@@ -22,7 +22,7 @@ class FileRepositoryImpl(FileRepository):
         except:
             raise
 
-        return file_dto  # muss File zurückgegeben werden: .to_entity()
+        return file_dto
 
     def find_all(self) -> List[FileDTO]:
         try:
@@ -50,5 +50,14 @@ class FileRepositoryImpl(FileRepository):
     def delete_by_id(self, id: str):
         try:
             self.file_system.delete(id)
+        except:
+            raise
+
+    def find_by_hash(self, hash):
+        try:
+            files = self.find_all()
+            for file in files:
+                if file.file_hash == hash:
+                    return file.id
         except:
             raise
