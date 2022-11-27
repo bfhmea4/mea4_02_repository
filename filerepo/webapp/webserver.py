@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from filerepo.webapp.routers import files, fizzbuzz
+from filerepo.webapp.routers import files, fizzbuzz, upload_activity
 from filerepo.webapp.repository.database import create_tables
 import uvicorn
 
@@ -22,6 +22,7 @@ def run():
 
 
 app.include_router(files.router)
+app.include_router(upload_activity.router)
 app.include_router(fizzbuzz.router)
 
 
