@@ -37,7 +37,6 @@ class FileRepositoryImpl(FileRepository):
 
     def create(self, file_uploaded: FileUploadModel) -> File:
         try:
-            file_type: str = file_uploaded.file_type
             hash = hashlib.sha256(file_uploaded.file_content).hexdigest()
             current_time = time.time()
             file = File(file_name=file_uploaded.file_name,file_size=len(file_uploaded.file_content),file_type=file_uploaded.file_type,file_hash=hash,file_content=file_uploaded.file_content,file_creation_time=current_time,file_update_time=current_time)
