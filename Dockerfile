@@ -8,7 +8,7 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 COPY filerepo/webapp /code/filerepo/webapp
 COPY filerepo/algorithms /code/filerepo/algorithms
-COPY filerepo/db/ /code/filerepo/db
+RUN mkdir -p /code/filerepo/db
 
 EXPOSE 8000
 
