@@ -11,7 +11,7 @@ from filerepo.webapp.schemas.DTO.file_upload_model import FileUploadModel
 
 
 class FileRepositoryImpl(FileRepository):
-    """FileRepositoryImpl implements CRUD operations related File entity using SQLAlchemy."""
+    """FileRepositoryImpl implements CRUD operations related File entity using File_System."""
 
     def __init__(self, file_system: FileSystem):
         self.file_system: FileSystem = file_system

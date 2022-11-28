@@ -4,7 +4,7 @@ from filerepo.webapp.repository.database import Base
 
 class File(Base):
 
-    """File represents your collection of files as an entity."""
+    """File represents your collection of files as an entity. This class also represents the DB model Files"""
     __tablename__ = "Files"
     id: int = Column(Integer, primary_key=True, nullable=False)
     file_name: str = Column(String, nullable=False)

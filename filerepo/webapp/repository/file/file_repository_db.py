@@ -16,7 +16,7 @@ class FileRepositoryImpl(FileRepository):
     def __init__(self, session: Session):
         self.session: Session = session
 
-    def find_by_id(self, id: str) -> FileDTO:
+    def find_by_id(self, id: int) -> FileDTO:
         try:
             file_dto = FileDTO.from_entity(self.session.query(File).filter_by(id=id).one())
         except:
@@ -39,7 +39,9 @@ class FileRepositoryImpl(FileRepository):
         try:
             hash = hashlib.sha256(file_uploaded.file_content).hexdigest()
             current_time = time.time()
-            file = File(file_name=file_uploaded.file_name,file_size=len(file_uploaded.file_content),file_type=file_uploaded.file_type,file_hash=hash,file_content=file_uploaded.file_content,file_creation_time=current_time,file_update_time=current_time)
+            file = File(file_name=file_uploaded.file_name, file_size=len(file_uploaded.file_content),
+                        file_type=file_uploaded.file_type, file_hash=hash, file_content=file_uploaded.file_content,
+                        file_creation_time=current_time, file_update_time=current_time)
             self.session.add(file)
             self.session.commit()
             return file
@@ -56,8 +58,8 @@ class FileRepositoryImpl(FileRepository):
 
     def find_by_hash(self, hash):
         try:
-            file = self.session.query(File).filter(File.file_hash==hash).one_or_none()
-            if(file==None):
+            file = self.session.query(File).filter(File.file_hash == hash).one_or_none()
+            if (file == None):
                 return None
             return file.id
         except:
