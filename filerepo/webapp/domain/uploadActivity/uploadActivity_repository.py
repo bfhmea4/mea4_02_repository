@@ -23,3 +23,4 @@ class UploadActivityRepository(ABC):
     @abstractmethod
     def delete_by_id(self, id: str):
         raise NotImplementedError
+
