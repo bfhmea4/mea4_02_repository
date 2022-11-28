@@ -45,3 +45,5 @@ def get_history_by_id(id: str):
             status_code=status.HTTP_400_BAD_REQUEST,
             content={'message': str(e)}
         )
+
+
