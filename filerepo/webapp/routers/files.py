@@ -10,7 +10,8 @@ from filerepo.webapp.schemas.DTO.file_get_model import FileGetModel
 from filerepo.webapp.schemas.DTO.file_upload_model import FileUploadModel
 from filerepo.webapp.schemas.DTO.file_info_model import FileInfoGetModel
 from filerepo.webapp.service.file_service import FileServiceImpl
-from filerepo.webapp.repository.file.file_repository import FileRepositoryImpl
+from filerepo.webapp.repository.file.file_repository_db import FileRepositoryImpl
+from filerepo.webapp.domain.file.file_repository import FileRepository
 from filerepo.webapp.repository.file_system import FileSystem
 
 from filerepo.webapp.repository.uploadActivity.uploadActivity_repository import UploadActivityRepositoryImpl
@@ -34,17 +35,22 @@ def upload_activity_repository(session: Session = Depends(get_session)) -> Uploa
     repository: UploadActivityRepositoryImpl = UploadActivityRepositoryImpl(session)
     return repository
 
+def file_repository(session: Session = Depends(get_session)) -> FileRepository:
+    repository: FileRepositoryImpl = FileRepositoryImpl(session)
+    return repository
 
-file_system = FileSystem()
-file_repository = FileRepositoryImpl(file_system)
-file_service = FileServiceImpl(file_repository)
+
+#file_system = FileSystem()
+#file_repository = FileRepositoryImpl(file_system)
+#file_service = FileServiceImpl(file_repository)
 #upload_activity_repository = upload_activity_repository()
 #upload_activity_service = UploadActivityServiceImpl(upload_activity_repository)
 
 
 @router.post("/files/upload", response_model=FileGetModel, tags=["files"])
-def upload(file: UploadFile = File(...), upload_activity_repository: UploadActivityRepositoryImpl = Depends(upload_activity_repository)):
+def upload(file: UploadFile = File(...), upload_activity_repository: UploadActivityRepositoryImpl = Depends(upload_activity_repository), file_repository: FileRepositoryImpl = Depends(file_repository)):
     try:
+        file_service = FileServiceImpl(file_repository)
         upload_activity_service = UploadActivityServiceImpl(upload_activity_repository)
         uploaded_file = {
             "file_name": file.filename,
@@ -52,7 +58,7 @@ def upload(file: UploadFile = File(...), upload_activity_repository: UploadActiv
             "file_content": file.file.read()
         }
         hash = hashlib.sha256(uploaded_file['file_content']).hexdigest()
-        id: str = file_service.get_file_id_by_hash(hash)
+        id: int = file_service.get_file_id_by_hash(hash)
         if(id != None):
             upload_activity = {
                 "file_name": uploaded_file['file_name'],
@@ -83,8 +89,9 @@ def upload(file: UploadFile = File(...), upload_activity_repository: UploadActiv
 
 
 @router.get("/files", response_model=List[FileGetModel], status_code=status.HTTP_200_OK, tags=["files"])
-def files():
+def files(file_repository: FileRepositoryImpl = Depends(file_repository)):
     try:
+        file_service = FileServiceImpl(file_repository)
         return file_service.find_all()
     except FileNotFoundError as e:
         return JSONResponse(
@@ -99,8 +106,9 @@ def files():
 
 
 @router.delete("/files/{id}", status_code=status.HTTP_204_NO_CONTENT, tags=["files"])
-def delete_file(id: str):
+def delete_file(id: int, file_repository: FileRepositoryImpl = Depends(file_repository)):
     try:
+        file_service = FileServiceImpl(file_repository)
         file_service.delete(id)
     except FileNotFoundError as e:
         return JSONResponse(
@@ -115,8 +123,9 @@ def delete_file(id: str):
 
 
 @router.get("/files/{id}", status_code=status.HTTP_200_OK, tags=["files"])
-def download_file(id: str):
+def download_file(id: int, file_repository: FileRepositoryImpl = Depends(file_repository)):
     try:
+        file_service = FileServiceImpl(file_repository)
         file = file_service.download_by_id(id)
         return Response(file.file_content, media_type=file.file_type)
     except FileNotFoundError as e:
@@ -132,8 +141,9 @@ def download_file(id: str):
 
 
 @router.get("/files/{id}/info", response_model=FileInfoGetModel, tags=["files"])
-def get_file_info(id: str):
+def get_file_info(id: int, file_repository: FileRepositoryImpl = Depends(file_repository)):
     try:
+        file_service = FileServiceImpl(file_repository)
         return file_service.file_info_by_id(id)
     except FileNotFoundError as e:
         return JSONResponse(

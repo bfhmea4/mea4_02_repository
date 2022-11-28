@@ -1,16 +1,12 @@
-from typing import Optional, List
-import shortuuid
-import hashlib
+from typing import List
 import time
 
-from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm.session import Session
 
 from filerepo.webapp.repository.uploadActivity.uploadActivity_dto import UploadActivityDTO
 from filerepo.webapp.domain.uploadActivity.uploadActivity_repository import UploadActivityRepository
 from filerepo.webapp.domain.uploadActivity.uploadActivity import UploadActivity
 from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_create_model import UploadActivityCreateModel
-from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_get_model import UploadActivityGetModel
 
 
 class UploadActivityRepositoryImpl(UploadActivityRepository):
@@ -54,5 +50,6 @@ class UploadActivityRepositoryImpl(UploadActivityRepository):
         try:
             uploadActivity = self.session.query(UploadActivity).get(id)
             self.session.delete(uploadActivity)
+            self.session.commit()
         except:
             raise
