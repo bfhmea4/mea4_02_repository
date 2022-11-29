@@ -14,6 +14,6 @@ def test_delete_nx_file():
 def test_file_deletion():
     filename = "test.file-" + str(date.today())
     response = json.loads(client.get("/files").content)
-    file_id = response[0]['id']
+    file_id = str(response[0]['id'])
     response = client.delete("/files/"+file_id)
     assert response.status_code == 204

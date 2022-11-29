@@ -9,7 +9,7 @@ client = TestClient(app)
 @pytest.mark.order(4)
 def test_download_file():
     response = json.loads(client.get("/files").content)
-    file_id = response[0]['id']
+    file_id = str(response[0]['id'])
     response = client.get("/files/"+file_id)
 
     assert response.status_code == 200
