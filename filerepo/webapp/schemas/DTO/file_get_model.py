@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from filerepo.webapp.domain.file.file import File
 
 class FileGetModel(BaseModel):
-    id: str
+    id: int
     file_name: str
 
     @staticmethod

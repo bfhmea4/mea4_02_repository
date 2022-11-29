@@ -9,7 +9,7 @@ class UploadActivityDTO():
         self.id: str = uploadActivity.id
         self.upload_time: float = uploadActivity.upload_time
         self.file_name: str = uploadActivity.file_name
-        self.file_id: str = uploadActivity.file_id
+        self.file_id: int = uploadActivity.file_id
 
 
     def to_entity(self) -> UploadActivity:

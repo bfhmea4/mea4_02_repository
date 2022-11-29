@@ -38,7 +38,7 @@ class UploadActivityRepositoryImpl(UploadActivityRepository):
         try:
             upload_time: float = time.time()
             upload_file_name: str = uploadActivityCreateModel.file_name
-            upload_file_id: str = uploadActivityCreateModel.file_id
+            upload_file_id: int = uploadActivityCreateModel.file_id
             uploadActivity = UploadActivity(upload_time=upload_time,file_name=upload_file_name,file_id=upload_file_id)
             self.session.add(uploadActivity)
             self.session.commit()
