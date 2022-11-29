@@ -9,7 +9,7 @@ from filerepo.webapp.schemas.DTO.file_get_model import FileGetModel
 from filerepo.webapp.schemas.DTO.file_upload_model import FileUploadModel
 from filerepo.webapp.schemas.DTO.file_info_model import FileInfoGetModel
 from filerepo.webapp.service.file_service import FileServiceImpl
-from filerepo.webapp.repository.file.file_repository_db import FileRepositoryImpl
+from filerepo.webapp.repository.file.file_repository import FileRepositoryImpl
 from filerepo.webapp.domain.file.file_repository import FileRepository
 
 from filerepo.webapp.repository.uploadActivity.uploadActivity_repository import UploadActivityRepositoryImpl

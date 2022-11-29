@@ -2,12 +2,12 @@ import io
 from abc import ABC, abstractmethod
 from typing import List, Optional, cast
 
-from filerepo.webapp.domain.file.file_db import File
+from filerepo.webapp.domain.file.file import File
 from filerepo.webapp.schemas.DTO.file_download_model import FileDownloadModel
 from filerepo.webapp.schemas.DTO.file_get_model import FileGetModel
 from filerepo.webapp.schemas.DTO.file_info_model import FileInfoGetModel
 from filerepo.webapp.schemas.DTO.file_upload_model import FileUploadModel
-from filerepo.webapp.repository.file.file_repository_db import FileRepositoryImpl
+from filerepo.webapp.repository.file.file_repository import FileRepositoryImpl
 
 
 class FileService(ABC):
