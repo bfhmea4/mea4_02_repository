@@ -13,7 +13,7 @@ class UploadActivityRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def find_all(self, uploadActivity: UploadActivityDTO) -> Optional[List[UploadActivityDTO]]:
+    def find_all(self) -> Optional[List[UploadActivityDTO]]:
         raise NotImplementedError
 
     @abstractmethod
