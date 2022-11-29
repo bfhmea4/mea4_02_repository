@@ -2,7 +2,7 @@ from filerepo.webapp.domain.uploadActivity.uploadActivity import UploadActivity
 
 
 class UploadActivityDTO():
-    """FileDTO is a data transfer object associated with File entity."""
+    """FileDTO is a data transfer object associated with File entity. Represented as entity in the DB using SQLAlchemy"""
 
     def __init__(self, uploadActivity):
 

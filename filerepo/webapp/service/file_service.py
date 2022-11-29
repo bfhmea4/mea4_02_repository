@@ -14,11 +14,11 @@ class FileService(ABC):
     """FileQueryService defines a query service inteface related Book entity."""
 
     @abstractmethod
-    def find_by_id(self, id: str) -> Optional[FileGetModel]:
+    def find_by_id(self, file_id: int) -> Optional[FileGetModel]:
         raise NotImplementedError
 
     @abstractmethod
-    def file_info_by_id(self, id: str) -> Optional[FileInfoGetModel]:
+    def file_info_by_id(self, file_id: int) -> Optional[FileInfoGetModel]:
         raise NotImplementedError
 
     @abstractmethod
@@ -30,12 +30,17 @@ class FileService(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def delete(self, id: str):
+    def delete(self, file_id: int):
         raise NotImplementedError
 
     @abstractmethod
-    def download_by_id(self, id: str) -> FileGetModel:
+    def download_by_id(self, file_id: int) -> FileGetModel:
         raise NotImplementedError
+
+    @abstractmethod
+    def get_file_id_by_hash(self, file_hash) -> int:
+        raise NotImplementedError
+
 
 class FileServiceImpl(FileService):
     """FileQueryService defines a query service inteface related File entity."""
@@ -43,32 +48,32 @@ class FileServiceImpl(FileService):
     def __init__(self, repository: FileRepositoryImpl):
         self.repository = repository
 
-    def find_by_id(self, id: str) -> Optional[FileGetModel]:
-        file = self.repository.find_by_id(id)
+    def find_by_id(self, file_id: int) -> Optional[FileGetModel]:
+        file = self.repository.find_by_id(file_id)
         return FileGetModel.from_entity(cast(File, file))
 
     def find_all(self) -> List[FileGetModel]:
         all_files = self.repository.find_all()
         list_files = []
         for file in all_files:
-            list_files.append(FileGetModel.from_entity(cast(File,file)))
+            list_files.append(FileGetModel.from_entity(cast(File, file)))
         return list_files
 
-    def file_info_by_id(self, id: str) -> Optional[FileInfoGetModel]:
-        file = self.repository.find_by_id(id)
+    def file_info_by_id(self, file_id: int) -> Optional[FileInfoGetModel]:
+        file = self.repository.find_by_id(file_id)
         return FileInfoGetModel.from_entity(cast(File, file))
 
     def create(self, file_uploaded: FileUploadModel) -> FileGetModel:
         file = self.repository.create(file_uploaded)
-        return FileGetModel.from_entity(cast(File,file))
+        return FileGetModel.from_entity(cast(File, file))
 
-    def delete(self, id: str):
-        self.repository.delete_by_id(id)
+    def delete(self, file_id: int):
+        self.repository.delete_by_id(file_id)
 
-    def download_by_id(self, id: str) -> FileDownloadModel:
-        file = self.repository.find_by_id(id)
+    def download_by_id(self, file_id: int) -> FileDownloadModel:
+        file = self.repository.find_by_id(file_id)
         return FileDownloadModel.from_entity(cast(File, file))
 
-    def get_file_id_by_hash(self, hash) -> str:
-        file_id: str = self.repository.find_by_hash(hash)
+    def get_file_id_by_hash(self, file_hash) -> int:
+        file_id: int = self.repository.find_by_hash(file_hash)
         return file_id

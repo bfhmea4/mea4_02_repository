@@ -4,7 +4,7 @@ from filerepo.webapp.domain.file.file import File
 
 
 class FileSystem():
-
+    """ Only used to write file blob to file system """
     def __init__(self):
         self.directory = {}  # TypedDict[str, FileDTO] #funktioniert?
 
