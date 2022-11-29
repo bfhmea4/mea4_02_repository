@@ -7,7 +7,7 @@ import pytest
 client = TestClient(app)
 @pytest.mark.order(6)
 def test_delete_nx_file():
-    response = client.delete("/files/test")
+    response = client.delete("/files/0")
     assert response.status_code == 400
 
 @pytest.mark.order(7)
