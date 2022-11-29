@@ -23,6 +23,10 @@ class UploadActivityService(ABC):
     def create(self, uploadActivity: UploadActivity) -> UploadActivityGetModel:
         raise NotImplementedError
 
+    @abstractmethod
+    def find_upload_activity_by_file_id(self, file_id: int) -> List[UploadActivityGetModel]:
+        raise NotImplementedError
+
 
 class UploadActivityServiceImpl(UploadActivityService):
     """UploadActivityServiceImpl defines a query service inteface related UploadActivity entity."""
@@ -34,11 +38,11 @@ class UploadActivityServiceImpl(UploadActivityService):
         uploadActivity: UploadActivity = self.repository.find_by_id(id)
         return UploadActivityGetModel.from_entity(cast(UploadActivity, uploadActivity))
 
-    def find_history_by_id(self, id: str) -> List[UploadActivityGetModel]:
+    def find_upload_activity_by_file_id(self, file_id: int) -> List[UploadActivityGetModel]:
         all_uploadActivities = self.repository.find_all()
         list_uploadActivity_by_id = []
         for uploadActivity in all_uploadActivities:
-            if uploadActivity.id == id:
+            if uploadActivity.file_id == file_id:
                 list_uploadActivity_by_id.append(
                     UploadActivityGetModel.from_entity(cast(UploadActivity, uploadActivity)))
         return list_uploadActivity_by_id

@@ -31,10 +31,10 @@ upload_activity_repository = upload_activity_repository()
 upload_activity_service = UploadActivityServiceImpl(upload_activity_repository)
 
 
-@router.get("/{id}/history", response_model=List[UploadActivityGetModel], status_code=status.HTTP_200_OK, tags=["files"])
-def get_history_by_id(id: str):
+@router.get("/{file_id}/history", response_model=List[UploadActivityGetModel], status_code=status.HTTP_200_OK, tags=["files"])
+def get_history_by_id(file_id: int):
     try:
-        return upload_activity_service.find_history_by_id(id)
+        return upload_activity_service.find_upload_activity_by_file_id(file_id)
     except FileNotFoundError as e:
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,
