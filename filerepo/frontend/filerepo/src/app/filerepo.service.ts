@@ -28,6 +28,10 @@ export class FilerepoService {
     return this.http.get<Activity>(localUrl + "/history");
   }
 
+  public uploadActivity(formData: FormData) {
+    return this.http.post<any>(localUrl + "/upload/activity", formData)
+  }
+
   public uploadFile(formData: FormData){
     return this.http.post<any>(localUrl + "/upload", formData)
   }
