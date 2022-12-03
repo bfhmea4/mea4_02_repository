@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { File } from "./file";
-import {Activity} from "../../../../../app/activity";
+import {Activity} from "./activity";
 
 const localUrl = 'http://127.0.0.1:8000/files';
 
