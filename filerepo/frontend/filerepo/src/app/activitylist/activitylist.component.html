@@ -21,7 +21,7 @@
     </tr>
       <tr *ngFor="let activity of listActivities">
           <td>{{activity.activity_name}}</td>
-          <td><a href="http://localhost:4200/files/{{file.id}}/info">{{file.file_name}}</a></td>
+          <td><a href="http://localhost:4200/files/{{activity.file_id}}/info">{{activity.file_id}}</a></td>
           <td>{{activity.upload_time}}</td>
       </tr>
 </table>
