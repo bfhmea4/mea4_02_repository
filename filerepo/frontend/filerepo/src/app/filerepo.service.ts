@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { File } from "./file";
+import {Activity} from "../../../../../app/activity";
 
 const localUrl = 'http://127.0.0.1:8000/files';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,6 +22,10 @@ export class FilerepoService {
 
   public getFileList(){
     return this.http.get<File>(localUrl + "/")
+  }
+
+  public getActivityList(){
+    return this.http.get<Activity>(localUrl + "/history");
   }
 
   public uploadFile(formData: FormData){

@@ -1,0 +1,89 @@
+body {
+
+  color: #A7A1AE;
+	font: 14px sans-serif;
+	margin: auto;
+	max-width: 900px;
+	padding: 10px;
+}
+html {background-color: #1F2739;}
+
+@media only screen and (max-width: 400px) {
+  body {
+    font-size: 8px;
+  }
+
+}
+
+
+div {
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.styled-table tr:hover {
+  background-color: lightslategrey;
+  font-weight: bold}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    background-color: white;
+  color: black;
+}
+.styled-table thead tr {
+    background-color: white;
+    color: black;
+    text-align: left;
+}
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+
+
+a:link { text-decoration: none;  color: black;}
+a:visited { text-decoration: none;color: black;}
+a:hover { text-decoration: none;color: black;}
+a:active { text-decoration: none; color: black;}
+
+
+
+button {
+  font-weight: bold;
+  width: 180px;
+  height: 60px;
+  cursor: pointer;
+  background: transparent;
+  border: 2px solid #91C9FF;
+  outline: none;
+  transition: 0.5s ease-in-out;
+}
+button:hover {
+  transition: 0.5s ease-in-out;
+  background: #4F95DA;
+}
+button span {
+  color: white;
+  font-size: 18px;
+  font-weight: 100;
+}
+
+

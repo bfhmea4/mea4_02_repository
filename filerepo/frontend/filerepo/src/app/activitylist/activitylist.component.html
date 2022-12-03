@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Upload-Activity</title>
+  </head>
+<body>
+
+<h1>All Upload Activities</h1>
+<div>
+      <label for="file_uploads">Choose a file to upload: </label>
+      <input type="file" id="file_uploads" name="file_uploads" (change)="onchange($event)">
+    </div>
+    <div>
+      <button id="uploadButton" (click)="uploadFile()">Upload</button>
+    </div>
+<table class="styled-table">
+    <tr>
+          <th>Activity Name</th>
+          <th>File ID</th>
+          <th>Upload Time</th>
+    </tr>
+      <tr *ngFor="let activity of listActivities">
+          <td>{{activity.activity_name}}</td>
+          <td><a href="http://localhost:4200/files/{{file.id}}/info">{{file.file_name}}</a></td>
+          <td>{{activity.upload_time}}</td>
+      </tr>
+</table>
+
+</body>
+</html>

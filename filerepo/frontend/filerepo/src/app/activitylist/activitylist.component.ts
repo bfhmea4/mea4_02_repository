@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-
 import {FilerepoService} from "../filerepo.service";
-
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
-  selector: 'app-filelist',
-  templateUrl: './filelist.component.html',
-  styleUrls: ['./filelist.component.css']
+  selector: 'app-activitylist',
+  templateUrl: './activitylist.component.html',
+  styleUrls: ['./activitylist.component.css']
 })
-export class FilelistComponent implements OnInit {
-  listFiles: any;
+export class ActivitylistComponent implements OnInit {
+
+  listActivities: any;
   loading: boolean = false;
+  activity: any;
   file: any;
 
 
@@ -19,11 +19,11 @@ export class FilelistComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fileService.getFileList().forEach((entry) => this.listFiles = entry);
+    this.fileService.getActivityList().forEach((entry) => this.listActivities = entry);
   }
 
   onchange(event: any){
-    this.file = event.target.files[0];
+    this.activity = event.target.files[0];
   }
 
   uploadFile(){
