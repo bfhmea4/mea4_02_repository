@@ -31,7 +31,8 @@ upload_activity_repository = upload_activity_repository()
 upload_activity_service = UploadActivityServiceImpl(upload_activity_repository)
 
 
-@router.get("/{file_id}/history", response_model=List[UploadActivityGetModel], status_code=status.HTTP_200_OK, tags=["files"])
+@router.get("/{file_id}/history", response_model=List[UploadActivityGetModel], status_code=status.HTTP_200_OK,
+            tags=["files"])
 def get_history_by_id(file_id: int):
     try:
         return upload_activity_service.find_upload_activity_by_file_id(file_id)
@@ -47,3 +48,17 @@ def get_history_by_id(file_id: int):
         )
 
 
+@router.get("/history", response_model=List[UploadActivityGetModel], status_code=status.HTTP_200_OK, tags=["files"])
+def get_history():
+    try:
+        return upload_activity_service.find_all()
+    except FileNotFoundError as e:
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND,
+            content={'message': str(e)}
+        )
+    except Exception as e:
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={'message': str(e)}
+        )
