@@ -19,6 +19,8 @@ export class ActivitylistComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let activityList = this.fileService.getActivityList();
+
     this.fileService.getActivityList().forEach((entry) => this.listActivities = entry);
   }
 
@@ -29,7 +31,7 @@ export class ActivitylistComponent implements OnInit {
   uploadFile(){
     this.loading = !this.loading;
         let formData: any = new FormData()
-        formData.append("file", this.file);
+        formData.append("activity", this.activity);
         this.fileService.uploadFile(formData).subscribe(
       (res) => {
         this.ngOnInit()

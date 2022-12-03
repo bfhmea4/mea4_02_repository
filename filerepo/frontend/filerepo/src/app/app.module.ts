@@ -12,7 +12,7 @@ import { ActivitylistComponent } from './activitylist/activitylist.component';
 const routes: Routes = [
   { path: 'files/:id/info', component: FileinfoComponent  },
   { path: '', component: FilelistComponent  },
-  {path: 'activity/list', component: ActivitylistComponent}
+  {path: 'activitylist', component: ActivitylistComponent}
 ]
 
 @NgModule({
