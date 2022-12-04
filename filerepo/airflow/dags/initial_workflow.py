@@ -6,6 +6,9 @@ from typing import List
 from airflow import DAG
 from airflow.operators.python import PythonVirtualenvOperator
 
+# ToDo: Clean up DAG
+# ToDo: Figure out how to trigger DAGs in a clean way
+# ToDo: Check if pandas are the best way
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
@@ -32,38 +35,25 @@ default_args = {
 
 def black_white_ratio():
     from typing import Iterator
-    import requests
+    import sqlalchemy as db
     import numpy as np
+    import pandas as pd
+    engine = db.create_engine('sqlite:///../db/sqlite.db')
+    files=pd.read_sql('select * from Files',engine)
+    entries=files.values
+    perform_analyse = []
+    for entry in entries:
+        if "image" in entry[3]:
+            nparr = np.frombuffer(entry[5], np.uint8)
+            print("Black: " + str(np.sum(nparr == 255)))
+            print("White: " + str(np.sum(nparr == 0)))
+            print("Black/White ratio: " + str(np.sum(nparr == 255)/np.sum(nparr == 0)))
 
-    # def get_session() -> Iterator[Session]:
-    #     session: Session = SessionLocal()
-    #     try:
-    #         yield session
-    #     finally:
-    #         session.close()
-    #
-    # def fnc_upload_activity_repository(session: Session = get_session) -> UploadActivityRepository:
-    #     repository: UploadActivityRepositoryImpl = UploadActivityRepositoryImpl(session)
-    #     return repository
-    #
-    # def fnc_file_repository(session: Session = get_session) -> FileRepository:
-    #     repository: FileRepositoryImpl = FileRepositoryImpl(session)
-    #     return repository
-    #
-    # file_repository = fnc_file_repository()
-    # upload_activity_repository = fnc_upload_activity_repository()
-    #
-    # uploads: List[UploadActivityDTO] = upload_activity_repository.find_all()
-    # perform_analyse: List[UploadActivityDTO] = []
-    # for upload in uploads:
     #     if upload.upload_time > time.time()-300:
     #         perform_analyse+=upload
     # files: List[FileDTO] = []
-    file = requests.get("http://0.0.0.0:8000/files/2")
-    nparr = np.frombuffer(file.content, np.uint8)
-    print("Black: " + np.sum(nparr == 255))
-    print("White: " + np.sum(nparr == 0))
-    print("Black/White ratio: " + np.sum(nparr == 255)/np.sum(nparr == 0))
+    #file = requests.get("http://0.0.0.0:8000/files/2")
+
 
 with DAG(
     'BlackWhitePixels',
@@ -77,6 +67,6 @@ with DAG(
     t1 = PythonVirtualenvOperator(
     task_id="check_new_entries",
     python_callable=black_white_ratio,
-    requirements=["requests<=2.28.1", "opencv-python"],
+    requirements=["sqlalchemy", "pandas"],
     system_site_packages=False,
 )
