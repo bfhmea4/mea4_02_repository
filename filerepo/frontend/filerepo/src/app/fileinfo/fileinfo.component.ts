@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {FilerepoService} from "../filerepo.service";
-import {UploadActivityService} from "../fi";
+import {UploadActivityService} from "../filerepo.service";
 import {File} from "../file";
+import {UploadActivity} from "../uploadActivity";
 import {empty} from "rxjs";
 
-class UploadActivity {
-}
 
 @Component({
   selector: 'app-fileinfo',
@@ -20,8 +19,9 @@ export class FileinfoComponent implements OnInit {
   update_time: Date=new Date(0);
   id: any;
 
-  constructor(private fileService: FilerepoService, private route: ActivatedRoute, private ) {
+  constructor(private fileService: FilerepoService, private route: ActivatedRoute, private uploadActivityService: UploadActivityService ) {
     this.file = <File>{};
+    this.upload_activity = <UploadActivity>{};
   }
 
   ngOnInit(): void {
@@ -32,6 +32,9 @@ export class FileinfoComponent implements OnInit {
       this.file = data
       this.creation_time=new Date(this.file.file_creation_time*1000);
       this.update_time=new Date(this.file.file_update_time*1000);
+    })
+    this.uploadActivityService.getUploadActivityByID(this.id).subscribe((data: UploadActivity) => {
+      this.upload_activity = data
     })
   }
   downloadContent(url: string){

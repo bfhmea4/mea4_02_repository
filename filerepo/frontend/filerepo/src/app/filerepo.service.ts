@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { File } from "./file";
-import { UploadActivity } from "./Uplo";
+import { UploadActivity } from "./uploadActivity";
 
 const localUrl = 'http://127.0.0.1:8000/files';
+const localUrlUploadActivity = 'http://127.0.0.1:8000/history';
 @Injectable({
   providedIn: 'root'
 })
@@ -27,7 +28,19 @@ export class FilerepoService {
     return this.http.post<any>(localUrl + "/upload", formData)
   }
 
-  public getUploadActivity(id: string){
-    return this.http.get<File>(localUrl + "/"+id+"/info");
+
+}
+
+export class UploadActivityService {
+
+  constructor(private http: HttpClient) {
+  }
+
+    public getUploadActivityByID(id: string){
+    return this.http.get<UploadActivity>(localUrlUploadActivity + "/"+id);
+  }
+
+  public getUploadActivity(){
+    return this.http.get<UploadActivity>(localUrlUploadActivity);
   }
 }

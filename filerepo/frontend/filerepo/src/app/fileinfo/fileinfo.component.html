@@ -35,31 +35,23 @@
   </tr>
 </table>
 
-
+<h1>History of: {{upload_activity.file_id}}</h1>
 <table class="styled-table">
   <tr>
-      <th>History</th>
-      <td>{{ file.file_name}}</td>
+      <th>History ID</th>
+      <td>{{ upload_activity.id}}</td>
   </tr>
   <tr>
-      <th>Filesize</th>
-    <td>{{ file.file_size}} B</td>
+      <th>File Name</th>
+    <td>{{ upload_activity.file_name}} B</td>
   </tr>
   <tr>
-      <th>Filehash</th>
-    <td>{{ file.file_hash}}</td>
+      <th>File ID</th>
+    <td>{{ upload_activity.file_id}}</td>
   </tr>
   <tr>
-      <th>Filetype</th>
-    <td>{{ file.file_type}}</td>
-  </tr>
-  <tr>
-      <th>Filecreation</th>
-    <td>{{ creation_time.toTimeString()}}</td>
-  </tr>
-  <tr>
-      <th>Fileupdate</th>
-    <td>{{ update_time.toTimeString()}}</td>
+      <th>Upload Time</th>
+    <td>{{ upload_activity.upload_time}}</td>
   </tr>
 </table>
 <a href="/">Home</a>
