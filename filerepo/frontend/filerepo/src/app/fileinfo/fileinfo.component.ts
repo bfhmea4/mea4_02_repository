@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {FilerepoService} from "../filerepo.service";
+import {UploadActivityService} from "../fi";
 import {File} from "../file";
 import {empty} from "rxjs";
+
+class UploadActivity {
+}
 
 @Component({
   selector: 'app-fileinfo',
@@ -11,11 +15,12 @@ import {empty} from "rxjs";
 })
 export class FileinfoComponent implements OnInit {
   file: File;
+  upload_activity: UploadActivity;
   creation_time: Date=new Date(0);
   update_time: Date=new Date(0);
   id: any;
 
-  constructor(private fileService: FilerepoService, private route: ActivatedRoute) {
+  constructor(private fileService: FilerepoService, private route: ActivatedRoute, private ) {
     this.file = <File>{};
   }
 
