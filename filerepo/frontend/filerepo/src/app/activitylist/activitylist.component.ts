@@ -18,6 +18,7 @@ export class ActivitylistComponent implements OnInit {
   upload_activity: UploadActivity;
   id: any;
   activityList: any;
+  listFiles: any;
 
 
   constructor(private fileService: FilerepoService, private route: ActivatedRoute, private uploadActivityService: UploadActivityService ) {
@@ -28,11 +29,13 @@ export class ActivitylistComponent implements OnInit {
   ngOnInit(): void {
 
     let activityList = this.uploadActivityService.getUploadActivity();
-    activityList.forEach((entry) => this.upload_activity = entry);
+    // activityList.forEach((entry) => this.upload_activity = entry);
+    this.fileService.getFileList().forEach((entry) => this.listFiles = entry);
   }
 
   onchange(event: any){
-    this.upload_activity = event.target.activityList[0];
+    // this.upload_activity = event.target.activityList[0];
+    this.file = event.target.files[0];
   }
 
   uploadFile(){

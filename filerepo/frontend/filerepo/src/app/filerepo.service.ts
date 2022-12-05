@@ -30,6 +30,9 @@ export class FilerepoService {
   }
 }
 
+@Injectable({
+  providedIn: 'root'
+})
 export class UploadActivityService {
 
   constructor(private http: HttpClient) {
