@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {FilerepoService} from "../filerepo.service";
 import {ActivatedRoute} from "@angular/router";
+import {UploadActivityService} from "../filerepo.service";
+import {File} from "../file";
+import {UploadActivity} from "../uploadActivity";
+import {empty} from "rxjs";
+
 
 @Component({
   selector: 'app-activitylist',
@@ -8,30 +13,32 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./activitylist.component.css']
 })
 export class ActivitylistComponent implements OnInit {
-
-  listActivities: any;
+  file: File;
   loading: boolean = false;
-  activity: any;
-  file: any;
+  upload_activity: UploadActivity;
+  id: any;
+  activityList: any;
 
 
-  constructor(private fileService: FilerepoService, private route: ActivatedRoute) {
+  constructor(private fileService: FilerepoService, private route: ActivatedRoute, private uploadActivityService: UploadActivityService ) {
+    this.file = <File>{};
+    this.upload_activity = <UploadActivity>{};
   }
 
   ngOnInit(): void {
-    let activityList = this.fileService.getActivityList();
 
-    this.fileService.getActivityList().forEach((entry) => this.listActivities = entry);
+    let activityList = this.uploadActivityService.getUploadActivity();
+    activityList.forEach((entry) => this.upload_activity = entry);
   }
 
   onchange(event: any){
-    this.activity = event.target.files[0];
+    this.upload_activity = event.target.activityList[0];
   }
 
   uploadFile(){
     this.loading = !this.loading;
         let formData: any = new FormData()
-        formData.append("activity", this.activity);
+        formData.append("file", this.file);
         this.fileService.uploadFile(formData).subscribe(
       (res) => {
         this.ngOnInit()

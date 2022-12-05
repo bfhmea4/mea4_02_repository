@@ -19,7 +19,7 @@
           <th>File ID</th>
           <th>Upload Time</th>
     </tr>
-      <tr *ngFor="let activity of listActivities">
+      <tr *ngFor="let activity of activityList">
           <td>{{activity.activity_name}}</td>
           <td><a href="http://localhost:4200/files/{{activity.file_id}}/info">{{activity.file_id}}</a></td>
           <td>{{activity.upload_time}}</td>

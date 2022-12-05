@@ -1,6 +1,6 @@
- export interface Activity {
+export interface UploadActivity {
     id: string;
-    activity_name: string;
     upload_time: number;
+    file_name: number;
     file_id: string;
 }
