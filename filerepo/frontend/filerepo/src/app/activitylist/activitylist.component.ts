@@ -29,8 +29,8 @@ export class ActivitylistComponent implements OnInit {
   ngOnInit(): void {
 
     let activityList = this.uploadActivityService.getUploadActivity();
-    // activityList.forEach((entry) => this.upload_activity = entry);
-    this.fileService.getFileList().forEach((entry) => this.listFiles = entry);
+    activityList.forEach((entry) => this.upload_activity = entry);
+    // this.fileService.getFileList().forEach((entry) => this.listFiles = entry);
   }
 
   onchange(event: any){

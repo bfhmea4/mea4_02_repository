@@ -32,7 +32,7 @@ upload_activity_repository = upload_activity_repository()
 upload_activity_service = UploadActivityServiceImpl(upload_activity_repository)
 
 
-@router.get("/{file_id}/history", response_model=List[UploadActivityGetModel], status_code=status.HTTP_200_OK,
+@router.get("/history/{file_id}", response_model=List[UploadActivityGetModel], status_code=status.HTTP_200_OK,
             tags=["files"])
 def get_history_by_id(file_id: int):
     try:
