@@ -19,15 +19,15 @@ services:
         - "8000:8000"
 
 
-    database:
-      container_name: database
-      image: nouchka/sqlite3:latest
-      stdin_open: true
-      tty: true
-      volumes:
-        - sqlite_data:/root/db/
-        - ./data/db/:/root/db/
+#    database:
+#      container_name: database
+#      image: nouchka/sqlite3:latest
+#      stdin_open: true
+#      tty: true
+#      volumes:
+#        - sqlite_data:/root/db/
+  #      - ./data/db/:/root/db/
 
 
-volumes:
-     sqlite_data: { }
+#     volumes:
+#     sqlite_data: { }
