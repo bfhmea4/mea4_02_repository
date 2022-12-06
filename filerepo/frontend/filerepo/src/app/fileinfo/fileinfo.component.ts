@@ -3,8 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import {FilerepoService} from "../filerepo.service";
 import {UploadActivityService} from "../filerepo.service";
 import {File} from "../file";
-import {UploadActivity} from "../uploadActivity";
-import {empty} from "rxjs";
 
 
 @Component({
