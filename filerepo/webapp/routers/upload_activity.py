@@ -4,7 +4,6 @@ from fastapi.responses import JSONResponse, Response
 from sqlalchemy.orm.session import Session
 
 from filerepo.webapp.domain.uploadActivity.uploadActivity_repository import UploadActivityRepository
-from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_create_model import UploadActivityCreateModel
 from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_get_model import UploadActivityGetModel
 
 from filerepo.webapp.repository.uploadActivity.uploadActivity_repository import UploadActivityRepositoryImpl
