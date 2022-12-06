@@ -39,6 +39,7 @@ export class FileinfoComponent implements OnInit {
     })
 
 
+
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
     })
