@@ -3,4 +3,5 @@
 *__pycache__/
 *.vscode/
 filerepo/db/*.db
+filerepo/airflow/logs/*
 *.log
