@@ -15,10 +15,8 @@ import {empty} from "rxjs";
 export class ActivitylistComponent implements OnInit {
   file: any;
   loading: boolean = false;
-  upload_activity: any;
   activityList: any;
   activityListToPrint: any = [];
-  listFiles: any;
 
 
   constructor(private fileService: FilerepoService, private route: ActivatedRoute, private uploadActivityService: UploadActivityService ) {
@@ -27,6 +25,9 @@ export class ActivitylistComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.activityListToPrint = []
     await this.uploadActivityService.getUploadActivity().forEach((entry) => { this.activityList=entry});
+    this.activityList = this.activityList.sort((n1: { upload_time: number; }, n2: { upload_time: number; }) =>
+      n2.upload_time - n1.upload_time
+    );
 
     this.activityList.forEach((entry: any) => {
       let newEntry = {
@@ -39,7 +40,6 @@ export class ActivitylistComponent implements OnInit {
   }
 
   onchange(event: any){
-    //this.upload_activity = event.target.upload_activity[0];
     this.file = event.target.files[0];
   }
 
