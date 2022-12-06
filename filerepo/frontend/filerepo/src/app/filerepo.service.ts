@@ -39,7 +39,7 @@ export class UploadActivityService {
   }
 
     public getUploadActivityByID(id: string){
-    return this.http.get<UploadActivity>(localUrlUploadActivity + "/"+id);
+    return this.http.get<UploadActivity>(localUrlUploadActivity + "/"+id + "/history");
   }
 
   public getUploadActivity(){
