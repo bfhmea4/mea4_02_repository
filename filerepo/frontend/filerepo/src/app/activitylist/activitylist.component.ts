@@ -13,28 +13,33 @@ import {empty} from "rxjs";
   styleUrls: ['./activitylist.component.css']
 })
 export class ActivitylistComponent implements OnInit {
-  file: File;
+  file: any;
   loading: boolean = false;
-  upload_activity: UploadActivity;
-  id: any;
+  upload_activity: any;
   activityList: any;
+  activityListToPrint: any = [];
   listFiles: any;
 
 
   constructor(private fileService: FilerepoService, private route: ActivatedRoute, private uploadActivityService: UploadActivityService ) {
-    this.file = <File>{};
-    this.upload_activity = <UploadActivity>{};
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.activityListToPrint = []
+    await this.uploadActivityService.getUploadActivity().forEach((entry) => { this.activityList=entry});
 
-    let activityList = this.uploadActivityService.getUploadActivity();
-    activityList.forEach((entry) => this.upload_activity = entry);
-    // this.fileService.getFileList().forEach((entry) => this.listFiles = entry);
+    this.activityList.forEach((entry: any) => {
+      let newEntry = {
+        file_id: entry.file_id,
+        file_name: entry.file_name,
+        upload_time: new Date(entry.upload_time*1000).toTimeString(),
+      }
+    this.activityListToPrint.push(newEntry)
+    })
   }
 
   onchange(event: any){
-    // this.upload_activity = event.target.activityList[0];
+    //this.upload_activity = event.target.upload_activity[0];
     this.file = event.target.files[0];
   }
 

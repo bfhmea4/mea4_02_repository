@@ -1,6 +1,6 @@
 export interface UploadActivity {
-    id: string;
+    id: number;
     upload_time: number;
-    file_name: number;
-    file_id: string;
+    file_name: string;
+    file_id: number;
 }

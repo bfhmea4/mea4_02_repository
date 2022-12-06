@@ -15,12 +15,12 @@
     </div>
 <table class="styled-table">
     <tr>
-          <th>Activity Name</th>
+          <th>File Name</th>
           <th>File ID</th>
           <th>Upload Time</th>
     </tr>
-      <tr *ngFor="let activity of activityList">
-          <td>{{activity.activity_name}}</td>
+      <tr *ngFor="let activity of activityListToPrint">
+          <td>{{activity.file_name}}</td>
           <td><a href="http://localhost:4200/files/{{activity.file_id}}/info">{{activity.file_id}}</a></td>
           <td>{{activity.upload_time}}</td>
       </tr>

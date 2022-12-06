@@ -4,7 +4,7 @@ import { File } from "./file";
 import {UploadActivity} from "./uploadActivity";
 
 const localUrl = 'http://127.0.0.1:8000/files';
-const localUrlUploadActivity = 'http://127.0.0.1:8000/history';
+const localUrlUploadActivity = 'http://127.0.0.1:8000/uploadactivities';
 
 @Injectable({
   providedIn: 'root'
