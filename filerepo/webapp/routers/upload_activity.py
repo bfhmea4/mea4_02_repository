@@ -27,8 +27,8 @@ def fnc_upload_activity_repository(session: Session = Depends(get_session)) -> U
     return repository
 
 
-@router.get("/history/{file_id}", response_model=List[UploadActivityGetModel], status_code=status.HTTP_200_OK,
-            tags=["upload_ctivity"])
+@router.get("/uploadactivities/{file_id}/historys", response_model=List[UploadActivityGetModel], status_code=status.HTTP_200_OK,
+            tags=["upload_activity"])
 def get_history_by_id(file_id: int,
                       upload_activity_repository: UploadActivityRepositoryImpl = Depends(fnc_upload_activity_repository)):
     try:
@@ -46,7 +46,7 @@ def get_history_by_id(file_id: int,
         )
 
 
-@router.get("/uploadactivities", response_model=List[UploadActivityGetModel], status_code=status.HTTP_200_OK, tags=["upload_ctivity"])
+@router.get("/uploadactivities", response_model=List[UploadActivityGetModel], status_code=status.HTTP_200_OK, tags=["upload_activity"])
 def get_history(upload_activity_repository: UploadActivityRepositoryImpl = Depends(fnc_upload_activity_repository)):
     try:
         upload_activity_service = UploadActivityServiceImpl(upload_activity_repository)
