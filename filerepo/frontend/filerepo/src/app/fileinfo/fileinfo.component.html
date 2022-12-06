@@ -34,7 +34,19 @@
     <td>{{ update_time.toTimeString()}}</td>
   </tr>
 </table>
-<a href="/">Home</a>
 
+<h1>Upload activity of this File:</h1>
+<table class="styled-table">
+      <tr>
+          <th>File Name</th>
+          <th>File ID</th>
+          <th>Upload Time</th>
+    </tr>
+      <tr *ngFor="let uploadActivity of activityListToPrint">
+          <td>{{uploadActivity.file_name}}</td>
+          <td>{{uploadActivity.file_id}}</td>
+          <td>{{uploadActivity.upload_time}}</td>
+      </tr>
+  </table>
 </body>
 </html>

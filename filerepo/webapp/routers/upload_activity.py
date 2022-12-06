@@ -22,18 +22,17 @@ def get_session() -> Iterator[Session]:
         session.close()
 
 
-def upload_activity_repository(session: Session = Depends(get_session)) -> UploadActivityRepository:
+def fnc_upload_activity_repository(session: Session = Depends(get_session)) -> UploadActivityRepository:
     repository: UploadActivityRepositoryImpl = UploadActivityRepositoryImpl(session)
     return repository
 
 
-upload_activity_repository = upload_activity_repository()
-upload_activity_service = UploadActivityServiceImpl(upload_activity_repository)
-
-
-@router.get("/{file_id}/history", response_model=List[UploadActivityGetModel], status_code=status.HTTP_200_OK, tags=["files"])
-def get_history_by_id(file_id: int):
+@router.get("/uploadactivities/{file_id}/history", response_model=List[UploadActivityGetModel], status_code=status.HTTP_200_OK,
+            tags=["upload_activity"])
+def get_history_by_id(file_id: int,
+                      upload_activity_repository: UploadActivityRepositoryImpl = Depends(fnc_upload_activity_repository)):
     try:
+        upload_activity_service = UploadActivityServiceImpl(upload_activity_repository)
         return upload_activity_service.find_upload_activity_by_file_id(file_id)
     except FileNotFoundError as e:
         return JSONResponse(
@@ -46,4 +45,20 @@ def get_history_by_id(file_id: int):
             content={'message': str(e)}
         )
 
+
+@router.get("/uploadactivities", response_model=List[UploadActivityGetModel], status_code=status.HTTP_200_OK, tags=["upload_activity"])
+def get_history(upload_activity_repository: UploadActivityRepositoryImpl = Depends(fnc_upload_activity_repository)):
+    try:
+        upload_activity_service = UploadActivityServiceImpl(upload_activity_repository)
+        return upload_activity_service.find_all()
+    except FileNotFoundError as e:
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND,
+            content={'message': str(e)}
+        )
+    except Exception as e:
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={'message': str(e)}
+        )
 
