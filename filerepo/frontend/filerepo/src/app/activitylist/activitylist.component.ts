@@ -18,7 +18,6 @@ export class ActivitylistComponent implements OnInit {
   activityList: any;
   activityListToPrint: any = [];
 
-
   constructor(private fileService: FilerepoService, private route: ActivatedRoute, private uploadActivityService: UploadActivityService ) {
   }
 
