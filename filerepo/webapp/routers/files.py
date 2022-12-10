@@ -1,10 +1,13 @@
 import hashlib
+import http
 from typing import List, Iterator
 from fastapi import File, UploadFile, status, APIRouter, Depends
 from fastapi.responses import JSONResponse, Response
 from sqlalchemy.orm.session import Session
+from starlette.exceptions import HTTPException
 
 from filerepo.webapp.domain.uploadActivity.uploadActivity_repository import UploadActivityRepository
+from filerepo.webapp.exception.HttpException import CustomException, StatusCodes
 from filerepo.webapp.schemas.DTO.file_get_model import FileGetModel
 from filerepo.webapp.schemas.DTO.file_upload_model import FileUploadModel
 from filerepo.webapp.schemas.DTO.file_info_model import FileInfoGetModel
@@ -74,18 +77,10 @@ def upload(file: UploadFile = File(...),
             }
             upload_activity_service.create(UploadActivityCreateModel(**upload_activity))
         return file_get_model
-
-    except FileNotFoundError as e:
-        return JSONResponse(
-            status_code=status.HTTP_404_NOT_FOUND,
-            content={'message': str(e)}
-        )
-    except Exception as e:
-        return JSONResponse(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            content={'message': str(e)}
-
-        )
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail=f"Item not found")
+    except Exception:
+        raise HTTPException(status_code=400, detail="Bad Request")
 
 
 @router.get("/files", response_model=List[FileGetModel], status_code=status.HTTP_200_OK, tags=["files"])
@@ -93,16 +88,10 @@ def files(file_repository: FileRepositoryImpl = Depends(fnc_file_repository)):
     try:
         file_service = FileServiceImpl(file_repository)
         return file_service.find_all()
-    except FileNotFoundError as e:
-        return JSONResponse(
-            status_code=status.HTTP_404_NOT_FOUND,
-            content={'message': str(e)}
-        )
-    except Exception as e:
-        return JSONResponse(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            content={'message': str(e)}
-        )
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Items not found")
+    except Exception:
+        raise HTTPException(status_code=400, detail="Bad Request")
 
 
 @router.delete("/files/{file_id}", status_code=status.HTTP_204_NO_CONTENT, tags=["files"])
@@ -110,16 +99,10 @@ def delete_file(file_id: int, file_repository: FileRepositoryImpl = Depends(fnc_
     try:
         file_service = FileServiceImpl(file_repository)
         file_service.delete(file_id)
-    except FileNotFoundError as e:
-        return JSONResponse(
-            status_code=status.HTTP_404_NOT_FOUND,
-            content={'message': str(e)}
-        )
-    except Exception as e:
-        return JSONResponse(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            content={'message': str(e)}
-        )
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail=f"Item with id: {file_id} not found")
+    except Exception:
+        raise HTTPException(status_code=400, detail="Bad Request")
 
 
 @router.get("/files/{file_id}", status_code=status.HTTP_200_OK, tags=["files"])
@@ -128,30 +111,18 @@ def download_file(file_id: int, file_repository: FileRepositoryImpl = Depends(fn
         file_service = FileServiceImpl(file_repository)
         file = file_service.download_by_id(file_id)
         return Response(file.file_content, media_type=file.file_type)
-    except FileNotFoundError as e:
-        return JSONResponse(
-            status_code=status.HTTP_404_NOT_FOUND,
-            content={'message': str(e)}
-        )
-    except Exception as e:
-        return JSONResponse(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            content={'message': str(e)}
-        )
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail=f"Item with id: {file_id} not found")
+    except Exception:
+        raise HTTPException(status_code=400, detail="Bad Request")
 
 
 @router.get("/files/{file_id}/info", response_model=FileInfoGetModel, tags=["files"])
-def get_file_info(file_id: int, file_repository: FileRepositoryImpl = Depends(fnc_file_repository)):
+async def get_file_info(file_id: int, file_repository: FileRepositoryImpl = Depends(fnc_file_repository)):
     try:
         file_service = FileServiceImpl(file_repository)
         return file_service.file_info_by_id(file_id)
-    except FileNotFoundError as e:
-        return JSONResponse(
-            status_code=status.HTTP_404_NOT_FOUND,
-            content={'message': str(e)}
-        )
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail=f"Item with id: {file_id} not found")
     except Exception as e:
-        return JSONResponse(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            content={'message': str(e)}
-        )
+        raise HTTPException(status_code=400, detail="Bad Request")
