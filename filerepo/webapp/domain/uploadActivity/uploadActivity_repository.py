@@ -17,10 +17,10 @@ class UploadActivityRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def find_by_id(self, id: str) -> Optional[UploadActivityDTO]:
+    def find_by_id(self, id: int) -> Optional[UploadActivityDTO]:
         raise NotImplementedError
 
     @abstractmethod
-    def delete_by_id(self, id: str):
+    def delete_by_id(self, id: int):
         raise NotImplementedError
 

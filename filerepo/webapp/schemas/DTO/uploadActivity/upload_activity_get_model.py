@@ -14,10 +14,10 @@ class UploadActivityGetModel(BaseModel):
         orm_mode = True
 
     @staticmethod
-    def from_entity(uploadActivity: UploadActivity) -> "UploadActivityGetModel":
+    def from_entity(upload_activity: UploadActivity) -> "UploadActivityGetModel":
         return UploadActivityGetModel(
-            id=uploadActivity.id,
-            upload_time=uploadActivity.upload_time,
-            file_name=uploadActivity.file_name,
-            file_id=uploadActivity.file_id
+            id=upload_activity.id,
+            upload_time=upload_activity.upload_time,
+            file_name=upload_activity.file_name,
+            file_id=upload_activity.file_id
         )

@@ -4,9 +4,9 @@ from filerepo.webapp.domain.uploadActivity.uploadActivity import UploadActivity
 class UploadActivityDTO():
     """FileDTO is a data transfer object associated with File entity. Represented as entity in the DB using SQLAlchemy"""
 
-    def __init__(self, uploadActivity):
+    def __init__(self, uploadActivity: UploadActivity):
 
-        self.id: str = uploadActivity.id
+        self.id: int = uploadActivity.id
         self.upload_time: float = uploadActivity.upload_time
         self.file_name: str = uploadActivity.file_name
         self.file_id: int = uploadActivity.file_id
