@@ -22,9 +22,21 @@ export class FileinfoComponent implements OnInit {
     this.file = <File>{};
   }
 
+
+
+
   async ngOnInit(): Promise<void> {
     this.activityListToPrint = []
-    await this.uploadActivityService.getUploadActivity().forEach((entry) => {
+
+    this.route.paramMap.subscribe(params => {
+      this.id = params.get('id');
+    })
+    this.fileService.getFileInfo(this.id).subscribe((data: File) => {
+      this.file = data
+      this.creation_time = new Date(this.file.file_creation_time * 1000);
+      this.update_time = new Date(this.file.file_update_time * 1000);
+    })
+    await this.uploadActivityService.getUploadActivityByID(this.id).forEach((entry) => {
       this.activityList = entry
     });
     this.activityList.forEach((entry: any) => {
@@ -34,17 +46,6 @@ export class FileinfoComponent implements OnInit {
         upload_time: new Date(entry.upload_time * 1000).toTimeString(),
       }
       this.activityListToPrint.push(newEntry)
-    })
-
-
-
-    this.route.paramMap.subscribe(params => {
-      this.id = params.get('id');
-    })
-    this.fileService.getFileInfo(this.id).subscribe((data: File) => {
-      this.file = data
-      this.creation_time = new Date(this.file.file_creation_time * 1000);
-      this.update_time = new Date(this.file.file_update_time * 1000);
     })
 
 
