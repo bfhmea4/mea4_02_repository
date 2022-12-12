@@ -1,8 +1,16 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional, cast
+import asyncio
 
 from filerepo.webapp.domain.workflow.workflow import Workflow
+from filerepo.webapp.schemas.DTO.workflow.workflow_create_model import WorkflowCreateModel
 from filerepo.webapp.schemas.DTO.workflow.workflow_get_model import WorkflowGetModel
+
+from filerepo.webapp.repository.workflow.workflow_repository import WorkflowRepositoryImpl
+
+from filerepo.algorithms.workflow_handler import WorkflowHandler
+from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_get_model import UploadActivityGetModel
+from filerepo.webapp.repository.file.file_dto import FileDTO
 
 
 class WorkflowService(ABC):
@@ -24,22 +32,21 @@ class WorkflowService(ABC):
 class WorkflowServiceImpl(WorkflowService):
     """WorkflowServiceImpl is a query service interface to interact with the workflow engine."""
 
-    def __init__(self, repository: WorkflowRepository):
+    def __init__(self, repository: WorkflowRepositoryImpl):
         self.repository = repository
+        self.workflow_handler = None
 
-    def find_by_id(self, id: str) -> Optional[UploadActivityGetModel]:
-        uploadActivity: UploadActivity = self.repository.find_by_id(id)
-        return UploadActivityGetModel.from_entity(cast(UploadActivity, uploadActivity))
+    def find_by_id(self, id: str) -> Optional[WorkflowGetModel]:
+        workflow: Workflow = self.repository.find_by_id(id)
+        return WorkflowGetModel.from_entity(cast(Workflow, workflow))
 
     def find_workflow_by_upload_activity_id(self, upload_activity_id: int) -> WorkflowGetModel:
-        all_uploadActivities = self.repository.find_all()
-        list_uploadActivity_by_id = []
-        for uploadActivity in all_uploadActivities:
-            if uploadActivity.file_id == file_id:
-                list_uploadActivity_by_id.append(
-                    UploadActivityGetModel.from_entity(cast(UploadActivity, uploadActivity)))
-        return list_uploadActivity_by_id
+        workflow = self.repository.find_workflow_by_upload_activity_id(upload_activity_id)
+        return WorkflowGetModel.from_entity(cast(Workflow, workflow))
 
-    def create(self, new_uploadActivity: UploadActivityCreateModel) -> UploadActivityGetModel:
-        uploadActivity: UploadActivity = self.repository.create(new_uploadActivity)
-        return UploadActivityGetModel.from_entity(cast(UploadActivity, uploadActivity))
+    async def create(self, upload_activity: UploadActivityGetModel, file: FileDTO) -> WorkflowGetModel:
+        new_workflow = WorkflowCreateModel(False,upload_activity.id)
+        workflow: Workflow = self.repository.create(new_workflow)
+        self.workflow_handler = WorkflowHandler(workflow=workflow,file=file)
+        await self.workflow_handler.kickoff(workflow,file)
+        return WorkflowGetModel.from_entity(cast(Workflow, workflow))

@@ -7,7 +7,7 @@ from filerepo.webapp.schemas.DTO.workflow.workflow_create_model import WorkflowC
 
 
 class WorkflowRepositoryImpl(WorkflowRepository):
-    """FileRepositoryImpl implements CRUD operations related File entity using SQLAlchemy."""
+    """WorkflowRepositoryImpl implements CRUD operations related Workflow entity using SQLAlchemy."""
 
     def __init__(self, session: Session):
         self.session: Session = session
@@ -18,6 +18,13 @@ class WorkflowRepositoryImpl(WorkflowRepository):
         except:
             raise
         return NotImplementedError
+    
+    def find_workflow_by_upload_activity_id(self, upload_activity_id: int) -> WorkflowDTO:
+        try:
+            workflowDTO: WorkflowDTO = WorkflowDTO.from_entity(self.session.query(Workflow).filter_by(upload_activity_id=upload_activity_id).one())
+        except:
+            raise
+        return workflowDTO
 
     def create(self, workflow_create_model: WorkflowCreateModel) -> Workflow:
         try:

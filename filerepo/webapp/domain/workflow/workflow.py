@@ -4,7 +4,7 @@ from filerepo.webapp.repository.database import Base
 
 class Workflow(Base):
     """Workflow represents each workflow triggered by a uploadActivitx."""
-    __tablename__ = "workflow"
+    __tablename__ = "Workflow"
     id: int = Column(Integer, primary_key=True, nullable=False)
     finished: bool = Column(Boolean, nullable=False)
     upload_activity: int = Column(Integer, nullable=False)
