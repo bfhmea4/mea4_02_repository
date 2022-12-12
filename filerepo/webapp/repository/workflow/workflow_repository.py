@@ -40,3 +40,11 @@ class WorkflowRepositoryImpl(WorkflowRepository):
             NotImplementedError
         except:
             raise
+
+    def update_status(self, status: bool, workflow_id: int):
+        try:
+            workflow: Workflow = self.session.query(Workflow).get(workflow_id)
+            workflow.finished = status
+            self.session.commit()
+        except:
+            raise

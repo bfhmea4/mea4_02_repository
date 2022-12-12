@@ -7,6 +7,7 @@ from filerepo.webapp.schemas.DTO.workflow.workflow_create_model import WorkflowC
 from filerepo.webapp.schemas.DTO.workflow.workflow_get_model import WorkflowGetModel
 
 from filerepo.webapp.repository.workflow.workflow_repository import WorkflowRepositoryImpl
+from filerepo.webapp.repository.workflow.workflow_dto import WorkflowDTO
 
 from filerepo.algorithms.workflow_handler import WorkflowHandler
 from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_get_model import UploadActivityGetModel
@@ -21,11 +22,14 @@ class WorkflowService(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def create(self, workflow: Workflow) -> WorkflowGetModel:
+    async def create(self, upload_activity: UploadActivityGetModel, file: FileDTO) -> WorkflowGetModel:
         raise NotImplementedError
 
     @abstractmethod
     def find_workflow_by_upload_activity_id(self, upload_activity_id: int) -> WorkflowGetModel:
+        raise NotImplementedError
+
+    def update_status(self, status: bool, workflow_id: int):
         raise NotImplementedError
 
 
@@ -36,8 +40,8 @@ class WorkflowServiceImpl(WorkflowService):
         self.repository = repository
         self.workflow_handler = None
 
-    def find_by_id(self, id: str) -> Optional[WorkflowGetModel]:
-        workflow: Workflow = self.repository.find_by_id(id)
+    def find_by_id(self, id: int) -> Optional[WorkflowGetModel]:
+        workflow: WorkflowDTO = self.repository.find_by_id(id)
         return WorkflowGetModel.from_entity(cast(Workflow, workflow))
 
     def find_workflow_by_upload_activity_id(self, upload_activity_id: int) -> WorkflowGetModel:
@@ -45,8 +49,11 @@ class WorkflowServiceImpl(WorkflowService):
         return WorkflowGetModel.from_entity(cast(Workflow, workflow))
 
     async def create(self, upload_activity: UploadActivityGetModel, file: FileDTO) -> WorkflowGetModel:
-        new_workflow = WorkflowCreateModel(False,upload_activity.id)
+        new_workflow = WorkflowCreateModel(**{"finished":False,"upload_activity":upload_activity.id})
         workflow: Workflow = self.repository.create(new_workflow)
         self.workflow_handler = WorkflowHandler(workflow=workflow,file=file)
-        await self.workflow_handler.kickoff(workflow,file)
+        await self.workflow_handler.kickoff()
         return WorkflowGetModel.from_entity(cast(Workflow, workflow))
+
+    def update_status(self, status: bool, workflow_id: int):
+        self.repository.update_status(status, workflow_id)
