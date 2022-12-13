@@ -7,6 +7,7 @@ from sqlalchemy.orm.session import Session
 from starlette.exceptions import HTTPException
 
 from filerepo.webapp.domain.uploadActivity.uploadActivity_repository import UploadActivityRepository
+from filerepo.webapp.exception.Exceptions import MyException
 from filerepo.webapp.exception.HttpException import CustomException, StatusCodes
 from filerepo.webapp.schemas.DTO.file_get_model import FileGetModel
 from filerepo.webapp.schemas.DTO.file_upload_model import FileUploadModel
@@ -124,5 +125,7 @@ async def get_file_info(file_id: int, file_repository: FileRepositoryImpl = Depe
         return file_service.file_info_by_id(file_id)
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail=f"Item with id: {file_id} not found")
+        # raise MyFileNotFoundException(name="")
     except Exception as e:
         raise HTTPException(status_code=400, detail="Bad Request")
+        # raise MyException(name="")
