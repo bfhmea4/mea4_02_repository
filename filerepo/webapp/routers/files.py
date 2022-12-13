@@ -39,7 +39,7 @@ def fnc_upload_activity_repository(session: Session = Depends(get_session)) -> U
     repository: UploadActivityRepositoryImpl = UploadActivityRepositoryImpl(session)
     return repository
 
-
+#ToDo create repo and all stuff for controller
 def fnc_file_repository(session: Session = Depends(get_session)) -> FileRepository:
     repository: FileRepositoryImpl = FileRepositoryImpl(session)
     return repository
@@ -55,6 +55,7 @@ def fnc_workflow_repository(session: Session = Depends(get_session)) -> Workflow
 # file_repository = FileRepositoryImpl(file_system)
 # file_service = FileServiceImpl(file_repository)
 
+#ToDo: Depends on Abstract not Impl
 @router.post("/files/upload", response_model=UploadActivityGetModel, tags=["files"])
 async def upload(file: UploadFile = File(...),
            upload_activity_repository: UploadActivityRepositoryImpl = Depends(fnc_upload_activity_repository),

@@ -48,6 +48,8 @@ class WorkflowServiceImpl(WorkflowService):
         workflow = self.repository.find_workflow_by_upload_activity_id(upload_activity_id)
         return WorkflowGetModel.from_entity(cast(Workflow, workflow))
 
+    #ToDo: Rename method to startFileAnalysisWorkflow input parameter should match (almost) name
+    #Todo: param: start_file_analysis_request
     async def create(self, upload_activity: UploadActivityGetModel, file: FileDTO) -> WorkflowGetModel:
         new_workflow = WorkflowCreateModel(**{"finished":False,"upload_activity":upload_activity.id})
         workflow: Workflow = self.repository.create(new_workflow)

@@ -16,6 +16,7 @@ class FileRepositoryImpl(FileRepository):
     def __init__(self, session: Session):
         self.session: Session = session
 
+    #ToDo: Repositories do not return DTO
     def find_by_id(self, id: int) -> FileDTO:
         try:
             file_dto = FileDTO.from_entity(self.session.query(File).filter_by(id=id).one())
@@ -35,6 +36,7 @@ class FileRepositoryImpl(FileRepository):
 
         return fileDTO_list
 
+    #ToDo: File in not Model
     def create(self, file_uploaded: FileUploadModel) -> File:
         try:
             hash = hashlib.sha256(file_uploaded.file_content).hexdigest()
