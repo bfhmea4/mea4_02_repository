@@ -1,3 +1,4 @@
+import hashlib
 import io
 from abc import ABC, abstractmethod
 from typing import List, Optional, cast
@@ -8,6 +9,9 @@ from filerepo.webapp.schemas.DTO.file_get_model import FileGetModel
 from filerepo.webapp.schemas.DTO.file_info_model import FileInfoGetModel
 from filerepo.webapp.schemas.DTO.file_upload_model import FileUploadModel
 from filerepo.webapp.repository.file.file_repository import FileRepositoryImpl
+from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_create_model import UploadActivityCreateModel
+from filerepo.webapp.service.uploadActivity_service import UploadActivityServiceImpl
+from filerepo.webapp.repository.uploadActivity.uploadActivity_repository import UploadActivityRepositoryImpl
 
 
 class FileService(ABC):
@@ -51,6 +55,22 @@ class FileServiceImpl(FileService):
     def find_by_id(self, file_id: int) -> Optional[FileGetModel]:
         file = self.repository.find_by_id(file_id)
         return FileGetModel.from_entity(cast(File, file))
+
+    def upload_file(self, file: File):
+        upload_activity_service = UploadActivityRepositoryImpl
+        uploaded_file = {
+            "file_name": file.filename,
+            "file_type": file.content_type,
+            "file_content": file.file.read()
+        }
+        file_hash = hashlib.sha256(uploaded_file['file_content']).hexdigest()
+        file_id: int = self.get_file_id_by_hash(file_hash)
+        if file_id is not None:
+            upload_activity = {
+                "file_name": uploaded_file['file_name'],
+                "file_id": file_id
+            }
+        upload_activity_result = upload_activity_service.create(UploadActivityCreateModel(**upload_activity))
 
     def find_all(self) -> List[FileGetModel]:
         all_files = self.repository.find_all()
