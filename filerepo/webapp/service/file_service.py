@@ -4,20 +4,15 @@ from abc import ABC, abstractmethod
 from typing import List, Optional, cast, Iterator
 
 from fastapi import Depends, UploadFile
-from sqlalchemy.orm import Session
 
 from filerepo.webapp.domain.file.file import File
-from filerepo.webapp.domain.file.file_repository import FileRepository
-from filerepo.webapp.domain.uploadActivity.uploadActivity_repository import UploadActivityRepository
-from filerepo.webapp.repository.database import SessionLocal
-from filerepo.webapp.routers.upload_activity import get_session
+
 from filerepo.webapp.schemas.DTO.file_download_model import FileDownloadModel
 from filerepo.webapp.schemas.DTO.file_get_model import FileGetModel
 from filerepo.webapp.schemas.DTO.file_info_model import FileInfoGetModel
 from filerepo.webapp.schemas.DTO.file_upload_model import FileUploadModel
 from filerepo.webapp.repository.file.file_repository import FileRepositoryImpl
 from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_create_model import UploadActivityCreateModel
-from filerepo.webapp.service.uploadActivity_service import UploadActivityServiceImpl, UploadActivityService
 from filerepo.webapp.repository.uploadActivity.uploadActivity_repository import UploadActivityRepositoryImpl
 
 
