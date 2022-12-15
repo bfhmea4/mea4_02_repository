@@ -64,7 +64,6 @@ def upload(file: UploadFile = File(...), file_service: FileService = Depends(fnc
 @router.get("/files", response_model=List[FileGetModel], status_code=status.HTTP_200_OK, tags=["files"])
 def files(file_service: FileService = Depends(fnc_file_repository)):
     try:
-        file_service = FileServiceImpl(file_repository)
         return file_service.find_all()
     except FileNotFoundError as e:
         return JSONResponse(
