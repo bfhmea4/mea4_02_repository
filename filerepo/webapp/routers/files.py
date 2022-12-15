@@ -9,6 +9,7 @@ from filerepo.webapp.routers.upload_activity import get_session
 from filerepo.webapp.schemas.DTO.file_get_model import FileGetModel
 from filerepo.webapp.schemas.DTO.file_upload_model import FileUploadModel
 from filerepo.webapp.schemas.DTO.file_info_model import FileInfoGetModel
+from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_get_model import UploadActivityGetModel
 from filerepo.webapp.service.file_service import FileServiceImpl, FileService
 from filerepo.webapp.repository.file.file_repository import FileRepositoryImpl
 from filerepo.webapp.domain.file.file_repository import FileRepository
@@ -20,6 +21,7 @@ from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_create_model imp
 from filerepo.webapp.repository.database import SessionLocal
 
 router = APIRouter()
+
 
 def get_session() -> Iterator[Session]:
     session: Session = SessionLocal()
@@ -42,7 +44,7 @@ def fnc_file_repository(session: Session = Depends(get_session)) -> FileService:
 # file_repository = FileRepositoryImpl(file_system)
 # file_service = FileServiceImpl(file_repository)
 
-@router.post("/files/upload", response_model=FileGetModel, tags=["files"])
+@router.post("/files/upload", response_model=UploadActivityGetModel, tags=["files"])
 def upload(file: UploadFile = File(...), file_service: FileService = Depends(fnc_file_repository)):
     try:
         return file_service.upload_file(file)
@@ -62,6 +64,7 @@ def upload(file: UploadFile = File(...), file_service: FileService = Depends(fnc
 @router.get("/files", response_model=List[FileGetModel], status_code=status.HTTP_200_OK, tags=["files"])
 def files(file_service: FileService = Depends(fnc_file_repository)):
     try:
+        file_service = FileServiceImpl(file_repository)
         return file_service.find_all()
     except FileNotFoundError as e:
         return JSONResponse(

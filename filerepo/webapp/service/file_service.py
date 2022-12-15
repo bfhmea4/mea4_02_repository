@@ -81,17 +81,14 @@ class FileServiceImpl(FileService):
                 "file_name": uploaded_file['file_name'],
                 "file_id": file_id
             }
-            upload_activity_result = self.upload_activity_repository.create(UploadActivityCreateModel(**upload_activity))
-            return self.upload_activity_repository.find_by_id(upload_activity_result.id)
         else:
             file_get_model = self.repository.create(FileUploadModel(**uploaded_file))
             upload_activity = {
                 "file_name": file_get_model.file_name,
                 "file_id": file_get_model.id
             }
-            self.upload_activity_repository.create(UploadActivityCreateModel(**upload_activity))
-
-        return file_get_model
+        upload_activity_result = self.upload_activity_repository.create(UploadActivityCreateModel(**upload_activity))
+        return upload_activity_result
 
     def find_all(self) -> List[FileGetModel]:
         all_files = self.repository.find_all()
