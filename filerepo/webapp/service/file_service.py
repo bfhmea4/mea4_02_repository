@@ -1,16 +1,23 @@
 import hashlib
 import io
 from abc import ABC, abstractmethod
-from typing import List, Optional, cast
+from typing import List, Optional, cast, Iterator
+
+from fastapi import Depends, UploadFile
+from sqlalchemy.orm import Session
 
 from filerepo.webapp.domain.file.file import File
+from filerepo.webapp.domain.file.file_repository import FileRepository
+from filerepo.webapp.domain.uploadActivity.uploadActivity_repository import UploadActivityRepository
+from filerepo.webapp.repository.database import SessionLocal
+from filerepo.webapp.routers.upload_activity import get_session
 from filerepo.webapp.schemas.DTO.file_download_model import FileDownloadModel
 from filerepo.webapp.schemas.DTO.file_get_model import FileGetModel
 from filerepo.webapp.schemas.DTO.file_info_model import FileInfoGetModel
 from filerepo.webapp.schemas.DTO.file_upload_model import FileUploadModel
 from filerepo.webapp.repository.file.file_repository import FileRepositoryImpl
 from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_create_model import UploadActivityCreateModel
-from filerepo.webapp.service.uploadActivity_service import UploadActivityServiceImpl
+from filerepo.webapp.service.uploadActivity_service import UploadActivityServiceImpl, UploadActivityService
 from filerepo.webapp.repository.uploadActivity.uploadActivity_repository import UploadActivityRepositoryImpl
 
 
@@ -45,19 +52,26 @@ class FileService(ABC):
     def get_file_id_by_hash(self, file_hash) -> int:
         raise NotImplementedError
 
+    @abstractmethod
+    def upload_file(self, file: UploadFile) -> FileUploadModel:
+        raise NotImplementedError
 
-class FileServiceImpl(FileService):
+
+class FileServiceImpl(FileService, UploadActivityServiceImpl):
     """FileQueryService defines a query service inteface related File entity."""
 
-    def __init__(self, repository: FileRepositoryImpl):
+    def __init__(self, repository: FileRepositoryImpl, upload_activity_repository: UploadActivityRepositoryImpl):
         self.repository = repository
+        self.upload_activity_repository = upload_activity_repository
 
     def find_by_id(self, file_id: int) -> Optional[FileGetModel]:
         file = self.repository.find_by_id(file_id)
         return FileGetModel.from_entity(cast(File, file))
 
-    def upload_file(self, file: File):
-        upload_activity_service = UploadActivityRepositoryImpl
+    def upload_file(self, file: UploadFile):
+        #session = SessionLocal()
+        #upload_activity_repository = UploadActivityRepositoryImpl(session)
+        #upload_activity_service = UploadActivityServiceImpl(upload_activity_repository)
         uploaded_file = {
             "file_name": file.filename,
             "file_type": file.content_type,
@@ -70,7 +84,17 @@ class FileServiceImpl(FileService):
                 "file_name": uploaded_file['file_name'],
                 "file_id": file_id
             }
-        upload_activity_result = upload_activity_service.create(UploadActivityCreateModel(**upload_activity))
+            upload_activity_result = self.upload_activity_repository.create(UploadActivityCreateModel(**upload_activity))
+            return self.upload_activity_repository.find_by_id(upload_activity_result.id)
+        else:
+            file_get_model = self.create(FileUploadModel(**uploaded_file))
+            upload_activity = {
+                "file_name": file_get_model.file_name,
+                "file_id": file_get_model.id
+            }
+            self.upload_activity_repository.create(UploadActivityCreateModel(**upload_activity))
+
+        return file_get_model
 
     def find_all(self) -> List[FileGetModel]:
         all_files = self.repository.find_all()

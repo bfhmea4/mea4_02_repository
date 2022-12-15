@@ -1,19 +1,20 @@
 import hashlib
-from typing import List, Iterator
+from typing import List, Iterator, Tuple
 from fastapi import File, UploadFile, status, APIRouter, Depends
 from fastapi.responses import JSONResponse, Response
 from sqlalchemy.orm.session import Session
 
 from filerepo.webapp.domain.uploadActivity.uploadActivity_repository import UploadActivityRepository
+from filerepo.webapp.routers.upload_activity import get_session
 from filerepo.webapp.schemas.DTO.file_get_model import FileGetModel
 from filerepo.webapp.schemas.DTO.file_upload_model import FileUploadModel
 from filerepo.webapp.schemas.DTO.file_info_model import FileInfoGetModel
-from filerepo.webapp.service.file_service import FileServiceImpl
+from filerepo.webapp.service.file_service import FileServiceImpl, FileService
 from filerepo.webapp.repository.file.file_repository import FileRepositoryImpl
 from filerepo.webapp.domain.file.file_repository import FileRepository
 
 from filerepo.webapp.repository.uploadActivity.uploadActivity_repository import UploadActivityRepositoryImpl
-from filerepo.webapp.service.uploadActivity_service import UploadActivityServiceImpl
+from filerepo.webapp.service.uploadActivity_service import UploadActivityServiceImpl, UploadActivityService
 from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_create_model import UploadActivityCreateModel
 
 from filerepo.webapp.repository.database import SessionLocal
@@ -21,7 +22,7 @@ from filerepo.webapp.repository.database import SessionLocal
 router = APIRouter()
 
 
-def get_session() -> Iterator[Session]:
+def generator() -> Iterator[Session]:
     session: Session = SessionLocal()
     try:
         yield session
@@ -29,14 +30,20 @@ def get_session() -> Iterator[Session]:
         session.close()
 
 
-def fnc_upload_activity_repository(session: Session = Depends(get_session)) -> UploadActivityRepository:
-    repository: UploadActivityRepositoryImpl = UploadActivityRepositoryImpl(session)
-    return repository
+#def fnc_file_repository(session: Session = Depends(get_session)) -> tuple[FileServiceImpl, UploadActivityServiceImpl]:
+    #    repository: FileRepositoryImpl = FileRepositoryImpl(session)
+    #    upload_repository: UploadActivityRepositoryImpl = UploadActivityRepositoryImpl(session)
+    #   service: FileServiceImpl = FileServiceImpl(repository)
+    #   upload_activity_service: UploadActivityServiceImpl = UploadActivityServiceImpl(upload_repository)
+#   return service, upload_activity_service
 
 
-def fnc_file_repository(session: Session = Depends(get_session)) -> FileRepository:
+def fnc_file_repository(session: Session = Depends(get_session)) -> FileService:
     repository: FileRepositoryImpl = FileRepositoryImpl(session)
-    return repository
+    upload_repository: UploadActivityRepositoryImpl = UploadActivityRepositoryImpl(session)
+    upload_activity_service: UploadActivityServiceImpl = UploadActivityServiceImpl(upload_repository)
+    service: FileService = FileServiceImpl(repository, upload_repository)
+    return service
 
 
 # Use FileSystem to write blob data to file system separate from meta data
@@ -46,34 +53,9 @@ def fnc_file_repository(session: Session = Depends(get_session)) -> FileReposito
 # file_service = FileServiceImpl(file_repository)
 
 @router.post("/files/upload", response_model=FileGetModel, tags=["files"])
-def upload(file: UploadFile = File(...),
-           upload_activity_repository: UploadActivityRepositoryImpl = Depends(fnc_upload_activity_repository),
-           file_repository: FileRepositoryImpl = Depends(fnc_file_repository)):
+def upload(file: UploadFile = File(...), file_service: FileService = Depends(fnc_file_repository)):
     try:
-        file_service = FileServiceImpl(file_repository)
-        upload_activity_service = UploadActivityServiceImpl(upload_activity_repository)
-        uploaded_file = {
-            "file_name": file.filename,
-            "file_type": file.content_type,
-            "file_content": file.file.read()
-        }
-        file_hash = hashlib.sha256(uploaded_file['file_content']).hexdigest()
-        file_id: int = file_service.get_file_id_by_hash(file_hash)
-        if file_id is not None:
-            upload_activity = {
-                "file_name": uploaded_file['file_name'],
-                "file_id": file_id
-            }
-            upload_activity_result = upload_activity_service.create(UploadActivityCreateModel(**upload_activity))
-            return upload_activity_service.find_by_id(upload_activity_result.id)
-        else:
-            file_get_model = file_service.create(FileUploadModel(**uploaded_file))
-            upload_activity = {
-                "file_name": file_get_model.file_name,
-                "file_id": file_get_model.id
-            }
-            upload_activity_service.create(UploadActivityCreateModel(**upload_activity))
-        return file_get_model
+        return file_service.upload_file(file)
 
     except FileNotFoundError as e:
         return JSONResponse(
