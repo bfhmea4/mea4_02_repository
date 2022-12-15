@@ -21,7 +21,6 @@ from filerepo.webapp.repository.database import SessionLocal
 
 router = APIRouter()
 
-
 def get_session() -> Iterator[Session]:
     session: Session = SessionLocal()
     try:
