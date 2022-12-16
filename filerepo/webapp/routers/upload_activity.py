@@ -1,13 +1,13 @@
 from typing import List, Iterator
-from fastapi import File, UploadFile, status, APIRouter, Depends
-from fastapi.responses import JSONResponse, Response
+from fastapi import status, APIRouter, Depends
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm.session import Session
 
-from filerepo.webapp.domain.uploadActivity.uploadActivity_repository import UploadActivityRepository
-from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_get_model import UploadActivityGetModel
+from filerepo.webapp.repository.file.file_repository import FileRepositoryImpl
 
 from filerepo.webapp.repository.uploadActivity.uploadActivity_repository import UploadActivityRepositoryImpl
-from filerepo.webapp.service.uploadActivity_service import UploadActivityServiceImpl
+from filerepo.webapp.service.uploadActivity_service import UploadActivityServiceImpl, UploadActivityService
+from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_get_response import UploadActivityGetResponse
 
 from filerepo.webapp.repository.database import SessionLocal
 
@@ -22,17 +22,19 @@ def get_session() -> Iterator[Session]:
         session.close()
 
 
-def fnc_upload_activity_repository(session: Session = Depends(get_session)) -> UploadActivityRepository:
+def fnc_upload_activity_service(session: Session = Depends(get_session)) -> UploadActivityService:
     repository: UploadActivityRepositoryImpl = UploadActivityRepositoryImpl(session)
-    return repository
+    files_repository: FileRepositoryImpl = FileRepositoryImpl(session)
+    service: UploadActivityService = UploadActivityServiceImpl(repository, files_repository)
+    return service
 
 
-@router.get("/uploadactivities/{file_id}/history", response_model=List[UploadActivityGetModel], status_code=status.HTTP_200_OK,
+@router.get("/uploadactivities/{file_id}/history", response_model=List[UploadActivityGetResponse],
+            status_code=status.HTTP_200_OK,
             tags=["upload_activity"])
 def get_history_by_id(file_id: int,
-                      upload_activity_repository: UploadActivityRepositoryImpl = Depends(fnc_upload_activity_repository)):
+                      upload_activity_service: UploadActivityService = Depends(fnc_upload_activity_service)):
     try:
-        upload_activity_service = UploadActivityServiceImpl(upload_activity_repository)
         return upload_activity_service.find_upload_activity_by_file_id(file_id)
     except FileNotFoundError as e:
         return JSONResponse(
@@ -46,10 +48,10 @@ def get_history_by_id(file_id: int,
         )
 
 
-@router.get("/uploadactivities", response_model=List[UploadActivityGetModel], status_code=status.HTTP_200_OK, tags=["upload_activity"])
-def get_history(upload_activity_repository: UploadActivityRepositoryImpl = Depends(fnc_upload_activity_repository)):
+@router.get("/uploadactivities", response_model=List[UploadActivityGetResponse], status_code=status.HTTP_200_OK,
+            tags=["upload_activity"])
+def get_history(upload_activity_service: UploadActivityService = Depends(fnc_upload_activity_service)):
     try:
-        upload_activity_service = UploadActivityServiceImpl(upload_activity_repository)
         return upload_activity_service.find_all()
     except FileNotFoundError as e:
         return JSONResponse(
@@ -61,4 +63,3 @@ def get_history(upload_activity_repository: UploadActivityRepositoryImpl = Depen
             status_code=status.HTTP_400_BAD_REQUEST,
             content={'message': str(e)}
         )
-
