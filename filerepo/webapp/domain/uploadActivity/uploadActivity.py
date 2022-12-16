@@ -1,5 +1,3 @@
-import time
-from typing import Optional, List
 from sqlalchemy import Column, Float, Integer, String
 from filerepo.webapp.repository.database import Base
 
