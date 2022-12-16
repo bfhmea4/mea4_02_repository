@@ -4,19 +4,13 @@ from fastapi import File, UploadFile, status, APIRouter, Depends
 from fastapi.responses import JSONResponse, Response
 from sqlalchemy.orm.session import Session
 
-from filerepo.webapp.domain.uploadActivity.uploadActivity_repository import UploadActivityRepository
-from filerepo.webapp.routers.upload_activity import get_session
-from filerepo.webapp.schemas.DTO.file_get_model import FileGetModel
-from filerepo.webapp.schemas.DTO.file_upload_model import FileUploadModel
-from filerepo.webapp.schemas.DTO.file_info_model import FileInfoGetModel
+from filerepo.webapp.schemas.DTO.file.file_get_request import FileGetRequest
+from filerepo.webapp.schemas.DTO.file.file_info_response import FileInfoGetResponse
 from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_get_model import UploadActivityGetModel
 from filerepo.webapp.service.file_service import FileServiceImpl, FileService
 from filerepo.webapp.repository.file.file_repository import FileRepositoryImpl
-from filerepo.webapp.domain.file.file_repository import FileRepository
 
 from filerepo.webapp.repository.uploadActivity.uploadActivity_repository import UploadActivityRepositoryImpl
-from filerepo.webapp.service.uploadActivity_service import UploadActivityServiceImpl, UploadActivityService
-from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_create_model import UploadActivityCreateModel
 
 from filerepo.webapp.repository.database import SessionLocal
 
@@ -38,12 +32,6 @@ def fnc_file_service(session: Session = Depends(get_session)) -> FileService:
     return service
 
 
-# Use FileSystem to write blob data to file system separate from meta data
-# This functionality can be migrated into the file repository later on ToDo: Split file and blobData to store blob on FS
-# file_system = FileSystem()
-# file_repository = FileRepositoryImpl(file_system)
-# file_service = FileServiceImpl(file_repository)
-
 @router.post("/files/upload", response_model=UploadActivityGetModel, tags=["files"])
 def upload(file: UploadFile = File(...), file_service: FileService = Depends(fnc_file_service)):
     try:
@@ -61,7 +49,7 @@ def upload(file: UploadFile = File(...), file_service: FileService = Depends(fnc
         )
 
 
-@router.get("/files", response_model=List[FileGetModel], status_code=status.HTTP_200_OK, tags=["files"])
+@router.get("/files", response_model=List[FileGetRequest], status_code=status.HTTP_200_OK, tags=["files"])
 def files(file_service: FileService = Depends(fnc_file_service)):
     try:
         return file_service.find_all()
@@ -110,7 +98,7 @@ def download_file(file_id: int, file_service: FileService = Depends(fnc_file_ser
         )
 
 
-@router.get("/files/{file_id}/info", response_model=FileInfoGetModel, tags=["files"])
+@router.get("/files/{file_id}/info", response_model=FileInfoGetResponse, tags=["files"])
 def get_file_info(file_id: int, file_service: FileService = Depends(fnc_file_service)):
     try:
         return file_service.file_info_by_id(file_id)
