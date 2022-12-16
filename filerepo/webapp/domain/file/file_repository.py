@@ -16,11 +16,11 @@ class FileRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def find_by_id(self, id: str) -> Optional[File]:
+    def find_by_id(self, id: int) -> Optional[File]:
         raise NotImplementedError
 
     @abstractmethod
-    def delete_by_id(self, id: str):
+    def delete_by_id(self, id: int):
         raise NotImplementedError
 
     @abstractmethod

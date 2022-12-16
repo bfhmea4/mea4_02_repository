@@ -15,6 +15,7 @@ from filerepo.webapp.repository.file.file_repository import FileRepositoryImpl
 from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_create_request import UploadActivityCreateRequest
 from filerepo.webapp.domain.uploadActivity.uploadActivity import UploadActivity
 from filerepo.webapp.repository.uploadActivity.uploadActivity_repository import UploadActivityRepositoryImpl
+from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_get_response import UploadActivityGetResponse
 
 
 class FileService(ABC):
@@ -88,7 +89,7 @@ class FileServiceImpl(FileService):
                                                          file_name=upload_activity_request.file_name,
                                                          file_id=upload_activity_request.file_id)
         upload_activity_result = self.upload_activity_repository.create(upload_activity)
-        return upload_activity_result
+        return UploadActivityGetResponse.from_entity(upload_activity_result)
 
     def find_all(self) -> List[FileGetRequest]:
         all_files: List[File] = self.repository.find_all()

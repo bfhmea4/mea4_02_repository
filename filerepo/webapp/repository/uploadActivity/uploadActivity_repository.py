@@ -12,7 +12,7 @@ class UploadActivityRepositoryImpl(UploadActivityRepository):
     def __init__(self, session: Session):
         self.session: Session = session
 
-    def find_by_id(self, id: str) -> UploadActivity:
+    def find_by_id(self, id: int) -> UploadActivity:
         try:
             upload_activity: UploadActivity = self.session.query(UploadActivity).filter_by(id=id).one()
         except:

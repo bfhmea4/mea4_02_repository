@@ -13,7 +13,7 @@ class UploadActivityService(ABC):
     """UploadActivityService defines a query service inteface related UploadActivity entity."""
 
     @abstractmethod
-    def find_by_id(self, id: str) -> Optional[UploadActivityGetResponse]:
+    def find_by_id(self, id: int) -> Optional[UploadActivityGetResponse]:
         raise NotImplementedError
 
     @abstractmethod
@@ -36,7 +36,7 @@ class UploadActivityServiceImpl(UploadActivityService):
         self.repository = repository
         self.files_repository = files_repository
 
-    def find_by_id(self, id: str) -> Optional[UploadActivityGetResponse]:
+    def find_by_id(self, id: int) -> Optional[UploadActivityGetResponse]:
         upload_activity: UploadActivity = self.repository.find_by_id(id)
         return UploadActivityGetResponse.from_entity(cast(UploadActivity, upload_activity))
 
