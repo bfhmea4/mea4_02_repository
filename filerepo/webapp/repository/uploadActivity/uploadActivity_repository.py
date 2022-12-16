@@ -17,7 +17,8 @@ class UploadActivityRepositoryImpl(UploadActivityRepository):
 
     def find_by_id(self, id: str) -> UploadActivityDTO:
         try:
-            uploadActivity_dto = UploadActivityDTO.from_entity(self.session.query(UploadActivity).filter_by(id=id).one())
+            uploadActivity_dto = UploadActivityDTO.from_entity(
+                self.session.query(UploadActivity).filter_by(id=id).one())
         except:
             raise
 
@@ -26,7 +27,7 @@ class UploadActivityRepositoryImpl(UploadActivityRepository):
     def find_all(self) -> List[UploadActivityDTO]:
         try:
             uploadActivity_list = self.session.query(UploadActivity).all()
-            filesDTO_list:List [UploadActivityDTO] = []
+            filesDTO_list: List[UploadActivityDTO] = []
             for uploadActivity in uploadActivity_list:
                 filesDTO_list.append(UploadActivityDTO.from_entity(uploadActivity))
         except:
@@ -39,7 +40,7 @@ class UploadActivityRepositoryImpl(UploadActivityRepository):
             upload_time: float = time.time()
             upload_file_name: str = uploadActivityCreateModel.file_name
             upload_file_id: int = uploadActivityCreateModel.file_id
-            uploadActivity = UploadActivity(upload_time=upload_time,file_name=upload_file_name,file_id=upload_file_id)
+            uploadActivity = UploadActivity(upload_time=upload_time, file_name=upload_file_name, file_id=upload_file_id)
             self.session.add(uploadActivity)
             self.session.commit()
             return uploadActivity
