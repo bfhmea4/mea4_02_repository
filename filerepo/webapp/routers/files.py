@@ -31,7 +31,7 @@ def get_session() -> Iterator[Session]:
         session.close()
 
 
-def fnc_file_repository(session: Session = Depends(get_session)) -> FileService:
+def fnc_file_service(session: Session = Depends(get_session)) -> FileService:
     repository: FileRepositoryImpl = FileRepositoryImpl(session)
     upload_repository: UploadActivityRepositoryImpl = UploadActivityRepositoryImpl(session)
     service: FileService = FileServiceImpl(repository, upload_repository)
@@ -45,7 +45,7 @@ def fnc_file_repository(session: Session = Depends(get_session)) -> FileService:
 # file_service = FileServiceImpl(file_repository)
 
 @router.post("/files/upload", response_model=UploadActivityGetModel, tags=["files"])
-def upload(file: UploadFile = File(...), file_service: FileService = Depends(fnc_file_repository)):
+def upload(file: UploadFile = File(...), file_service: FileService = Depends(fnc_file_service)):
     try:
         return file_service.upload_file(file)
     except FileNotFoundError as e:
@@ -62,7 +62,7 @@ def upload(file: UploadFile = File(...), file_service: FileService = Depends(fnc
 
 
 @router.get("/files", response_model=List[FileGetModel], status_code=status.HTTP_200_OK, tags=["files"])
-def files(file_service: FileService = Depends(fnc_file_repository)):
+def files(file_service: FileService = Depends(fnc_file_service)):
     try:
         return file_service.find_all()
     except FileNotFoundError as e:
@@ -78,7 +78,7 @@ def files(file_service: FileService = Depends(fnc_file_repository)):
 
 
 @router.delete("/files/{file_id}", status_code=status.HTTP_204_NO_CONTENT, tags=["files"])
-def delete_file(file_id: int, file_service: FileService = Depends(fnc_file_repository)):
+def delete_file(file_id: int, file_service: FileService = Depends(fnc_file_service)):
     try:
         file_service.delete(file_id)
     except FileNotFoundError as e:
@@ -94,7 +94,7 @@ def delete_file(file_id: int, file_service: FileService = Depends(fnc_file_repos
 
 
 @router.get("/files/{file_id}", status_code=status.HTTP_200_OK, tags=["files"])
-def download_file(file_id: int, file_service: FileService = Depends(fnc_file_repository)):
+def download_file(file_id: int, file_service: FileService = Depends(fnc_file_service)):
     try:
         file = file_service.download_by_id(file_id)
         return Response(file.file_content, media_type=file.file_type)
@@ -111,7 +111,7 @@ def download_file(file_id: int, file_service: FileService = Depends(fnc_file_rep
 
 
 @router.get("/files/{file_id}/info", response_model=FileInfoGetModel, tags=["files"])
-def get_file_info(file_id: int, file_service: FileService = Depends(fnc_file_repository)):
+def get_file_info(file_id: int, file_service: FileService = Depends(fnc_file_service)):
     try:
         return file_service.file_info_by_id(file_id)
     except FileNotFoundError as e:

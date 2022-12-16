@@ -23,7 +23,7 @@ def get_session() -> Iterator[Session]:
         session.close()
 
 
-def fnc_upload_activity_repository(session: Session = Depends(get_session)) -> UploadActivityService:
+def fnc_upload_activity_service(session: Session = Depends(get_session)) -> UploadActivityService:
     repository: UploadActivityRepositoryImpl = UploadActivityRepositoryImpl(session)
     files_repository: FileRepositoryImpl = FileRepositoryImpl(session)
     service: UploadActivityService = UploadActivityServiceImpl(repository, files_repository)
@@ -34,7 +34,7 @@ def fnc_upload_activity_repository(session: Session = Depends(get_session)) -> U
             status_code=status.HTTP_200_OK,
             tags=["upload_activity"])
 def get_history_by_id(file_id: int,
-                      upload_activity_service: UploadActivityService = Depends(fnc_upload_activity_repository)):
+                      upload_activity_service: UploadActivityService = Depends(fnc_upload_activity_service)):
     try:
         return upload_activity_service.find_upload_activity_by_file_id(file_id)
     except FileNotFoundError as e:
@@ -51,7 +51,7 @@ def get_history_by_id(file_id: int,
 
 @router.get("/uploadactivities", response_model=List[UploadActivityGetModel], status_code=status.HTTP_200_OK,
             tags=["upload_activity"])
-def get_history(upload_activity_service: UploadActivityService = Depends(fnc_upload_activity_repository)):
+def get_history(upload_activity_service: UploadActivityService = Depends(fnc_upload_activity_service)):
     try:
         return upload_activity_service.find_all()
     except FileNotFoundError as e:
