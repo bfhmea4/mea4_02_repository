@@ -1,12 +1,11 @@
-import hashlib
-from typing import List, Iterator, Tuple
+from typing import List, Iterator
 from fastapi import File, UploadFile, status, APIRouter, Depends
 from fastapi.responses import JSONResponse, Response
 from sqlalchemy.orm.session import Session
 
 from filerepo.webapp.schemas.DTO.file.file_get_request import FileGetRequest
 from filerepo.webapp.schemas.DTO.file.file_info_response import FileInfoGetResponse
-from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_get_model import UploadActivityGetModel
+from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_get_response import UploadActivityGetResponse
 from filerepo.webapp.service.file_service import FileServiceImpl, FileService
 from filerepo.webapp.repository.file.file_repository import FileRepositoryImpl
 
@@ -32,7 +31,7 @@ def fnc_file_service(session: Session = Depends(get_session)) -> FileService:
     return service
 
 
-@router.post("/files/upload", response_model=UploadActivityGetModel, tags=["files"])
+@router.post("/files/upload", response_model=UploadActivityGetResponse, tags=["files"])
 def upload(file: UploadFile = File(...), file_service: FileService = Depends(fnc_file_service)):
     try:
         return file_service.upload_file(file)

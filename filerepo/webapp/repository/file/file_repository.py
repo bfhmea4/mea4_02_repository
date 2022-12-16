@@ -1,9 +1,8 @@
-from typing import Optional, List
+from typing import List
 
 from sqlalchemy.orm.session import Session
 from filerepo.webapp.domain.file.file_repository import FileRepository
 from filerepo.webapp.domain.file.file import File
-from filerepo.webapp.schemas.DTO.file.file_upload_request import FileUploadRequest
 
 
 class FileRepositoryImpl(FileRepository):

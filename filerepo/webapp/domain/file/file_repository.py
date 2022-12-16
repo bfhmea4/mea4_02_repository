@@ -1,15 +1,14 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
 
-from .file import File
-from filerepo.webapp.schemas.DTO.file.file_upload_request import FileUploadRequest
+from filerepo.webapp.domain.file.file import File
 
 
 class FileRepository(ABC):
     """FileRepository defines a repository interface for File entity."""
 
     @abstractmethod
-    def create(self, file_uploaded: FileUploadRequest) -> File:
+    def create(self, file_uploaded: File) -> File:
         raise NotImplementedError
 
     @abstractmethod

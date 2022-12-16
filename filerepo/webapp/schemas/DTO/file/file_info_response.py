@@ -2,6 +2,7 @@ from pydantic import BaseModel
 
 from filerepo.webapp.domain.file.file import File
 
+
 class FileInfoGetResponse(BaseModel):
     id: str
     file_name: str
