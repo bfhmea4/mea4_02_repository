@@ -1,9 +1,9 @@
-from typing import List, Optional
 from pydantic import BaseModel
 
 from filerepo.webapp.domain.file.file import File
 
-class FileInfoGetModel(BaseModel):
+
+class FileInfoGetResponse(BaseModel):
     id: str
     file_name: str
     file_size: float
@@ -13,8 +13,8 @@ class FileInfoGetModel(BaseModel):
     file_update_time: str
 
     @staticmethod
-    def from_entity(file: File) -> "FileInfoGetModel":
-        return FileInfoGetModel(
+    def from_entity(file: File) -> "FileInfoGetResponse":
+        return FileInfoGetResponse(
             id=file.id,
             file_name=file.file_name,
             file_size=file.file_size,

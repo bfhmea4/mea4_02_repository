@@ -1,23 +1,22 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
 
-from .uploadActivity import UploadActivity
-from filerepo.webapp.repository.uploadActivity.uploadActivity_dto import UploadActivityDTO
+from filerepo.webapp.domain.uploadActivity.uploadActivity import UploadActivity
 
 
 class UploadActivityRepository(ABC):
-    """FileRepository defines a repository interface for File entity."""
+    """UploadActivityRepository defines a repository interface for UploadActivity entity."""
 
     @abstractmethod
-    def create(self, uploadActivity: UploadActivityDTO):
+    def create(self, uploadActivity: UploadActivity) -> UploadActivity:
         raise NotImplementedError
 
     @abstractmethod
-    def find_all(self) -> Optional[List[UploadActivityDTO]]:
+    def find_all(self) -> Optional[List[UploadActivity]]:
         raise NotImplementedError
 
     @abstractmethod
-    def find_by_id(self, id: str) -> Optional[UploadActivityDTO]:
+    def find_by_id(self, id: int) -> Optional[UploadActivity]:
         raise NotImplementedError
 
     @abstractmethod

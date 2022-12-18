@@ -1,8 +1,7 @@
-from typing import List, Optional
 from pydantic import BaseModel
 
 
-class UploadActivityCreateModel(BaseModel):
+class UploadActivityCreateRequest(BaseModel):
     file_name: str
     file_id: int
 

@@ -1,14 +1,13 @@
 from typing import List, Iterator
-from fastapi import File, UploadFile, status, APIRouter, Depends
-from fastapi.responses import JSONResponse, Response
+from fastapi import status, APIRouter, Depends
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm.session import Session
 
-from filerepo.webapp.domain.uploadActivity.uploadActivity_repository import UploadActivityRepository
 from filerepo.webapp.repository.file.file_repository import FileRepositoryImpl
-from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_get_model import UploadActivityGetModel
 
 from filerepo.webapp.repository.uploadActivity.uploadActivity_repository import UploadActivityRepositoryImpl
 from filerepo.webapp.service.uploadActivity_service import UploadActivityServiceImpl, UploadActivityService
+from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_get_response import UploadActivityGetResponse
 
 from filerepo.webapp.repository.database import SessionLocal
 
@@ -30,7 +29,7 @@ def fnc_upload_activity_service(session: Session = Depends(get_session)) -> Uplo
     return service
 
 
-@router.get("/uploadactivities/{file_id}/history", response_model=List[UploadActivityGetModel],
+@router.get("/uploadactivities/{file_id}/history", response_model=List[UploadActivityGetResponse],
             status_code=status.HTTP_200_OK,
             tags=["upload_activity"])
 def get_history_by_id(file_id: int,
@@ -49,7 +48,7 @@ def get_history_by_id(file_id: int,
         )
 
 
-@router.get("/uploadactivities", response_model=List[UploadActivityGetModel], status_code=status.HTTP_200_OK,
+@router.get("/uploadactivities", response_model=List[UploadActivityGetResponse], status_code=status.HTTP_200_OK,
             tags=["upload_activity"])
 def get_history(upload_activity_service: UploadActivityService = Depends(fnc_upload_activity_service)):
     try:

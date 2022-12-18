@@ -1,13 +1,8 @@
-from typing import Optional, List
-import shortuuid
-import hashlib
-import time
+from typing import List
 
-from filerepo.webapp.repository.file.file_dto import FileDTO
 from sqlalchemy.orm.session import Session
 from filerepo.webapp.domain.file.file_repository import FileRepository
 from filerepo.webapp.domain.file.file import File
-from filerepo.webapp.schemas.DTO.file_upload_model import FileUploadModel
 
 
 class FileRepositoryImpl(FileRepository):
@@ -16,32 +11,24 @@ class FileRepositoryImpl(FileRepository):
     def __init__(self, session: Session):
         self.session: Session = session
 
-    def find_by_id(self, id: int) -> FileDTO:
+    def find_by_id(self, id: int) -> File:
         try:
-            file_dto = FileDTO.from_entity(self.session.query(File).filter_by(id=id).one())
+            file: File = self.session.query(File).filter_by(id=id).one()
         except:
             raise
 
-        return file_dto
+        return file
 
-    def find_all(self) -> List[FileDTO]:
+    def find_all(self) -> List[File]:
         try:
-            file_list = self.session.query(File).all()
-            fileDTO_list: List[FileDTO] = []
-            for file in file_list:
-                fileDTO_list.append(FileDTO.from_entity(file))
+            file_list: List[File] = self.session.query(File).all()
         except:
             raise
 
-        return fileDTO_list
+        return file_list
 
-    def create(self, file_uploaded: FileUploadModel) -> File:
+    def create(self, file: File) -> File:
         try:
-            hash = hashlib.sha256(file_uploaded.file_content).hexdigest()
-            current_time = time.time()
-            file = File(file_name=file_uploaded.file_name, file_size=len(file_uploaded.file_content),
-                        file_type=file_uploaded.file_type, file_hash=hash, file_content=file_uploaded.file_content,
-                        file_creation_time=current_time, file_update_time=current_time)
             self.session.add(file)
             self.session.commit()
             return file
@@ -50,13 +37,13 @@ class FileRepositoryImpl(FileRepository):
 
     def delete_by_id(self, id: int):
         try:
-            uploadActivity = self.session.query(File).get(id)
-            self.session.delete(uploadActivity)
+            file = self.session.query(File).get(id)
+            self.session.delete(file)
             self.session.commit()
         except:
             raise
 
-    def find_by_hash(self, hash):
+    def find_by_hash(self, hash) -> int:
         try:
             file = self.session.query(File).filter(File.file_hash == hash).one_or_none()
             if (file == None):
