@@ -65,7 +65,7 @@ class FileServiceImpl(FileService):
         file = self.repository.find_by_id(file_id)
         return FileGetRequest.from_entity(cast(File, file))
 
-    def upload_file(self, file: UploadFile):
+    async def upload_file(self, file: UploadFile):
         uploaded_file = {
             "file_name": file.filename,
             "file_type": file.content_type,
@@ -93,7 +93,7 @@ class FileServiceImpl(FileService):
                                                          file_name=upload_activity_request.file_name,
                                                          file_id=upload_activity_request.file_id)
         upload_activity_result = self.upload_activity_repository.create(upload_activity)
-        self.workflow_service.start_file_analysis_request(upload_activity_result, self.repository.find_by_id(upload_activity_result.file_id))
+        await self.workflow_service.start_file_analysis_request(upload_activity_result, self.repository.find_by_id(upload_activity_result.file_id))
         return UploadActivityGetResponse.from_entity(upload_activity_result)
 
     def find_all(self) -> List[FileGetRequest]:
