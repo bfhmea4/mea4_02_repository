@@ -11,11 +11,11 @@ class WorkflowRepository(ABC):
     """WorkflowRepository defines a repository interface for Workflow entity."""
 
     @abstractmethod
-    def create(self, workflow: WorkflowCreateModel):
+    def create(self, workflow: Workflow):
         raise NotImplementedError
 
     @abstractmethod
-    def find_by_id(self, id: int) -> Optional[WorkflowDTO]:
+    def find_by_id(self, id: int) -> Optional[Workflow]:
         raise NotImplementedError
 
     @abstractmethod

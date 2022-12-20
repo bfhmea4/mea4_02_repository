@@ -1,6 +1,5 @@
 from sqlalchemy.orm.session import Session
 
-from filerepo.webapp.repository.workflow.workflow_dto import WorkflowDTO
 from filerepo.webapp.domain.workflow.workflow_repository import WorkflowRepository
 from filerepo.webapp.domain.workflow.workflow import Workflow
 from filerepo.webapp.schemas.DTO.workflow.workflow_create_model import WorkflowCreateModel
@@ -12,21 +11,21 @@ class WorkflowRepositoryImpl(WorkflowRepository):
     def __init__(self, session: Session):
         self.session: Session = session
 
-    def find_by_id(self, id: int) -> WorkflowDTO:
+    def find_by_id(self, id: int) -> Workflow:
         try:
             NotImplementedError
         except:
             raise
         return NotImplementedError
     
-    def find_workflow_by_upload_activity_id(self, upload_activity_id: int) -> WorkflowDTO:
+    def find_workflow_by_upload_activity_id(self, upload_activity_id: int) -> Workflow:
         try:
-            workflowDTO: WorkflowDTO = WorkflowDTO.from_entity(self.session.query(Workflow).filter_by(upload_activity_id=upload_activity_id).one())
+            return self.session.query(Workflow).filter_by(upload_activity_id=upload_activity_id).one()
         except:
             raise
         return workflowDTO
 
-    def create(self, workflow_create_model: WorkflowCreateModel) -> Workflow:
+    def create(self, workflow_create_model: Workflow) -> Workflow:
         try:
             workflow = Workflow(finished=False, upload_activity=workflow_create_model.upload_activity)
             self.session.add(workflow)
