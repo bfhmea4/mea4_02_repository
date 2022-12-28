@@ -12,6 +12,8 @@ class WorkflowHandler():
         self.workflow = workflow
         self.file = file
 
+    #Todo: Thread
+    #Todo: Date in DB if/when finished
     async def kickoff(self):
         if "image" in self.file.file_type:
             await asyncio.create_task(self.calculate_black_white_ratio())
