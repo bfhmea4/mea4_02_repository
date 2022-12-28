@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse, Response
 from sqlalchemy.orm.session import Session
 from starlette.exceptions import HTTPException
 
-from filerepo.webapp.schemas.DTO.file.file_get_request import FileGetRequest
+from filerepo.webapp.schemas.DTO.file.file_get_response import FileGetResponse
 from filerepo.webapp.schemas.DTO.file.file_info_response import FileInfoGetResponse
 from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_get_response import UploadActivityGetResponse
 from filerepo.webapp.service.file_service import FileServiceImpl, FileService
@@ -42,7 +42,7 @@ def upload(file: UploadFile = File(...), file_service: FileService = Depends(fnc
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.get("/files", response_model=List[FileGetRequest], status_code=status.HTTP_200_OK, tags=["files"])
+@router.get("/files", response_model=List[FileGetResponse], status_code=status.HTTP_200_OK, tags=["files"])
 def files(file_service: FileService = Depends(fnc_file_service)):
     try:
         return file_service.find_all()

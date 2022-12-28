@@ -7,7 +7,7 @@ from fastapi import UploadFile
 
 from filerepo.webapp.domain.file.file import File
 from filerepo.webapp.schemas.DTO.file.file_download_response import FileDownloadResponse
-from filerepo.webapp.schemas.DTO.file.file_get_request import FileGetRequest
+from filerepo.webapp.schemas.DTO.file.file_get_response import FileGetResponse
 from filerepo.webapp.schemas.DTO.file.file_info_response import FileInfoGetResponse
 from filerepo.webapp.schemas.DTO.file.file_upload_request import FileUploadRequest
 from filerepo.webapp.repository.file.file_repository import FileRepositoryImpl
@@ -22,7 +22,7 @@ class FileService(ABC):
     """FileQueryService defines a query service inteface related Book entity."""
 
     @abstractmethod
-    def find_by_id(self, file_id: int) -> Optional[FileGetRequest]:
+    def find_by_id(self, file_id: int) -> Optional[FileGetResponse]:
         raise NotImplementedError
 
     @abstractmethod
@@ -30,7 +30,7 @@ class FileService(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def find_all(self) -> List[FileGetRequest]:
+    def find_all(self) -> List[FileGetResponse]:
         raise NotImplementedError
 
     @abstractmethod
@@ -57,9 +57,9 @@ class FileServiceImpl(FileService):
         self.repository = repository
         self.upload_activity_repository = upload_activity_repository
 
-    def find_by_id(self, file_id: int) -> Optional[FileGetRequest]:
+    def find_by_id(self, file_id: int) -> Optional[FileGetResponse]:
         file = self.repository.find_by_id(file_id)
-        return FileGetRequest.from_entity(cast(File, file))
+        return FileGetResponse.from_entity(cast(File, file))
 
     def upload_file(self, file: UploadFile):
         uploaded_file = {
@@ -91,11 +91,11 @@ class FileServiceImpl(FileService):
         upload_activity_result = self.upload_activity_repository.create(upload_activity)
         return UploadActivityGetResponse.from_entity(upload_activity_result)
 
-    def find_all(self) -> List[FileGetRequest]:
+    def find_all(self) -> List[FileGetResponse]:
         all_files: List[File] = self.repository.find_all()
-        list_files: List[FileGetRequest] = []
+        list_files: List[FileGetResponse] = []
         for file in all_files:
-            list_files.append(FileGetRequest.from_entity(cast(File, file)))
+            list_files.append(FileGetResponse.from_entity(cast(File, file)))
         return list_files
 
     def file_info_by_id(self, file_id: int) -> Optional[FileInfoGetResponse]:
