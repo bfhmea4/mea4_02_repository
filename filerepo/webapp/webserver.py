@@ -1,8 +1,9 @@
+import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from filerepo.webapp.routers import files, fizzbuzz, upload_activity
+
 from filerepo.webapp.repository.database import create_tables
-import uvicorn
+from filerepo.webapp.routers import files, fizzbuzz, upload_activity
 
 origins = ["*"]
 

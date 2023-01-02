@@ -16,7 +16,7 @@ class UploadActivityRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def find_by_id(self, id: str) -> Optional[UploadActivity]:
+    def find_by_id(self, id: int) -> Optional[UploadActivity]:
         raise NotImplementedError
 
     @abstractmethod
