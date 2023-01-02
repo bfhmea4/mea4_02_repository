@@ -17,13 +17,12 @@ class WorkflowRepositoryImpl(WorkflowRepository):
         except:
             raise
         return NotImplementedError
-    
+
     def find_workflow_by_upload_activity_id(self, upload_activity_id: int) -> Workflow:
         try:
             return self.session.query(Workflow).filter_by(upload_activity_id=upload_activity_id).one()
         except:
             raise
-        return workflowDTO
 
     def create(self, workflow_create_model: Workflow) -> Workflow:
         try:

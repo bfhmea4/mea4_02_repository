@@ -9,11 +9,8 @@ from filerepo.webapp.schemas.DTO.workflow.workflow_create_model import WorkflowC
 from filerepo.webapp.schemas.DTO.workflow.workflow_get_response import WorkflowGetResponse
 
 from filerepo.webapp.repository.workflow.workflow_repository import WorkflowRepositoryImpl
-from filerepo.webapp.repository.workflow.workflow_dto import WorkflowDTO
 
 from filerepo.algorithms.workflow_handler import WorkflowHandler
-
-
 
 
 class WorkflowService(ABC):
@@ -43,19 +40,19 @@ class WorkflowServiceImpl(WorkflowService):
         self.workflow_handler = None
 
     def find_by_id(self, id: int) -> Optional[WorkflowGetResponse]:
-        workflow: WorkflowDTO = self.repository.find_by_id(id)
+        workflow: Workflow = self.repository.find_by_id(id)
         return WorkflowGetResponse.from_entity(cast(Workflow, workflow))
 
     def find_workflow_by_upload_activity_id(self, upload_activity_id: int) -> WorkflowGetResponse:
         workflow = self.repository.find_workflow_by_upload_activity_id(upload_activity_id)
         return WorkflowGetResponse.from_entity(cast(Workflow, workflow))
 
-    #Todo: param: start_file_analysis_request
-    async def start_file_analysis_request(self, upload_activity: UploadActivity, file: File) -> WorkflowGetResponse:
-        new_workflow = WorkflowCreateModel(**{"finished":False,"upload_activity":upload_activity.id})
+    # Todo: param: start_file_analysis_request
+    def start_file_analysis_request(self, upload_activity: UploadActivity, file: File) -> WorkflowGetResponse:
+        new_workflow = WorkflowCreateModel(**{"finished": False, "upload_activity": upload_activity.id})
         workflow: Workflow = self.repository.create(new_workflow)
-        self.workflow_handler = WorkflowHandler(workflow=workflow,file=file)
-        await self.workflow_handler.kickoff()
+        self.workflow_handler = WorkflowHandler(workflow=workflow, workflowRepo=self.repository, file=file)
+        self.workflow_handler.kickoff()
         return WorkflowGetResponse.from_entity(cast(Workflow, workflow))
 
     def update_status(self, status: bool, workflow_id: int):

@@ -1,10 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import List, Optional
-
-from filerepo.webapp.schemas.DTO.workflow.workflow_create_model import WorkflowCreateModel
+from typing import Optional
 
 from .workflow import Workflow
-from filerepo.webapp.repository.workflow.workflow_dto import WorkflowDTO
 
 
 class WorkflowRepository(ABC):
@@ -24,5 +21,9 @@ class WorkflowRepository(ABC):
 
     @abstractmethod
     def find_workflow_by_upload_activity_id(self, id: int):
+        raise NotImplementedError
+
+    @abstractmethod
+    def update_status(self, status: bool, workflow_id: int):
         raise NotImplementedError
 

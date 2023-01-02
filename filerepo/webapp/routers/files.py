@@ -38,9 +38,9 @@ def fnc_file_service(session: Session = Depends(get_session)) -> FileService:
 
 
 @router.post("/files/upload", response_model=UploadActivityGetResponse, tags=["files"])
-async def upload(file: UploadFile = File(...), file_service: FileService = Depends(fnc_file_service)):
+def upload(file: UploadFile = File(...), file_service: FileService = Depends(fnc_file_service)):
     try:
-        return await file_service.upload_file(file)
+        return file_service.upload_file(file)
     except FileNotFoundError as e:
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,
