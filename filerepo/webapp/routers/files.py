@@ -1,5 +1,5 @@
 from typing import List, Iterator
-from fastapi import File, UploadFile, status, APIRouter, Depends
+from fastapi import File, UploadFile, status, APIRouter, Depends, BackgroundTasks
 from fastapi.responses import JSONResponse, Response
 from sqlalchemy.orm.session import Session
 from starlette.exceptions import HTTPException
@@ -11,6 +11,10 @@ from filerepo.webapp.service.file_service import FileServiceImpl, FileService
 from filerepo.webapp.repository.file.file_repository import FileRepositoryImpl
 
 from filerepo.webapp.repository.uploadActivity.uploadActivity_repository import UploadActivityRepositoryImpl
+
+from filerepo.webapp.domain.workflow.workflow_repository import WorkflowRepository
+from filerepo.webapp.repository.workflow.workflow_repository import WorkflowRepositoryImpl
+from filerepo.webapp.service.workflow_service import WorkflowServiceImpl, WorkflowService
 
 from filerepo.webapp.repository.database import SessionLocal
 
@@ -28,7 +32,9 @@ def get_session() -> Iterator[Session]:
 def fnc_file_service(session: Session = Depends(get_session)) -> FileService:
     repository: FileRepositoryImpl = FileRepositoryImpl(session)
     upload_repository: UploadActivityRepositoryImpl = UploadActivityRepositoryImpl(session)
-    service: FileService = FileServiceImpl(repository, upload_repository)
+    workflow_repository: WorkflowRepository = WorkflowRepositoryImpl(session)
+    workflow_service: WorkflowService = WorkflowServiceImpl(workflow_repository)
+    service: FileService = FileServiceImpl(repository, upload_repository, workflow_service)
     return service
 
 

@@ -6,6 +6,8 @@ from typing import List, Optional, cast
 from fastapi import UploadFile
 
 from filerepo.webapp.domain.file.file import File
+from filerepo.webapp.domain.file.file_repository import FileRepository
+from filerepo.webapp.domain.uploadActivity.uploadActivity_repository import UploadActivityRepository
 from filerepo.webapp.schemas.DTO.file.file_download_response import FileDownloadResponse
 from filerepo.webapp.schemas.DTO.file.file_get_response import FileGetResponse
 from filerepo.webapp.schemas.DTO.file.file_info_response import FileInfoGetResponse
@@ -16,6 +18,7 @@ from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_create_request i
 from filerepo.webapp.domain.uploadActivity.uploadActivity import UploadActivity
 from filerepo.webapp.repository.uploadActivity.uploadActivity_repository import UploadActivityRepositoryImpl
 from filerepo.webapp.schemas.DTO.uploadActivity.upload_activity_get_response import UploadActivityGetResponse
+from filerepo.webapp.service.workflow_service import WorkflowService
 
 
 class FileService(ABC):
@@ -46,16 +49,17 @@ class FileService(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def upload_file(self, file: UploadFile) -> FileUploadRequest:
+    def upload_file(self, file: UploadFile) -> UploadActivityGetResponse:
         raise NotImplementedError
 
 
 class FileServiceImpl(FileService):
     """FileQueryService defines a query service inteface related File entity."""
 
-    def __init__(self, repository: FileRepositoryImpl, upload_activity_repository: UploadActivityRepositoryImpl):
-        self.repository = repository
-        self.upload_activity_repository = upload_activity_repository
+    def __init__(self, repository: FileRepositoryImpl, upload_activity_repository: UploadActivityRepositoryImpl, workflow_service: WorkflowService):
+        self.repository: FileRepository = repository
+        self.upload_activity_repository: UploadActivityRepository = upload_activity_repository
+        self.workflow_service: WorkflowService = workflow_service
 
     def find_by_id(self, file_id: int) -> Optional[FileGetResponse]:
         file = self.repository.find_by_id(file_id)
@@ -89,6 +93,7 @@ class FileServiceImpl(FileService):
                                                          file_name=upload_activity_request.file_name,
                                                          file_id=upload_activity_request.file_id)
         upload_activity_result = self.upload_activity_repository.create(upload_activity)
+        self.workflow_service.start_file_analysis_request(upload_activity_result, self.repository.find_by_id(upload_activity_result.file_id))
         return UploadActivityGetResponse.from_entity(upload_activity_result)
 
     def find_all(self) -> List[FileGetResponse]:
