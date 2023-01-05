@@ -49,7 +49,7 @@ class WorkflowServiceImpl(WorkflowService):
 
     # Todo: param: start_file_analysis_request
     def start_file_analysis_request(self, upload_activity: UploadActivity, file: File) -> WorkflowGetResponse:
-        new_workflow = WorkflowCreateModel(**{"finished": False, "upload_activity": upload_activity.id})
+        new_workflow = WorkflowCreateModel(**{"finished": None, "upload_activity": upload_activity.id})
         workflow: Workflow = self.repository.create(new_workflow)
         self.workflow_handler = WorkflowHandler(workflow=workflow, workflowRepo=self.repository, file=file)
         self.workflow_handler.kickoff()
