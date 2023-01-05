@@ -1,8 +1,9 @@
 from pydantic import BaseModel
-
+from typing import Optional
+import datetime
 
 class WorkflowCreateModel(BaseModel):
-    finished: bool
+    finished: Optional[datetime.datetime]
     upload_activity: int
 
     class Config:

@@ -1,3 +1,5 @@
+import datetime
+
 from sqlalchemy.orm.session import Session
 
 from filerepo.webapp.domain.workflow.workflow_repository import WorkflowRepository
@@ -26,7 +28,7 @@ class WorkflowRepositoryImpl(WorkflowRepository):
 
     def create(self, workflow_create_model: Workflow) -> Workflow:
         try:
-            workflow = Workflow(finished=False, upload_activity=workflow_create_model.upload_activity)
+            workflow = Workflow(finished=None ,upload_activity=workflow_create_model.upload_activity)
             self.session.add(workflow)
             self.session.commit()
             return workflow
@@ -42,7 +44,7 @@ class WorkflowRepositoryImpl(WorkflowRepository):
     def update_status(self, status: bool, workflow_id: int):
         try:
             workflow: Workflow = self.session.query(Workflow).get(workflow_id)
-            workflow.finished = status
+            workflow.finished = datetime.datetime.now()
             self.session.commit()
         except:
             raise

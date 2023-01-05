@@ -15,7 +15,6 @@ class WorkflowHandler():
         self.workflowRepo: WorkflowRepository = workflowRepo
         self.file = file
 
-    #Todo: Date in DB if/when finished
     def kickoff(self):
         if "image" in self.file.file_type:
             t1 = threading.Thread(target=self.calculate_black_white_ratio)
